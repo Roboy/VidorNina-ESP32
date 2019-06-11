@@ -1,4 +1,4 @@
-# VidorNina-ESP32-
+# VidorNina-ESP32
 Template to use Vidor 4000k with clean fpga and AVALON Bridge to Nina W-10* 
 
 The aim of this project is to use the power of the nina (esp32) with an clean Cyclon10. 
