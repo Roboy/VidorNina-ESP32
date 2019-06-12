@@ -27,17 +27,17 @@ export PATH=$PATH:$HOME/esp/xtensa-esp32-elf/bin
 
 ## HOW TO COMPILE 
 # Gen FPGA *.ttf File
-Open the Quartus Project
+Open the Quartus Project  
 ![Open the Quartus project ](doc/open_project.png)
 
 If you only want to compile it without creating sim data doubleclick 
-![compile_quartus.png](doc/open_project.png)
+![compile_quartus.png](doc/compile_quartus.png)
 
 Converter to *.ttf <File> >> <Convert Programming Files>
-open the "output_file.cof" file
-![compile_quartus.png](doc/open_project.png)
+open the "output_file.cof" file  
+![compile_quartus.png](doc/conv_dialog.png)
 
-! AND DON't FORGET TO PRESS GENERATE
+! AND DON't FORGET TO PRESS GENERATE 
 
 # Gen app.h Arduino lib
 Open a Terminal change in to the project folder and 
