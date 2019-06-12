@@ -152,10 +152,10 @@ wire oSpiMISO;
 
 //PIN - MAP
 assign {iSpiMOSI,iSpiClk,iSpiCS} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
-assign {bMKR_D[8],bMKR_D[9],bMKR_D[7]} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
+//assign {bMKR_D[8],bMKR_D[9],bMKR_D[7]} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
 
 assign bWM_PIO21 = oSpiMISO;
-assign bMKR_D[10] = oSpiMISO;
+//assign bMKR_D[10] = oSpiMISO;
 /*
 //=====arduino spi avalon interface ============
 wire iSpiMOSI, iSpiClk, iSpiCS;
