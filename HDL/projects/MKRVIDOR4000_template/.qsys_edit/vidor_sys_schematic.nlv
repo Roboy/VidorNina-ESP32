@@ -1,0 +1,15 @@
+# # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
+# 
+preplace inst vidor_sys.id_switch_0 -pg 1 -lvl 3 -y 90
+preplace inst vidor_sys.spi_avalon_bridge -pg 1 -lvl 2 -y 30
+preplace inst vidor_sys.clk_0 -pg 1 -lvl 1 -y 70
+preplace inst vidor_sys -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc POINT_TO_POINT<net_container>vidor_sys</net_container>(SLAVE)id_switch_0.avalon_slave,(MASTER)spi_avalon_bridge.avalon_master) 1 2 1 540
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.id_switch,(SLAVE)id_switch_0.conduit_end) 1 0 3 NJ 160 NJ 160 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)spi_avalon_bridge.export_0,(SLAVE)vidor_sys.spi_bridge) 1 0 2 NJ 60 NJ
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)id_switch_0.clock,(MASTER)clk_0.clk,(SLAVE)spi_avalon_bridge.clk) 1 1 2 290 120 NJ
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(MASTER)clk_0.clk_reset,(SLAVE)spi_avalon_bridge.clk_reset,(SLAVE)id_switch_0.reset) 1 1 2 330 140 540
+levelinfo -pg 1 0 80 710
+levelinfo -hier vidor_sys 90 120 360 590 700

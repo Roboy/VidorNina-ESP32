@@ -1,0 +1,22 @@
+menu "01 WIFI SETUP"
+
+config WIFI_SSID
+    string "WiFi SSID"
+    default "roboy"
+    help
+        SSID (network name) for the example to connect to.
+
+config WIFI_PASSWORD
+    string "WiFi Password"
+    default "wiihackroboy"
+    help
+        WiFi password (WPA or WPA2) for the example to use.
+
+config EMITTER_CHANNEL_KEY
+    string "Emitter channel key"
+    default ""
+    help
+        The Emitter channel key using to pub/sub
+
+
+endmenu

@@ -1,0 +1,5 @@
+#
+# Top-level component makefile
+#
+
+CPPFLAGS += -DNINAWIFI_COMPONENT_TRUE=1

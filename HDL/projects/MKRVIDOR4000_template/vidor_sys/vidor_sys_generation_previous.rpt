@@ -1,0 +1,52 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate /home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys.qsys --block-symbol-file --output-directory=/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys --family="Cyclone 10 LP" --part=10CL016YU256C8G
+Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding id_switch_0 [id_switch 1.0]
+Progress: Parameterizing module id_switch_0
+Progress: Adding sdram_ctl [altera_avalon_new_sdram_controller 18.1]
+Progress: Parameterizing module sdram_ctl
+Progress: Adding spi_0 [altera_avalon_spi 18.1]
+Progress: Parameterizing module spi_0
+Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
+Progress: Parameterizing module spi_avalon_bridge
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate /home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
+Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
+Progress: Reading input file
+Progress: Adding clk_0 [clock_source 18.1]
+Progress: Parameterizing module clk_0
+Progress: Adding id_switch_0 [id_switch 1.0]
+Progress: Parameterizing module id_switch_0
+Progress: Adding sdram_ctl [altera_avalon_new_sdram_controller 18.1]
+Progress: Parameterizing module sdram_ctl
+Progress: Adding spi_0 [altera_avalon_spi 18.1]
+Progress: Parameterizing module spi_0
+Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
+Progress: Parameterizing module spi_avalon_bridge
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: vidor_sys: Generating vidor_sys "vidor_sys" for QUARTUS_SYNTH
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has address signal 32 bit wide, but the slave is 16 bit wide.
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has byteenable signal 4 bit wide, but the slave is 0 bit wide.
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has readdatavalid signal 1 bit wide, but the slave is 0 bit wide.
+Info: id_switch_0: "vidor_sys" instantiated id_switch "id_switch_0"
+Info: spi_avalon_bridge: "vidor_sys" instantiated spi_slave_to_avalon_mm_master_bridge "spi_avalon_bridge"
+Info: mm_interconnect_0: "vidor_sys" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: rst_controller: "vidor_sys" instantiated altera_reset_controller "rst_controller"
+Info: spi_avalon_bridge_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "spi_avalon_bridge_avalon_master_translator"
+Info: id_switch_0_avalon_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "id_switch_0_avalon_slave_translator"
+Info: vidor_sys: Done "vidor_sys" with 7 modules, 20 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis
