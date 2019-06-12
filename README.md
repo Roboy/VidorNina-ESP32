@@ -101,6 +101,8 @@ assign oDtr_esp   = iRESET_button;//(iRESET_button == 1) ? iDtr_header : 1'b0;
 ## SPI AVALON bridge between FPGA and NINA
 This one was a bit tricky to implement, first of all the payload convert code was taken from the official IP CORE ("SPI Slave to Avalon Master Bridge Intel") that can be found in "~/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/Drivers/"
 
+![workingNinaSPi](doc/workingNinaSPi)
+
 ### AVALON Explained
 TODO: finish docu
 
