@@ -120,7 +120,7 @@ module MKRVIDOR4000_top
 );
 
 // signal declaration
-
+ 
 //=====nina esp32 programm interface===============
 //DEF
 wire iRx_header,iCts_header,iDtr_header;
@@ -157,7 +157,7 @@ assign {iSpiMOSI,iSpiClk,iSpiCS} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
 assign bWM_PIO21 = oSpiMISO;
 //assign bMKR_D[10] = oSpiMISO;
 /*
-//=====arduino spi avalon interface ============
+//=====arduino spi avalon interface ==============
 wire iSpiMOSI, iSpiClk, iSpiCS;
 wire oSpiMISO;
 
@@ -174,28 +174,75 @@ wire	[3:0]	sw;
 assign sw = bMKR_A[5:2];
 //=================================================
 
- vidor_sys u0 (
-	  .clk_clk       	(iCLK),       //      clk.clk
-	  .reset_reset_n 	(iRESETn), //    reset.reset_n
-	  
-	  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
-	  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
-	  .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
-	  .spi_bridge_sclk_to_the_spislave_inst_for_spichain 	(iSpiClk),  //         .sclk
-	  
-	  
-	  //.spi_MISO      (oSpiMISO),      //       spi.MISO
-	  //.spi_MOSI      (iSpiMOSI),      //          .MOSI
-	  //.spi_SCLK      (iSpiClk),      //          .SCLK
-	  //.spi_SS_n      (iSpiCS)       //          .SS_n
+//=====PIEZO interface ============================
+//DEF 
+parameter SIZE=2;
+wire oPiezoOUT_enable[SIZE:0];
+wire oPiezoIN_enable[SIZE:0];
+	
+wire [31:0] wMaster_time_ptp;
+wire [31:0] wSlave_time_ptp; 
 
-	  .id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch_sw	(sw[3:0])
- );
- 
- //=====debug test ============DELETE WHEN DONE====
- 
- //=================================================
+wire ENABLE_PIEZO;
+wire ENABEL_PIEZO_IN;
+wire PIEZO;
+wire INPUT_SIGNAL;
+
+//LOGIC
+/*
+genvar i;
+generate
+  assign buffer_outDef[0] = 0;
+  assign buffer_inDef[0] = 0;
+  for (i=0; i<=SIZE; i=i+1) begin : genv
+    assign buffer_outDef[i+1] = buffer_outDef[i] | oPiezoOUT_enable[i]; 
+	 assign buffer_inDef[i+1] = buffer_inDef[i] | oPiezoIN_enable[i]; 
+  end
+  //assign ENABLE_PIEZO = buffer_outDef[SIZE+1];
+  //assign ENABEL_PIEZO_IN = buffer_inDef[SIZE+1];
+endgenerate
+*/
+
+assign oPiezoOUT_enable[SIZE] = oPiezoOUT_enable[0] | oPiezoOUT_enable[1];
+
+
+//PIN - MAP
+assign bMKR_D[3] = ENABLE_PIEZO;
+assign bMKR_D[4] = ENABEL_PIEZO_IN;
+assign bMKR_D[6] = PIEZO;
+assign INPUT_SIGNAL = bMKR_D[1];
+
+//=================================================
+
+always @(posedge iCLK)
+begin
+  if (iRESETn)
+  begin
+	ENABEL_PIEZO_IN <= 0;
+  end
+end
+
+    vidor_sys u0 (
+        .clk_clk                                                    (iCLK),                                                    //                           clk.clk
+		  .reset_reset_n                                              (iRESETn),    
+        .id_switch_sw                                               (sw[3:0]),                                               //                     id_switch.sw
+       // .id_switch_debug_out1                                       (bMKR_D[6]),                                       //                              .debug_out1
+        .piezo_controller_piezo_enable_export                       (ENABLE_PIEZO ),                       // piezo_controller_piezo_enable.export
+        .piezo_controller_piezo_enable_piezo_enable_in              (oPiezoOUT_enable[SIZE]),              //                              .piezo_enable_in
+        .piezo_controller_piezo_out_export                          (PIEZO),                          //    piezo_controller_piezo_out.export
+        //.piezo_controller_piezo_status_export                       (<connected-to-piezo_controller_piezo_status_export>),                       // piezo_controller_piezo_status.export
+        .ptp_piezo_interface0_piezo_interface_in                    (INPUT_SIGNAL),                    //          ptp_piezo_interface0.piezo_interface_in
+        .ptp_piezo_interface0_piezo_interface_out                   (oPiezoOUT_enable[0]),                   //                              .piezo_interface_out
+        .ptp_piezo_interface0_time_data_master                      (wMaster_time_ptp),                      //                              .time_data_master
+        .ptp_piezo_interface0_time_data_slave                       (wSlave_time_ptp),                       //                              .time_data_slave
+        .rtc_0_conduit_end_event_trigger                            (INPUT_SIGNAL),                            //             rtc_0_conduit_end.event_trigger
+        .rtc_0_conduit_end_piezo_enable                             (oPiezoOUT_enable[1]),                             //                              .piezo_enable
+        .rtc_0_conduit_end_event_trigger2                           (1'b0),                           //                              .event_trigger2
+		  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
+		  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
+	     .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
+	     .spi_bridge_sclk_to_the_spislave_inst_for_spichain 				(iSpiClk),  //         .sclk
+    );
  
 
 
