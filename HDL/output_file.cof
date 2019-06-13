@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
 <cof>
 	<eprom_name>EPCE16</eprom_name>
-	<output_filename>../software/vidorSAM/EmptySketch/outputfile.ttf</output_filename>
+	<output_filename>../software/vidorSAM/outputfile.ttf</output_filename>
 	<n_pages>1</n_pages>
 	<width>1</width>
 	<mode>0</mode>
