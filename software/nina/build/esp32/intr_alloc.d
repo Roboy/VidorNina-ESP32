@@ -1,5 +1,5 @@
 intr_alloc.o: /home/sausy/esp/esp-idf/components/esp32/intr_alloc.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/features.h \
@@ -67,7 +67,7 @@ intr_alloc.o: /home/sausy/esp/esp-idf/components/esp32/intr_alloc.c \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_api.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_ipc.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdint.h:
 

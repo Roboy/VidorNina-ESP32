@@ -2,7 +2,7 @@ src/esp_image_format.o: \
  /home/sausy/esp/esp-idf/components/bootloader_support/src/esp_image_format.c \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/rtc.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_assert.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_bit_defs.h \
@@ -35,7 +35,7 @@ src/esp_image_format.o: \
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
 

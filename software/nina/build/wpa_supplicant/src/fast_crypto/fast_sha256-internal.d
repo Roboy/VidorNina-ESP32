@@ -20,7 +20,7 @@ src/fast_crypto/fast_sha256-internal.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/cdefs.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/wpa_supplicant/include/crypto/common.h \
  /home/sausy/esp/esp-idf/components/wpa_supplicant/port/include/os.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_types.h \
@@ -81,7 +81,7 @@ src/fast_crypto/fast_sha256-internal.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/include/alloca.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/wpa_supplicant/include/crypto/common.h:
 

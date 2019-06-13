@@ -19,7 +19,7 @@ spi_flash_rom_patch.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/cdefs.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/spi_flash.h \
@@ -68,7 +68,7 @@ spi_flash_rom_patch.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/include/alloca.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h:
 

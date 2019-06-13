@@ -22,7 +22,7 @@ bt.o: /home/sausy/esp/esp-idf/components/bt/bt.c \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/include/string.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/string.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/heap/include/esp_heap_caps.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h \
@@ -140,7 +140,7 @@ bt.o: /home/sausy/esp/esp-idf/components/bt/bt.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/sys/string.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/heap/include/esp_heap_caps.h:
 

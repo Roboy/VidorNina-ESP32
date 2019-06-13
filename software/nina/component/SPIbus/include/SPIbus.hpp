@@ -126,6 +126,10 @@ class SPI {
 
     void create_test_data(unsigned char* buffer, int length);
 
+    void fpga_write(uint32_t base, uint32_t inc_addr, uint32_t data);
+    uint32_t fpga_read(uint32_t base, uint32_t inc_addr);
+
+
     /**
      * @brief   Config SPI bus and initialize
      * @param   mosi_io_num     [GPIO number for Master-out Slave-in]

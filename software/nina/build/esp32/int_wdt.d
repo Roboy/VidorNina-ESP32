@@ -1,5 +1,5 @@
 int_wdt.o: /home/sausy/esp/esp-idf/components/esp32/int_wdt.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/features.h \
@@ -76,7 +76,7 @@ int_wdt.o: /home/sausy/esp/esp-idf/components/esp32/int_wdt.c \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/periph_defs.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_int_wdt.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdint.h:
 

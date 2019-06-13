@@ -1,6 +1,6 @@
 src/ninaWifi.o: \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/src/ninaWifi.cpp \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/include/ninaWifi.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/src/ninaWifi.cpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/include/ninaWifi.hpp \
  /home/sausy/esp/esp-idf/components/newlib/include/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
  /home/sausy/esp/esp-idf/components/newlib/include/newlib.h \
@@ -26,7 +26,7 @@ src/ninaWifi.o: \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_system.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
@@ -129,7 +129,7 @@ src/ninaWifi.o: \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_client.h \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_config.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/include/ninaWifi.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/include/ninaWifi.hpp:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -181,7 +181,7 @@ src/ninaWifi.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h:
 
@@ -384,4 +384,4 @@ src/ninaWifi.o: \
 /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_client.h:
 
 /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_config.h:
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/src/ninaWifi.cpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/src/ninaWifi.cpp:

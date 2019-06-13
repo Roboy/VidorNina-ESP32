@@ -22,7 +22,7 @@ brownout.o: /home/sausy/esp/esp-idf/components/esp32/brownout.c \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_assert.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
@@ -111,7 +111,7 @@ brownout.o: /home/sausy/esp/esp-idf/components/esp32/brownout.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/alloca.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
 

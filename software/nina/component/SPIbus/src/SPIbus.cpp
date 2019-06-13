@@ -60,6 +60,65 @@ SPI::~SPI() {
     close();
 }
 
+uint32_t SPI::fpga_read(uint32_t base, uint32_t inc_addr){
+  unsigned char read_data[BUFFER_LENGTH];
+  uint32_t ret_buf = 0;
+  bool trans_flag = 0;
+  uint32_t cnt2 = 0;
+
+  uint8_t ret_read = transaction_channel_read((inc_addr<<10)+base,4, &read_data[0],INCREMENT_ADDRESS);
+
+  for(uint32_t cnt= 0; cnt < 40;cnt++){
+    if (read_data[cnt] != SPI_IDLE ){
+      if (read_data[cnt] == CHANNEL ) {
+        cnt+=2;
+        if(read_data[cnt] == SOP){
+          trans_flag = 1;
+          cnt++;
+        }
+      }
+      if(trans_flag == 1){
+        //read_data[cnt]
+        if(read_data[cnt] == EOP){
+          trans_flag = 0;
+          cnt+=2;
+          read_data[cnt2] = read_data[cnt-1];
+          cnt2++;
+        }
+        read_data[cnt2] = read_data[cnt];
+        cnt2++;
+      }
+    }
+  }
+  for(uint32_t cnt= 0; cnt < 4; cnt++){
+    if(read_data[cnt] == BYTESESCCHAR){
+      read_data[cnt] = xor_20(read_data[cnt+1]);
+      read_data[cnt+1] = 0;
+      cnt++;
+    }else if(read_data[cnt] == BYTESIDLECHAR){
+      read_data[cnt] = 0;
+    }
+  }
+  //printf("count:%d...out_data: %d,%d,%d,%d\n",cnt2,read_data[0],read_data[1],read_data[2],read_data[3]);
+  //printf("write length: %d --- readlength: %d\n",write_length,read_length);
+
+  ret_buf = read_data[0] | (read_data[1]<<8)| (read_data[2]<<16)| (read_data[3]<<24);
+  //read_data[cnt]
+  //printf("%d,",ret_buf);
+  //printf("\n");
+  return ret_buf;
+}
+void SPI::fpga_write(uint32_t base, uint32_t inc_addr, uint32_t data){
+  unsigned char data_buffer[BUFFER_LENGTH];
+  data_buffer[0] = uint8_t(data & 0xff);
+  data_buffer[1] = uint8_t((data<<8) & 0xff);
+  data_buffer[2] = uint8_t((data<<16)  & 0xff);
+  data_buffer[3] = uint8_t((data<<24)  & 0xff);
+
+  transaction_channel_write(base+(inc_addr<<10),4, &data_buffer[0],INCREMENT_ADDRESS);
+
+}
+
 esp_err_t SPI::begin(int mosi_io_num, int miso_io_num, int sclk_io_num, int max_transfer_sz) {
     spi_bus_config_t config;
     config.mosi_io_num = mosi_io_num;
@@ -268,14 +327,14 @@ esp_err_t SPI::transductBytes_fpga(uint32_t base, uint32_t slave, uint32_t write
       esp_err_t err;
       spi_transaction_t transaction;
 
-     for(uint32_t cnt= 0; cnt < write_length;cnt++)  //
-        SPIBUS_LOG_RW("write data: %d",write_data[cnt]);
+     //for(uint32_t cnt= 0; cnt < write_length;cnt++)  //
+    //    SPIBUS_LOG_RW("write data: %d",write_data[cnt]);
 
 
 
         transaction.flags = 0;
         transaction.cmd = 0;
-        transaction.length = write_length*8;
+        transaction.length = write_length*8*2;
         transaction.rxlength = 0;//read_length;
         transaction.user = NULL;
         transaction.tx_buffer = write_data;
@@ -283,11 +342,7 @@ esp_err_t SPI::transductBytes_fpga(uint32_t base, uint32_t slave, uint32_t write
 
       err = spi_device_transmit(device_fpga, &transaction);
 
-      for(uint32_t cnt= 0; cnt < write_length;cnt++){
-        //if (read_data[cnt] != SPI_IDLE) {
-          SPIBUS_LOG_RW("data: %d",read_data[cnt]);
-        //}
-      }
+
       //uint16_t ret_val = readPacket_();
 
 
@@ -519,7 +574,7 @@ unsigned char SPI::byte_to_core_convert (unsigned int send_length, unsigned char
     //-----------------------------------------------------------------
 	i=0;
 	p = response_data;
-	while(i < response_max_len)
+	while(i < response_max_len*8)
 	{
 		current_byte = response_packet[i];
 		//-----------------------------------------------
@@ -545,6 +600,7 @@ unsigned char SPI::byte_to_core_convert (unsigned int send_length, unsigned char
 				break;
 		}
 	}
+
 #ifdef DYNAMIC_MEMORY_ALLOC
 	free(send_packet);
     free(response_packet);
@@ -846,7 +902,7 @@ unsigned char SPI::do_transaction(unsigned char trans_type,
     header[6] = (address >> 8)  & 0xff;
     header[7] = (address & 0xff);
 
-    ESP_LOGI(TAG_SPI,"do_transaction");
+    //ESP_LOGI(TAG_SPI,"do_transaction");
 
 
     switch(trans_type)

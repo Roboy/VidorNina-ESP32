@@ -20,7 +20,7 @@ gdbstub.o: /home/sausy/esp/esp-idf/components/esp32/gdbstub.c \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/uart_reg.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_assert.h \
@@ -119,7 +119,7 @@ gdbstub.o: /home/sausy/esp/esp-idf/components/esp32/gdbstub.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/alloca.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/uart_reg.h:
 

@@ -1,7 +1,7 @@
 mbedtls/library/pk.o: \
  /home/sausy/esp/esp-idf/components/mbedtls/mbedtls/library/pk.c \
  /home/sausy/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/mbedtls/port/include/esp_mem.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/ieeefp.h \
@@ -43,7 +43,7 @@ mbedtls/library/pk.o: \
 
 /home/sausy/esp/esp-idf/components/mbedtls/port/include/mbedtls/esp_config.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/mbedtls/port/include/esp_mem.h:
 

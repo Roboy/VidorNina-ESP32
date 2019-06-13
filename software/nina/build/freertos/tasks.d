@@ -20,7 +20,7 @@ tasks.o: /home/sausy/esp/esp-idf/components/freertos/tasks.c \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/esp_newlib.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/esp_debug_helpers.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
@@ -119,7 +119,7 @@ tasks.o: /home/sausy/esp/esp-idf/components/freertos/tasks.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/esp_newlib.h:
 

@@ -1,7 +1,7 @@
 bootloader_start.o: \
  /home/sausy/esp/esp-idf/components/bootloader/subproject/main/bootloader_start.c \
  /home/sausy/esp/esp-idf/components/log/include/esp_log.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
  /home/sausy/esp/esp-idf/components/log/include/esp_log_internal.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h \
@@ -22,7 +22,7 @@ bootloader_start.o: \
 
 /home/sausy/esp/esp-idf/components/log/include/esp_log.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h:
 

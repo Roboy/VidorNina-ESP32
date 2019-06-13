@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
  ========================================================================= */
-///*
+
  #include <stdio.h>
  #include <stdint.h>
  #include <stddef.h>
@@ -50,36 +50,6 @@ IN THE SOFTWARE.
 
 #include "nvs_flash.h"
 
-
-//*/
-/*
-#include <stdio.h>
-#include <stdint.h>
-#include <stddef.h>
-#include <string.h>
-
-#include "esp_system.h"
-#include "esp_wifi.h"
-#include "esp_log.h"
-#include "esp_err.h"
-
-#include "lwip/sockets.h"
-#include "lwip/dns.h"
-#include "lwip/netdb.h"
-
-
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "freertos/semphr.h"
-#include "freertos/queue.h"
-#include "freertos/event_groups.h"
-
-#include "nvs_flash.h"
-#include "SPIbus.hpp"
-#include "mqtt_client.h"
-*/
-
-
 #include "interface.hpp"
 #include "interface0.hpp"
 
@@ -92,10 +62,6 @@ IN THE SOFTWARE.
 #define SPI_CLOCK SPI_MASTER_FREQ_16M   // 1 MHz
 
 
-//static EventGroupHandle_t wifi_event_group;
-//const static int CONNECTED_BIT = BIT0;
-//static const char *TAG = "MQTT_SAMPLE";
-
 static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event);
 
 static void mqtt_app_start(void);
@@ -105,57 +71,32 @@ extern "C" void app_main() {
     printf("--START-- \n");
     fflush(stdout);
 
-
     //nvs_flash_init();
     //wifi_init();
     WIFI wifi;
     //MQTT mqtt;
 
-    mqtt_app_start();
+    //mqtt_app_start();
 
 
     SPI_t &mySPI = vspi;  // vspi and hspi are the default objects
-
-    unsigned char data_buffer[BUFFER_LENGTH]={1,1,1,1,1,1,1,1,1};
-    unsigned char read_buffer[BUFFER_LENGTH];
-    uint8_t buffer[6];
-
-    //mySPI.create_test_data(&data_buffer[0], BUFFER_LENGTH);
 
     spi_device_handle_t device;
     ESP_ERROR_CHECK( mySPI.begin(MOSI_PIN, MISO_PIN, SCLK_PIN,8));
     //ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &device));
     ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &mySPI.device_fpga));
 
+    mySPI.fpga_write(0x0, 0, 16);
+    mySPI.fpga_write(0x0, 1, 0);
+    mySPI.fpga_write(0x0, 2, 14);
 
     while(1){
 
     uint8_t ret_read;
-    uint8_t i;
-    for(i = 0; i < 6; i++){
-      //data_back = AvalonMM.read(0, i);
-      ret_read = mySPI.transaction_channel_read((i<<10),1, &read_buffer[0],INCREMENT_ADDRESS);
-      //Serial.print(" : ");Serial.print(i<<10);Serial.print(" ret: ");Serial.print(fuck_off);
+    uint32_t i;
+    for(i = 0; i < 20; i++){
+      printf("\n%d: data: %d",i, mySPI.fpga_read(0x0, i)); //i
     }
-
-
-    // ------------------------------------------------------
-    //	Compare data
-    // ------------------------------------------------------
-    ESP_LOGI(TAG_SPI,"Comparing data ...\n");
-    for(i=0;i<BUFFER_LENGTH;i++){
-        if(data_buffer[i]!=read_buffer[i]){
-          break;
-        }
-    }
-
-      if(i==BUFFER_LENGTH){
-        ESP_LOGI(TAG_SPI,"Compare data completes error free");
-      }
-      else {
-        ESP_LOGI(TAG_SPI,"Data doesn't match, error at index: %u",i);
-    }
-
 
   }
     mySPI.removeDevice(mySPI.device_fpga);

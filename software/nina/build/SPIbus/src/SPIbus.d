@@ -1,6 +1,6 @@
 src/SPIbus.o: \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/src/SPIbus.cpp \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/include/SPIbus.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/src/SPIbus.cpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/include/SPIbus.hpp \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/features.h \
@@ -24,7 +24,7 @@ src/SPIbus.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/sched.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
@@ -75,7 +75,7 @@ src/SPIbus.o: \
  /home/sausy/esp/esp-idf/components/log/include/esp_log.h \
  /home/sausy/esp/esp-idf/components/log/include/esp_log_internal.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/include/SPIbus.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/include/SPIbus.hpp:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdint.h:
 
@@ -123,7 +123,7 @@ src/SPIbus.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h:
 
@@ -222,4 +222,4 @@ src/SPIbus.o: \
 /home/sausy/esp/esp-idf/components/log/include/esp_log.h:
 
 /home/sausy/esp/esp-idf/components/log/include/esp_log_internal.h:
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/src/SPIbus.cpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/src/SPIbus.cpp:

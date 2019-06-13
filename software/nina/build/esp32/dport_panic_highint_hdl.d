@@ -14,7 +14,7 @@ dport_panic_highint_hdl.o: \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/xtruntime-frames.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/esp_private/panic_reason.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_bit_defs.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/dport_reg.h \
@@ -48,7 +48,7 @@ dport_panic_highint_hdl.o: \
 
 /home/sausy/esp/esp-idf/components/xtensa/include/esp_private/panic_reason.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h:
 

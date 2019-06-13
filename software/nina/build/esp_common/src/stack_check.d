@@ -1,6 +1,6 @@
 src/stack_check.o: \
  /home/sausy/esp/esp-idf/components/esp_common/src/stack_check.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_system.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
@@ -31,7 +31,7 @@ src/stack_check.o: \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_bit_defs.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_common/include/esp_system.h:
 

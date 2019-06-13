@@ -10,7 +10,7 @@ library/ssl_x509.o: \
  /home/sausy/esp/esp-idf/components/openssl/include/internal/ssl_methods.h \
  /home/sausy/esp/esp-idf/components/openssl/include/internal/ssl_dbg.h \
  /home/sausy/esp/esp-idf/components/openssl/include/platform/ssl_opt.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/openssl/include/platform/ssl_port.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_types.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/cdefs.h \
@@ -63,7 +63,7 @@ library/ssl_x509.o: \
 
 /home/sausy/esp/esp-idf/components/openssl/include/platform/ssl_opt.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/openssl/include/platform/ssl_port.h:
 

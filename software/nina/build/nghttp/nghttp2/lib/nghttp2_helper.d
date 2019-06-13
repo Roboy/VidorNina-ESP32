@@ -32,7 +32,7 @@ nghttp2/lib/nghttp2_helper.o: \
  /home/sausy/esp/esp-idf/components/nghttp/port/include/nghttp2/nghttp2ver.h \
  /home/sausy/esp/esp-idf/components/nghttp/nghttp2/lib/nghttp2_mem.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/nghttp/nghttp2/lib/nghttp2_net.h
 
@@ -100,7 +100,7 @@ nghttp2/lib/nghttp2_helper.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

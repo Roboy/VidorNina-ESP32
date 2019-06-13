@@ -20,7 +20,7 @@ protobuf-c/protobuf-c/protobuf-c.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/string.h \
  /home/sausy/esp/esp-idf/components/protobuf-c/protobuf-c/protobuf-c/protobuf-c.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/newlib/include/limits.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
@@ -66,7 +66,7 @@ protobuf-c/protobuf-c/protobuf-c.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

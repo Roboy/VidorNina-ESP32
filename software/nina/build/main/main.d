@@ -1,4 +1,4 @@
-main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
+main.o: /home/sausy/Projects/VidorNina-ESP32/software/nina/main/main.cpp \
  /home/sausy/esp/esp-idf/components/newlib/include/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
  /home/sausy/esp/esp-idf/components/newlib/include/newlib.h \
@@ -24,7 +24,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_system.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
@@ -107,7 +107,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/event_groups.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/timers.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/task.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/include/SPIbus.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/include/SPIbus.hpp \
  /home/sausy/esp/esp-idf/components/driver/include/driver/spi_common.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/lldesc.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/queue.h \
@@ -121,7 +121,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/spi_struct.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h \
  /home/sausy/esp/esp-idf/components/driver/include/driver/spi_master.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/include/ninaWifi.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/include/ninaWifi.hpp \
  /home/sausy/esp/esp-idf/components/esp_wifi/include/esp_wifi.h \
  /home/sausy/esp/esp-idf/components/esp_wifi/include/esp_wifi_types.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_interface.h \
@@ -140,8 +140,8 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
  /home/sausy/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_client.h \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_config.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface.hpp \
- /home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface0.hpp
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -193,7 +193,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h:
 
@@ -359,7 +359,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/task.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/SPIbus/include/SPIbus.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/SPIbus/include/SPIbus.hpp:
 
 /home/sausy/esp/esp-idf/components/driver/include/driver/spi_common.h:
 
@@ -387,7 +387,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
 
 /home/sausy/esp/esp-idf/components/driver/include/driver/spi_master.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/component/ninaWifi/include/ninaWifi.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/component/ninaWifi/include/ninaWifi.hpp:
 
 /home/sausy/esp/esp-idf/components/esp_wifi/include/esp_wifi.h:
 
@@ -425,7 +425,7 @@ main.o: /home/sausy/Projects/test2/esp32-AvalonWifi/main/main.cpp \
 
 /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_config.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface.hpp:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface0.hpp:
-/home/sausy/Projects/test2/esp32-AvalonWifi/main/./main.cpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/main/./main.cpp:

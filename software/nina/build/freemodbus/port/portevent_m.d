@@ -2,7 +2,7 @@ port/portevent_m.o: \
  /home/sausy/esp/esp-idf/components/freemodbus/port/portevent_m.c \
  /home/sausy/esp/esp-idf/components/freemodbus/modbus/include/mb_m.h \
  /home/sausy/esp/esp-idf/components/freemodbus/modbus/include/mbconfig.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/freemodbus/port/port.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/reent.h \
@@ -102,7 +102,7 @@ port/portevent_m.o: \
 
 /home/sausy/esp/esp-idf/components/freemodbus/modbus/include/mbconfig.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/freemodbus/port/port.h:
 

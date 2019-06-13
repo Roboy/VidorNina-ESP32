@@ -26,7 +26,7 @@ src/idf/bootloader_sha.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/sched.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/newlib/include/string.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/string.h \
@@ -92,7 +92,7 @@ src/idf/bootloader_sha.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

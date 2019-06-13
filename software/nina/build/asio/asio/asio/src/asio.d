@@ -3,7 +3,7 @@ asio/asio/src/asio.o: \
  /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/impl/src.hpp \
  /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/detail/config.hpp \
  /home/sausy/esp/esp-idf/components/asio/port/include/esp_asio_config.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/impl/error.ipp \
  /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/error.hpp \
  /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/error_code.hpp \
@@ -308,7 +308,7 @@ asio/asio/src/asio.o: \
 
 /home/sausy/esp/esp-idf/components/asio/port/include/esp_asio_config.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/asio/asio/asio/include/asio/impl/error.ipp:
 

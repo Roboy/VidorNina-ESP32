@@ -23,7 +23,7 @@ esp_adapter.o: /home/sausy/esp/esp-idf/components/esp32/esp_adapter.c \
  /home/sausy/esp/esp-idf/components/newlib/include/string.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/string.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
@@ -194,7 +194,7 @@ esp_adapter.o: /home/sausy/esp/esp-idf/components/esp32/esp_adapter.c \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

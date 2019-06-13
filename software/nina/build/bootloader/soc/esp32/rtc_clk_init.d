@@ -1,7 +1,7 @@
 esp32/rtc_clk_init.o: \
  /home/sausy/esp/esp-idf/components/soc/esp32/rtc_clk_init.c \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/rtc.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
@@ -44,7 +44,7 @@ esp32/rtc_clk_init.o: \
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/rtc.h:
 

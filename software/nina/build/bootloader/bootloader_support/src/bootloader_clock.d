@@ -3,7 +3,7 @@ src/bootloader_clock.o: \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/uart.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_types.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/soc.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_assert.h \
@@ -35,7 +35,7 @@ src/bootloader_clock.o: \
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h:
 

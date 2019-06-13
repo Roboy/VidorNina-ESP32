@@ -10,7 +10,7 @@ src/ffunicode.o: /home/sausy/esp/esp-idf/components/fatfs/src/ffunicode.c \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/syslimits.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/endian.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/param.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/reent.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
@@ -87,7 +87,7 @@ src/ffunicode.o: /home/sausy/esp/esp-idf/components/fatfs/src/ffunicode.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/machine/param.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h:
 

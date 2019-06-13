@@ -19,7 +19,7 @@ src/bootloader_random.o: \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/dport_reg.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/dport_access.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp32/dport_access.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/uart_reg.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/xtruntime.h \
@@ -69,7 +69,7 @@ src/bootloader_random.o: \
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp32/dport_access.h:
 

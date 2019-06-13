@@ -21,7 +21,7 @@ ringbuf.o: /home/sausy/esp/esp-idf/components/esp_ringbuf/ringbuf.c \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/hal.h \
  /home/sausy/esp/esp-idf/components/xtensa/esp32/include/xtensa/config/core.h \
@@ -109,7 +109,7 @@ ringbuf.o: /home/sausy/esp/esp-idf/components/esp_ringbuf/ringbuf.c \
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 

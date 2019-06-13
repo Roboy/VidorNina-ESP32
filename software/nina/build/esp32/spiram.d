@@ -20,7 +20,7 @@ spiram.o: /home/sausy/esp/esp-idf/components/esp32/spiram.c \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/syslimits.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/endian.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/param.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdio.h \
@@ -122,7 +122,7 @@ spiram.o: /home/sausy/esp/esp-idf/components/esp32/spiram.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/machine/param.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 

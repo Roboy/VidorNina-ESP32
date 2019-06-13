@@ -1,6 +1,6 @@
 pm_trace.o: /home/sausy/esp/esp-idf/components/esp32/pm_trace.c \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_private/pm_trace.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/driver/include/driver/gpio.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
@@ -54,7 +54,7 @@ pm_trace.o: /home/sausy/esp/esp-idf/components/esp32/pm_trace.c \
 
 /home/sausy/esp/esp-idf/components/esp_common/include/esp_private/pm_trace.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/driver/include/driver/gpio.h:
 

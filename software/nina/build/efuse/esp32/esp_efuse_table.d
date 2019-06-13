@@ -1,6 +1,6 @@
 esp32/esp_efuse_table.o: \
  /home/sausy/esp/esp-idf/components/efuse/esp32/esp_efuse_table.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/efuse/include/esp_efuse.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
@@ -33,7 +33,7 @@ esp32/esp_efuse_table.o: \
  /home/sausy/esp/esp-idf/components/log/include/esp_log_internal.h \
  /home/sausy/esp/esp-idf/components/efuse/esp32/include/esp_efuse_table.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/efuse/include/esp_efuse.h:
 

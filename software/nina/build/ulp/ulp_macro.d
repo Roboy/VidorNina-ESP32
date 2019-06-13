@@ -23,7 +23,7 @@ ulp_macro.o: /home/sausy/esp/esp-idf/components/ulp/ulp_macro.c \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h \
@@ -88,7 +88,7 @@ ulp_macro.o: /home/sausy/esp/esp-idf/components/ulp/ulp_macro.c \
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h:
 

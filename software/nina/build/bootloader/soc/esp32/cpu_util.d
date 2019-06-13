@@ -1,6 +1,6 @@
 esp32/cpu_util.o: /home/sausy/esp/esp-idf/components/soc/esp32/cpu_util.c \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/cpu.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/corebits.h \
  /home/sausy/esp/esp-idf/components/xtensa/esp32/include/xtensa/config/core.h \
@@ -17,7 +17,7 @@ esp32/cpu_util.o: /home/sausy/esp/esp-idf/components/soc/esp32/cpu_util.c \
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/cpu.h:
 

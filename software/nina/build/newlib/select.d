@@ -27,7 +27,7 @@ select.o: /home/sausy/esp/esp-idf/components/newlib/select.c \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOS.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/reent.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/hal.h \
  /home/sausy/esp/esp-idf/components/xtensa/esp32/include/xtensa/config/core.h \
@@ -133,7 +133,7 @@ select.o: /home/sausy/esp/esp-idf/components/newlib/select.c \
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 

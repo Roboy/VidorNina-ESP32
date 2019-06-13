@@ -28,7 +28,7 @@ src/pm_locks.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/sched.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp32/pm.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/rtc.h \
@@ -122,7 +122,7 @@ src/pm_locks.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

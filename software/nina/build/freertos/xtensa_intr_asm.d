@@ -14,7 +14,7 @@ xtensa_intr_asm.o: \
  /home/sausy/esp/esp-idf/components/xtensa/esp32/include/xtensa/config/system.h \
  /home/sausy/esp/esp-idf/components/xtensa/include/xtensa/xtruntime-frames.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h \
  /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_context.h
 
@@ -46,7 +46,7 @@ xtensa_intr_asm.o: \
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/FreeRTOSConfig.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/freertos/include/freertos/xtensa_config.h:
 

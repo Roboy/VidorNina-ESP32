@@ -25,7 +25,7 @@ emac_main.o: /home/sausy/esp/esp-idf/components/ethernet/emac_main.c \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/ets_sys.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/dport_reg.h \
@@ -190,7 +190,7 @@ emac_main.o: /home/sausy/esp/esp-idf/components/ethernet/emac_main.c \
 
 /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/esp_rom/include/esp32/rom/gpio.h:
 

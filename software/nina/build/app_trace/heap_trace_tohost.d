@@ -1,6 +1,6 @@
 heap_trace_tohost.o: \
  /home/sausy/esp/esp-idf/components/app_trace/heap_trace_tohost.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/heap/include/esp_heap_trace.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
@@ -29,7 +29,7 @@ heap_trace_tohost.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/alloca.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/heap/include/esp_heap_trace.h:
 

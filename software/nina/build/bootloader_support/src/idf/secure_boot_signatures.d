@@ -1,6 +1,6 @@
 src/idf/secure_boot_signatures.o: \
  /home/sausy/esp/esp-idf/components/bootloader_support/src/idf/secure_boot_signatures.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_flash.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/_default_types.h \
@@ -55,7 +55,7 @@ src/idf/secure_boot_signatures.o: \
  /home/sausy/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecp.h \
  /home/sausy/esp/esp-idf/components/mbedtls/mbedtls/include/mbedtls/ecdsa.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_flash.h:
 

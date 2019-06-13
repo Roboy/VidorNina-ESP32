@@ -23,7 +23,7 @@ reent_init.o: /home/sausy/esp/esp-idf/components/newlib/reent_init.c \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/sched.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/stdio.h \
  /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h
 
 /home/sausy/esp/esp-idf/components/newlib/include/string.h:
 
@@ -73,5 +73,5 @@ reent_init.o: /home/sausy/esp/esp-idf/components/newlib/reent_init.c \
 
 /home/sausy/esp/esp-idf/components/esp32/include/esp_attr.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 /home/sausy/esp/esp-idf/components/newlib/./reent_init.c:

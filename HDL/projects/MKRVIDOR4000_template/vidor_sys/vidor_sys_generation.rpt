@@ -1,5 +1,5 @@
 Info: Starting: Create block symbol file (.bsf)
-Info: qsys-generate /home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys.qsys --block-symbol-file --output-directory=/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys --family="Cyclone 10 LP" --part=10CL016YU256C8G
+Info: qsys-generate /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --block-symbol-file --output-directory=/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys --family="Cyclone 10 LP" --part=10CL016YU256C8G
 Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
 Progress: Reading input file
 Progress: Adding clk_0 [clock_source 18.1]
@@ -20,7 +20,7 @@ Info: qsys-generate succeeded.
 Info: Finished: Create block symbol file (.bsf)
 Info: 
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate /home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
+Info: qsys-generate /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
 Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
 Progress: Reading input file
 Progress: Adding clk_0 [clock_source 18.1]

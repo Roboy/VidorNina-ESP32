@@ -37,7 +37,7 @@ nghttp2/lib/nghttp2_frame.o: \
  /home/sausy/esp/esp-idf/components/nghttp/nghttp2/lib/nghttp2_mem.h \
  /home/sausy/esp/esp-idf/components/nghttp/nghttp2/lib/nghttp2_rcbuf.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/assert.h \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/errno.h \
  /home/sausy/esp/esp-idf/components/newlib/include/errno.h \
@@ -121,7 +121,7 @@ nghttp2/lib/nghttp2_frame.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/assert.h:
 

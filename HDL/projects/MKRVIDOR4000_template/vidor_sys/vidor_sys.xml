@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.06.10.20:26:54"
- outputDirectory="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/">
+ date="2019.06.13.15:34:25"
+ outputDirectory="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/">
  <perimeter>
   <parameter
      name="AUTO_GENERATION_ID"
@@ -99,13 +99,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1560191214,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
+   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1560432864,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="vidor_sys"
    kind="vidor_sys"
    version="1.0"
    name="vidor_sys">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1560191214" />
+  <parameter name="AUTO_GENERATION_ID" value="1560432864" />
   <parameter name="AUTO_DEVICE" value="10CL016YU256C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -114,80 +114,81 @@
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="8" />
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/vidor_sys.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/vidor_sys.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/ID_Switch.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/ID_Switch.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.sdc"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.sdc"
        type="SDC" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/SPISlaveToAvalonMasterBridge.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/SPISlaveToAvalonMasterBridge.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_btop_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_btop_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_ptob_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_ptob_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spislave_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spislave_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/vidor_sys_mm_interconnect_0.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/vidor_sys_mm_interconnect_0.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_synchronizer.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.sdc"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </childGeneratedFiles>
   <sourceFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys.qsys" />
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys" />
   </sourceFiles>
   <childSourceFiles>
-   <file path="/home/sausy/Projects/test2/VidorFPGA/ip/PTP/id_switch_hw.tcl" />
+   <file
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/ip/PTP/id_switch_hw.tcl" />
    <file
        path="/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge_hw.tcl" />
    <file
@@ -228,9 +229,6 @@
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Debug">Transform: CustomInstructionTransform</message>
    <message level="Debug">No custom instruction connections, skipping transform </message>
    <message level="Debug" culprit="merlin_custom_instruction_transform"><![CDATA[After transform: <b>3</b> modules, <b>5</b> connections]]></message>
@@ -246,14 +244,8 @@
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Debug" culprit="merlin_translator_transform"><![CDATA[After transform: <b>5</b> modules, <b>11</b> connections]]></message>
    <message level="Debug">Transform: IDPadTransform</message>
@@ -278,23 +270,14 @@
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Debug" culprit="merlin_clock_and_reset_bridge_transform"><![CDATA[After transform: <b>7</b> modules, <b>17</b> connections]]></message>
    <message level="Debug">Transform: InterconnectConnectionsTagger</message>
    <message level="Debug">Transform: HierarchyTransform</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Debug" culprit="merlin_hierarchy_transform"><![CDATA[After transform: <b>4</b> modules, <b>8</b> connections]]></message>
    <message level="Debug" culprit="merlin_mm_transform"><![CDATA[After transform: <b>4</b> modules, <b>8</b> connections]]></message>
@@ -306,9 +289,6 @@
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Debug" culprit="reset_adaptation_transform"><![CDATA[After transform: <b>5</b> modules, <b>10</b> connections]]></message>
    <message level="Debug" culprit="vidor_sys"><![CDATA["<b>vidor_sys</b>" reuses <b>id_switch</b> "<b>submodules/id_switch</b>"]]></message>
    <message level="Debug" culprit="vidor_sys"><![CDATA["<b>vidor_sys</b>" reuses <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>submodules/SPISlaveToAvalonMasterBridge</b>"]]></message>
@@ -318,17 +298,14 @@
    <message level="Info" culprit="id_switch_0"><![CDATA["<b>vidor_sys</b>" instantiated <b>id_switch</b> "<b>id_switch_0</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8057_4243826876682986971.dir/0101_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8057_4243826876682986971.dir/0101_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.445s</message>
-   <message level="Debug">Command took 0.749s</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8060_3875681418777863338.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8060_3875681418777863338.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.446s</message>
+   <message level="Debug">Command took 0.739s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 1 starting:altera_mm_interconnect "submodules/vidor_sys_mm_interconnect_0"</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Debug">Transform: CustomInstructionTransform</message>
    <message level="Debug">No custom instruction connections, skipping transform </message>
@@ -384,13 +361,14 @@
    name="id_switch">
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/ID_Switch.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/ID_Switch.v"
        type="VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
   <sourceFiles>
-   <file path="/home/sausy/Projects/test2/VidorFPGA/ip/PTP/id_switch_hw.tcl" />
+   <file
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/ip/PTP/id_switch_hw.tcl" />
   </sourceFiles>
   <childSourceFiles/>
   <instantiator instantiator="vidor_sys" as="id_switch_0" />
@@ -410,40 +388,40 @@
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.sdc"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.sdc"
        type="SDC" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/SPISlaveToAvalonMasterBridge.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/SPISlaveToAvalonMasterBridge.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_btop_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_btop_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_ptob_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/channel_adapter_ptob_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spislave_inst_for_spichain.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spislave_inst_for_spichain.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_packets_to_master.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_bytes_to_packets.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_packets_to_bytes.v"
        type="VERILOG" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles/>
@@ -480,10 +458,10 @@
   <messages>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8057_4243826876682986971.dir/0101_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8057_4243826876682986971.dir/0101_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.445s</message>
-   <message level="Debug">Command took 0.749s</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8060_3875681418777863338.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8060_3875681418777863338.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.446s</message>
+   <message level="Debug">Command took 0.739s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
   </messages>
  </entity>
@@ -502,16 +480,16 @@
      value="add_instance {spi_avalon_bridge_avalon_master_translator} {altera_merlin_master_translator};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READLATENCY} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READ} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BYTEENABLE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_ADDRESS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CLKEN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATAVALID} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_LOCK} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_SYMBOLS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {64};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {SYNC_RESET} {0};add_instance {id_switch_0_avalon_slave_translator} {altera_merlin_slave_translator};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_ADDRESS_W} {16};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_DATA_W} {32};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_DATA_W} {32};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_BYTEENABLE_W} {4};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_READLATENCY} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_TIMING_UNITS} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_READDATA} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_READ} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_WRITE} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_BYTEENABLE} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_ADDRESS} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_READDATAVALID} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_WRITEBYTEENABLE} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_LOCK} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_AV_CLKEN} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_UAV_CLKEN} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_OUTPUTENABLE} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_ADDRESS_SYMBOLS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_REQUIRE_UNALIGNED_ADDRESSES} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {1};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_MAX_PENDING_WRITE_TRANSACTIONS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {id_switch_0_avalon_slave_translator} {CHIPSELECT_THROUGH_READLATENCY} {0};add_instance {spi_avalon_bridge_clk_reset_reset_bridge} {altera_reset_bridge};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {ACTIVE_LOW_RESET} {0};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {SYNCHRONOUS_EDGES} {deassert};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {NUM_RESET_OUTPUTS} {1};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {USE_RESET_REQUEST} {0};add_instance {clk_0_clk_clock_bridge} {altera_clock_bridge};set_instance_parameter_value {clk_0_clk_clock_bridge} {EXPLICIT_CLOCK_RATE} {50000000};set_instance_parameter_value {clk_0_clk_clock_bridge} {NUM_CLOCK_OUTPUTS} {1};add_connection {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0} {id_switch_0_avalon_slave_translator.avalon_universal_slave_0} {avalon};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/id_switch_0_avalon_slave_translator.avalon_universal_slave_0} {arbitrationPriority} {1};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/id_switch_0_avalon_slave_translator.avalon_universal_slave_0} {baseAddress} {0x0000};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/id_switch_0_avalon_slave_translator.avalon_universal_slave_0} {defaultConnection} {false};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {spi_avalon_bridge_avalon_master_translator.reset} {reset};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {id_switch_0_avalon_slave_translator.reset} {reset};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_avalon_master_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {id_switch_0_avalon_slave_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_clk_reset_reset_bridge.clk} {clock};add_interface {clk_0_clk} {clock} {slave};set_interface_property {clk_0_clk} {EXPORT_OF} {clk_0_clk_clock_bridge.in_clk};add_interface {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {reset} {slave};set_interface_property {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {EXPORT_OF} {spi_avalon_bridge_clk_reset_reset_bridge.in_reset};add_interface {spi_avalon_bridge_avalon_master} {avalon} {slave};set_interface_property {spi_avalon_bridge_avalon_master} {EXPORT_OF} {spi_avalon_bridge_avalon_master_translator.avalon_anti_master_0};add_interface {id_switch_0_avalon_slave} {avalon} {master};set_interface_property {id_switch_0_avalon_slave} {EXPORT_OF} {id_switch_0_avalon_slave_translator.avalon_anti_slave_0};set_module_assignment {interconnect_id.id_switch_0.avalon_slave} {0};set_module_assignment {interconnect_id.spi_avalon_bridge.avalon_master} {0};" />
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/vidor_sys_mm_interconnect_0.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/vidor_sys_mm_interconnect_0.v"
        type="VERILOG" />
   </generatedFiles>
   <childGeneratedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </childGeneratedFiles>
@@ -530,9 +508,6 @@
    <message level="Debug" culprit="vidor_sys">queue size: 1 starting:altera_mm_interconnect "submodules/vidor_sys_mm_interconnect_0"</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
-   <message level="Progress" culprit="current"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Debug">Transform: CustomInstructionTransform</message>
    <message level="Debug">No custom instruction connections, skipping transform </message>
@@ -586,15 +561,15 @@
    name="altera_reset_controller">
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_synchronizer.v"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_synchronizer.v"
        type="VERILOG"
        attributes="" />
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.sdc"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_reset_controller.sdc"
        type="SDC"
        attributes="" />
   </generatedFiles>
@@ -620,7 +595,7 @@
   <parameter name="SYNC_RESET" value="0" />
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_master_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>
@@ -647,7 +622,7 @@
    name="altera_merlin_slave_translator">
   <generatedFiles>
    <file
-       path="/home/sausy/Projects/test2/VidorFPGA/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
+       path="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_slave_translator.sv"
        type="SYSTEM_VERILOG"
        attributes="" />
   </generatedFiles>

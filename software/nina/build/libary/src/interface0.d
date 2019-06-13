@@ -1,6 +1,6 @@
 src/interface0.o: \
- /home/sausy/Projects/test2/esp32-AvalonWifi/libary/src/interface0.cpp \
- /home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface0.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/src/interface0.cpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp \
  /home/sausy/esp/esp-idf/components/newlib/include/stdio.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
  /home/sausy/esp/esp-idf/components/newlib/include/newlib.h \
@@ -22,7 +22,7 @@ src/interface0.o: \
  /home/sausy/esp/esp-idf/components/newlib/include/stdint.h \
  /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/libary/include/interface0.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -63,4 +63,4 @@ src/interface0.o: \
 /home/sausy/esp/esp-idf/components/newlib/include/stdint.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/sys/_intsup.h:
-/home/sausy/Projects/test2/esp32-AvalonWifi/libary/src/interface0.cpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/src/interface0.cpp:

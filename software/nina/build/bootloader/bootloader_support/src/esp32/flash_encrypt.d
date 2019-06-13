@@ -3,7 +3,7 @@ src/esp32/flash_encrypt.o: \
  /home/sausy/esp/esp-idf/components/bootloader_support/include_bootloader/bootloader_flash.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_err.h \
  /home/sausy/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/bootloader_support/include/esp_image_format.h \
  /home/sausy/esp/esp-idf/components/bootloader_support/include/esp_flash_partitions.h \
  /home/sausy/esp/esp-idf/components/esp_common/include/esp_types.h \
@@ -43,7 +43,7 @@ src/esp32/flash_encrypt.o: \
 
 /home/sausy/esp/esp-idf/components/spi_flash/include/esp_spi_flash.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/bootloader/../include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/bootloader/../include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/bootloader_support/include/esp_image_format.h:
 

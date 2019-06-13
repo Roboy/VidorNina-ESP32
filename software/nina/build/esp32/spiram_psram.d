@@ -1,5 +1,5 @@
 spiram_psram.o: /home/sausy/esp/esp-idf/components/esp32/spiram_psram.c \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/string.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
  /home/sausy/esp/esp-idf/components/newlib/include/newlib.h \
@@ -78,7 +78,7 @@ spiram_psram.o: /home/sausy/esp/esp-idf/components/esp32/spiram_psram.c \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/spi_struct.h \
  /home/sausy/esp/esp-idf/components/driver/include/driver/periph_ctrl.h
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/string.h:
 

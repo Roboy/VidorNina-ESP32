@@ -1,7 +1,7 @@
 libsodium/src/libsodium/sodium/utils.o: \
  /home/sausy/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/utils.c \
  /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h \
- /home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h \
  /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h \
  /home/sausy/esp/esp-idf/components/newlib/include/machine/ieeefp.h \
  /home/sausy/esp/esp-idf/components/newlib/include/_ansi.h \
@@ -41,7 +41,7 @@ libsodium/src/libsodium/sodium/utils.o: \
 
 /home/sausy/esp/esp-idf/components/newlib/platform_include/assert.h:
 
-/home/sausy/Projects/test2/esp32-AvalonWifi/build/include/sdkconfig.h:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/build/include/sdkconfig.h:
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdlib.h:
 
