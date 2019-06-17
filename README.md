@@ -109,7 +109,8 @@ TODO: finish docu
 after adjusting it to the needs of the esp32, 
 
 ```cpp
-ret_read = mySPI.transaction_channel_read((i<<10),1, &read_buffer[0],INCREMENT_ADDRESS);
+mySPI.fpga_write(0x40000, addr_offset, data);
+uint32_t foo = mySPI.fpga_read(0x40000, addr_offset);
 ```
 
 
