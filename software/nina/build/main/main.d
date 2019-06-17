@@ -141,7 +141,8 @@ main.o: /home/sausy/Projects/VidorNina-ESP32/software/nina/main/main.cpp \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_client.h \
  /home/sausy/esp/esp-idf/components/espmqtt/include/mqtt_config.h \
  /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface.hpp \
- /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/FpgaVidor.hpp \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/soc_system.h
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -427,5 +428,7 @@ main.o: /home/sausy/Projects/VidorNina-ESP32/software/nina/main/main.cpp \
 
 /home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface.hpp:
 
-/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/interface0.hpp:
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/FpgaVidor.hpp:
+
+/home/sausy/Projects/VidorNina-ESP32/software/nina/libary/include/soc_system.h:
 /home/sausy/Projects/VidorNina-ESP32/software/nina/main/./main.cpp:

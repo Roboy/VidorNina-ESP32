@@ -51,7 +51,7 @@ IN THE SOFTWARE.
 #include "nvs_flash.h"
 
 #include "interface.hpp"
-#include "interface0.hpp"
+#include "FpgaVidor.hpp"
 
 
 #define SPI_MODE  1//original 0
@@ -86,13 +86,16 @@ extern "C" void app_main() {
     //ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &device));
     ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &mySPI.device_fpga));
 
-    mySPI.fpga_write(0x0, 0, 16);
-    mySPI.fpga_write(0x0, 1, 0);
-    mySPI.fpga_write(0x0, 2, 14);
+    hardware_interface hw (&mySPI);
 
-    mySPI.fpga_write(0x40000, 0, 17);
-    mySPI.fpga_write(0x40000, 1, 0);
-    mySPI.fpga_write(0x40000, 2, 13);
+
+    hw.IOWR(0x0, 0, 16);
+    hw.IOWR(0x0, 1, 0);
+    hw.IOWR(0x0, 2, 14);
+
+    hw.IOWR(0x40000, 0, 17);
+    hw.IOWR(0x40000, 1, 0);
+    hw.IOWR(0x40000, 2, 13);
 
 
 
@@ -101,8 +104,8 @@ extern "C" void app_main() {
     uint8_t ret_read;
     uint32_t i;
     for(i = 0; i < 20; i++){
-      printf("\n%d: data: %d",i, mySPI.fpga_read(0x0, i)); //i
-      printf("\n%d: data: %d",i, mySPI.fpga_read(0x40000, i)); //i
+      printf("\n%d: data: %d",i, hw.IORD(0x0, i)); //i
+      printf("\n%d: data: %d",i, hw.IORD(0x40000, i)); //i
     }
 
   }
