@@ -94,6 +94,7 @@ void setup() {
     pinMode(9, INPUT); // SCK  P12[4]
     pinMode(10, INPUT); // MISO P12[3]
 
+    pinMode(6, INPUT); // piezo out
 }
 
 

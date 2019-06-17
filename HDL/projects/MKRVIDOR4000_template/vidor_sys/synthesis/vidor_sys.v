@@ -4,39 +4,62 @@
 
 `timescale 1 ps / 1 ps
 module vidor_sys (
-		input  wire       clk_clk,                                                    //        clk.clk
-		input  wire [3:0] id_switch_sw,                                               //  id_switch.sw
-		output wire       id_switch_debug_out1,                                       //           .debug_out1
-		input  wire [3:0] id_switch1_sw,                                              // id_switch1.sw
-		output wire       id_switch1_debug_out1,                                      //           .debug_out1
-		input  wire       reset_reset_n,                                              //      reset.reset_n
-		input  wire       spi_bridge_mosi_to_the_spislave_inst_for_spichain,          // spi_bridge.mosi_to_the_spislave_inst_for_spichain
-		input  wire       spi_bridge_nss_to_the_spislave_inst_for_spichain,           //           .nss_to_the_spislave_inst_for_spichain
-		inout  wire       spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain, //           .miso_to_and_from_the_spislave_inst_for_spichain
-		input  wire       spi_bridge_sclk_to_the_spislave_inst_for_spichain           //           .sclk_to_the_spislave_inst_for_spichain
+		input  wire         clk_clk,                                                    //                           clk.clk
+		input  wire [3:0]   id_switch_sw,                                               //                     id_switch.sw
+		output wire         id_switch_debug_out1,                                       //                              .debug_out1
+		output wire         piezo_controller_piezo_enable_export,                       // piezo_controller_piezo_enable.export
+		input  wire         piezo_controller_piezo_enable_piezo_enable_in,              //                              .piezo_enable_in
+		output wire [119:0] piezo_controller_piezo_out_export,                          //    piezo_controller_piezo_out.export
+		output wire [2:0]   piezo_controller_piezo_status_export,                       // piezo_controller_piezo_status.export
+		output wire         piezo_ctl_gpio_out,                                         //                     piezo_ctl.gpio_out
+		input  wire         piezo_ctl_enable_in,                                        //                              .enable_in
+		output wire         piezo_ctl_enable_out,                                       //                              .enable_out
+		input  wire         ptp_piezo_interface0_piezo_interface_in,                    //          ptp_piezo_interface0.piezo_interface_in
+		output wire         ptp_piezo_interface0_piezo_interface_out,                   //                              .piezo_interface_out
+		output wire [31:0]  ptp_piezo_interface0_time_data_master,                      //                              .time_data_master
+		output wire [31:0]  ptp_piezo_interface0_time_data_slave,                       //                              .time_data_slave
+		input  wire         reset_reset_n,                                              //                         reset.reset_n
+		input  wire         rtc_0_conduit_end_event_trigger,                            //             rtc_0_conduit_end.event_trigger
+		output wire         rtc_0_conduit_end_piezo_enable,                             //                              .piezo_enable
+		input  wire         rtc_0_conduit_end_event_trigger2,                           //                              .event_trigger2
+		input  wire         spi_bridge_mosi_to_the_spislave_inst_for_spichain,          //                    spi_bridge.mosi_to_the_spislave_inst_for_spichain
+		input  wire         spi_bridge_nss_to_the_spislave_inst_for_spichain,           //                              .nss_to_the_spislave_inst_for_spichain
+		inout  wire         spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain, //                              .miso_to_and_from_the_spislave_inst_for_spichain
+		input  wire         spi_bridge_sclk_to_the_spislave_inst_for_spichain           //                              .sclk_to_the_spislave_inst_for_spichain
 	);
 
-	wire  [31:0] spi_avalon_bridge_avalon_master_readdata;               // mm_interconnect_0:spi_avalon_bridge_avalon_master_readdata -> spi_avalon_bridge:readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	wire         spi_avalon_bridge_avalon_master_waitrequest;            // mm_interconnect_0:spi_avalon_bridge_avalon_master_waitrequest -> spi_avalon_bridge:waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	wire  [31:0] spi_avalon_bridge_avalon_master_address;                // spi_avalon_bridge:address_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_address
-	wire   [3:0] spi_avalon_bridge_avalon_master_byteenable;             // spi_avalon_bridge:byteenable_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_byteenable
-	wire         spi_avalon_bridge_avalon_master_read;                   // spi_avalon_bridge:read_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_read
-	wire         spi_avalon_bridge_avalon_master_readdatavalid;          // mm_interconnect_0:spi_avalon_bridge_avalon_master_readdatavalid -> spi_avalon_bridge:readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain
-	wire         spi_avalon_bridge_avalon_master_write;                  // spi_avalon_bridge:write_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_write
-	wire  [31:0] spi_avalon_bridge_avalon_master_writedata;              // spi_avalon_bridge:writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_writedata
-	wire  [31:0] mm_interconnect_0_id_switch_0_avalon_slave_readdata;    // id_switch_0:avalon_slave_readdata -> mm_interconnect_0:id_switch_0_avalon_slave_readdata
-	wire         mm_interconnect_0_id_switch_0_avalon_slave_waitrequest; // id_switch_0:avalon_slave_waitrequest -> mm_interconnect_0:id_switch_0_avalon_slave_waitrequest
-	wire  [15:0] mm_interconnect_0_id_switch_0_avalon_slave_address;     // mm_interconnect_0:id_switch_0_avalon_slave_address -> id_switch_0:avalon_slave_address
-	wire         mm_interconnect_0_id_switch_0_avalon_slave_read;        // mm_interconnect_0:id_switch_0_avalon_slave_read -> id_switch_0:avalon_slave_read
-	wire         mm_interconnect_0_id_switch_0_avalon_slave_write;       // mm_interconnect_0:id_switch_0_avalon_slave_write -> id_switch_0:avalon_slave_write
-	wire  [31:0] mm_interconnect_0_id_switch_0_avalon_slave_writedata;   // mm_interconnect_0:id_switch_0_avalon_slave_writedata -> id_switch_0:avalon_slave_writedata
-	wire  [31:0] mm_interconnect_0_id_switch_1_avalon_slave_readdata;    // id_switch_1:avalon_slave_readdata -> mm_interconnect_0:id_switch_1_avalon_slave_readdata
-	wire         mm_interconnect_0_id_switch_1_avalon_slave_waitrequest; // id_switch_1:avalon_slave_waitrequest -> mm_interconnect_0:id_switch_1_avalon_slave_waitrequest
-	wire  [15:0] mm_interconnect_0_id_switch_1_avalon_slave_address;     // mm_interconnect_0:id_switch_1_avalon_slave_address -> id_switch_1:avalon_slave_address
-	wire         mm_interconnect_0_id_switch_1_avalon_slave_read;        // mm_interconnect_0:id_switch_1_avalon_slave_read -> id_switch_1:avalon_slave_read
-	wire         mm_interconnect_0_id_switch_1_avalon_slave_write;       // mm_interconnect_0:id_switch_1_avalon_slave_write -> id_switch_1:avalon_slave_write
-	wire  [31:0] mm_interconnect_0_id_switch_1_avalon_slave_writedata;   // mm_interconnect_0:id_switch_1_avalon_slave_writedata -> id_switch_1:avalon_slave_writedata
-	wire         rst_controller_reset_out_reset;                         // rst_controller:reset_out -> [id_switch_0:reset, id_switch_1:reset, mm_interconnect_0:spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset, spi_avalon_bridge:reset_n]
+	wire  [31:0] spi_avalon_bridge_avalon_master_readdata;                             // mm_interconnect_0:spi_avalon_bridge_avalon_master_readdata -> spi_avalon_bridge:readdata_to_the_altera_avalon_packets_to_master_inst_for_spichain
+	wire         spi_avalon_bridge_avalon_master_waitrequest;                          // mm_interconnect_0:spi_avalon_bridge_avalon_master_waitrequest -> spi_avalon_bridge:waitrequest_to_the_altera_avalon_packets_to_master_inst_for_spichain
+	wire  [31:0] spi_avalon_bridge_avalon_master_address;                              // spi_avalon_bridge:address_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_address
+	wire   [3:0] spi_avalon_bridge_avalon_master_byteenable;                           // spi_avalon_bridge:byteenable_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_byteenable
+	wire         spi_avalon_bridge_avalon_master_read;                                 // spi_avalon_bridge:read_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_read
+	wire         spi_avalon_bridge_avalon_master_readdatavalid;                        // mm_interconnect_0:spi_avalon_bridge_avalon_master_readdatavalid -> spi_avalon_bridge:readdatavalid_to_the_altera_avalon_packets_to_master_inst_for_spichain
+	wire         spi_avalon_bridge_avalon_master_write;                                // spi_avalon_bridge:write_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_write
+	wire  [31:0] spi_avalon_bridge_avalon_master_writedata;                            // spi_avalon_bridge:writedata_from_the_altera_avalon_packets_to_master_inst_for_spichain -> mm_interconnect_0:spi_avalon_bridge_avalon_master_writedata
+	wire  [31:0] mm_interconnect_0_id_switch_0_avalon_slave_readdata;                  // id_switch_0:avalon_slave_readdata -> mm_interconnect_0:id_switch_0_avalon_slave_readdata
+	wire         mm_interconnect_0_id_switch_0_avalon_slave_waitrequest;               // id_switch_0:avalon_slave_waitrequest -> mm_interconnect_0:id_switch_0_avalon_slave_waitrequest
+	wire  [15:0] mm_interconnect_0_id_switch_0_avalon_slave_address;                   // mm_interconnect_0:id_switch_0_avalon_slave_address -> id_switch_0:avalon_slave_address
+	wire         mm_interconnect_0_id_switch_0_avalon_slave_read;                      // mm_interconnect_0:id_switch_0_avalon_slave_read -> id_switch_0:avalon_slave_read
+	wire         mm_interconnect_0_id_switch_0_avalon_slave_write;                     // mm_interconnect_0:id_switch_0_avalon_slave_write -> id_switch_0:avalon_slave_write
+	wire  [31:0] mm_interconnect_0_id_switch_0_avalon_slave_writedata;                 // mm_interconnect_0:id_switch_0_avalon_slave_writedata -> id_switch_0:avalon_slave_writedata
+	wire  [31:0] mm_interconnect_0_ptp_simple_us_0_avalon_slave_readdata;              // ptp_simple_us_0:avalon_slave_readdata -> mm_interconnect_0:ptp_simple_us_0_avalon_slave_readdata
+	wire         mm_interconnect_0_ptp_simple_us_0_avalon_slave_waitrequest;           // ptp_simple_us_0:avalon_slave_waitrequest -> mm_interconnect_0:ptp_simple_us_0_avalon_slave_waitrequest
+	wire  [15:0] mm_interconnect_0_ptp_simple_us_0_avalon_slave_address;               // mm_interconnect_0:ptp_simple_us_0_avalon_slave_address -> ptp_simple_us_0:avalon_slave_address
+	wire         mm_interconnect_0_ptp_simple_us_0_avalon_slave_read;                  // mm_interconnect_0:ptp_simple_us_0_avalon_slave_read -> ptp_simple_us_0:avalon_slave_read
+	wire         mm_interconnect_0_ptp_simple_us_0_avalon_slave_write;                 // mm_interconnect_0:ptp_simple_us_0_avalon_slave_write -> ptp_simple_us_0:avalon_slave_write
+	wire  [31:0] mm_interconnect_0_ptp_simple_us_0_avalon_slave_writedata;             // mm_interconnect_0:ptp_simple_us_0_avalon_slave_writedata -> ptp_simple_us_0:avalon_slave_writedata
+	wire  [31:0] mm_interconnect_0_realtime_clock_controll_0_avalon_slave_readdata;    // realtime_clock_controll_0:avalon_slave_readdata -> mm_interconnect_0:realtime_clock_controll_0_avalon_slave_readdata
+	wire         mm_interconnect_0_realtime_clock_controll_0_avalon_slave_waitrequest; // realtime_clock_controll_0:avalon_slave_waitrequest -> mm_interconnect_0:realtime_clock_controll_0_avalon_slave_waitrequest
+	wire  [15:0] mm_interconnect_0_realtime_clock_controll_0_avalon_slave_address;     // mm_interconnect_0:realtime_clock_controll_0_avalon_slave_address -> realtime_clock_controll_0:avalon_slave_address
+	wire         mm_interconnect_0_realtime_clock_controll_0_avalon_slave_read;        // mm_interconnect_0:realtime_clock_controll_0_avalon_slave_read -> realtime_clock_controll_0:avalon_slave_read
+	wire         mm_interconnect_0_realtime_clock_controll_0_avalon_slave_write;       // mm_interconnect_0:realtime_clock_controll_0_avalon_slave_write -> realtime_clock_controll_0:avalon_slave_write
+	wire  [31:0] mm_interconnect_0_realtime_clock_controll_0_avalon_slave_writedata;   // mm_interconnect_0:realtime_clock_controll_0_avalon_slave_writedata -> realtime_clock_controll_0:avalon_slave_writedata
+	wire  [15:0] mm_interconnect_0_piezo_controller_0_s1_readdata;                     // piezo_controller_0:AVS_ReadData -> mm_interconnect_0:piezo_controller_0_s1_readdata
+	wire   [7:0] mm_interconnect_0_piezo_controller_0_s1_address;                      // mm_interconnect_0:piezo_controller_0_s1_address -> piezo_controller_0:AVS_Address
+	wire         mm_interconnect_0_piezo_controller_0_s1_read;                         // mm_interconnect_0:piezo_controller_0_s1_read -> piezo_controller_0:AVS_Read
+	wire         mm_interconnect_0_piezo_controller_0_s1_write;                        // mm_interconnect_0:piezo_controller_0_s1_write -> piezo_controller_0:AVS_Write
+	wire  [15:0] mm_interconnect_0_piezo_controller_0_s1_writedata;                    // mm_interconnect_0:piezo_controller_0_s1_writedata -> piezo_controller_0:AVS_WriteData
+	wire         rst_controller_reset_out_reset;                                       // rst_controller:reset_out -> [id_switch_0:reset, mm_interconnect_0:spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset, piezo_clk_div_0:reset, piezo_controller_0:reset_n, ptp_simple_us_0:reset, realtime_clock_controll_0:reset, spi_avalon_bridge:reset_n]
 
 	id_switch id_switch_0 (
 		.reset                    (rst_controller_reset_out_reset),                         //        reset.reset
@@ -51,17 +74,62 @@ module vidor_sys (
 		.clock                    (clk_clk)                                                 //        clock.clk
 	);
 
-	id_switch id_switch_1 (
-		.reset                    (rst_controller_reset_out_reset),                         //        reset.reset
-		.avalon_slave_address     (mm_interconnect_0_id_switch_1_avalon_slave_address),     // avalon_slave.address
-		.avalon_slave_write       (mm_interconnect_0_id_switch_1_avalon_slave_write),       //             .write
-		.avalon_slave_writedata   (mm_interconnect_0_id_switch_1_avalon_slave_writedata),   //             .writedata
-		.avalon_slave_read        (mm_interconnect_0_id_switch_1_avalon_slave_read),        //             .read
-		.avalon_slave_readdata    (mm_interconnect_0_id_switch_1_avalon_slave_readdata),    //             .readdata
-		.avalon_slave_waitrequest (mm_interconnect_0_id_switch_1_avalon_slave_waitrequest), //             .waitrequest
-		.sw                       (id_switch1_sw),                                          //  conduit_end.sw
-		.debug_out1               (id_switch1_debug_out1),                                  //             .debug_out1
-		.clock                    (clk_clk)                                                 //        clock.clk
+	piezo_ctl2 #(
+		.PULS_FREQ (40000)
+	) piezo_clk_div_0 (
+		.clk        (clk_clk),                        // clock_sink.clk
+		.reset      (rst_controller_reset_out_reset), //      reset.reset
+		.gpio_out   (piezo_ctl_gpio_out),             //    conduit.gpio_out
+		.enable_in  (piezo_ctl_enable_in),            //           .enable_in
+		.enable_out (piezo_ctl_enable_out)            //           .enable_out
+	);
+
+	piezo_controller #(
+		.piezo_count (120)
+	) piezo_controller_0 (
+		.clk             (clk_clk),                                           //          clk.clk
+		.reset_n         (~rst_controller_reset_out_reset),                   //        reset.reset_n
+		.AVS_Address     (mm_interconnect_0_piezo_controller_0_s1_address),   //           s1.address
+		.AVS_Read        (mm_interconnect_0_piezo_controller_0_s1_read),      //             .read
+		.AVS_ReadData    (mm_interconnect_0_piezo_controller_0_s1_readdata),  //             .readdata
+		.AVS_Write       (mm_interconnect_0_piezo_controller_0_s1_write),     //             .write
+		.AVS_WriteData   (mm_interconnect_0_piezo_controller_0_s1_writedata), //             .writedata
+		.piezo_out       (piezo_controller_piezo_out_export),                 //    piezo_out.export
+		.piezo_enable    (piezo_controller_piezo_enable_export),              // piezo_enable.export
+		.piezo_enable_in (piezo_controller_piezo_enable_piezo_enable_in),     //             .piezo_enable_in
+		.piezo_status    (piezo_controller_piezo_status_export)               // piezo_status.export
+	);
+
+	ptp_sync ptp_simple_us_0 (
+		.reset                    (rst_controller_reset_out_reset),                             //        reset.reset
+		.avalon_slave_address     (mm_interconnect_0_ptp_simple_us_0_avalon_slave_address),     // avalon_slave.address
+		.avalon_slave_write       (mm_interconnect_0_ptp_simple_us_0_avalon_slave_write),       //             .write
+		.avalon_slave_writedata   (mm_interconnect_0_ptp_simple_us_0_avalon_slave_writedata),   //             .writedata
+		.avalon_slave_read        (mm_interconnect_0_ptp_simple_us_0_avalon_slave_read),        //             .read
+		.avalon_slave_readdata    (mm_interconnect_0_ptp_simple_us_0_avalon_slave_readdata),    //             .readdata
+		.avalon_slave_waitrequest (mm_interconnect_0_ptp_simple_us_0_avalon_slave_waitrequest), //             .waitrequest
+		.piezo_interface_in       (ptp_piezo_interface0_piezo_interface_in),                    //  conduit_end.piezo_interface_in
+		.piezo_interface_out      (ptp_piezo_interface0_piezo_interface_out),                   //             .piezo_interface_out
+		.time_data_master         (ptp_piezo_interface0_time_data_master),                      //             .time_data_master
+		.time_data_slave          (ptp_piezo_interface0_time_data_slave),                       //             .time_data_slave
+		.clock                    (clk_clk)                                                     //        clock.clk
+	);
+
+	rtc #(
+		.CLOCK_SPEED_HZ (50000000),
+		.RTC_RESOLUTION (100)
+	) realtime_clock_controll_0 (
+		.clock                    (clk_clk),                                                              //   clock_sink.clk
+		.event_trigger            (rtc_0_conduit_end_event_trigger),                                      //  conduit_end.event_trigger
+		.piezo_enable             (rtc_0_conduit_end_piezo_enable),                                       //             .piezo_enable
+		.event_trigger2           (rtc_0_conduit_end_event_trigger2),                                     //             .event_trigger2
+		.reset                    (rst_controller_reset_out_reset),                                       //        reset.reset
+		.avalon_slave_address     (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_address),     // avalon_slave.address
+		.avalon_slave_read        (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_read),        //             .read
+		.avalon_slave_readdata    (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_readdata),    //             .readdata
+		.avalon_slave_waitrequest (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_waitrequest), //             .waitrequest
+		.avalon_slave_write       (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_write),       //             .write
+		.avalon_slave_writedata   (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_writedata)    //             .writedata
 	);
 
 	SPISlaveToAvalonMasterBridge #(
@@ -84,28 +152,39 @@ module vidor_sys (
 	);
 
 	vidor_sys_mm_interconnect_0 mm_interconnect_0 (
-		.clk_0_clk_clk                                           (clk_clk),                                                //                                         clk_0_clk.clk
-		.spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                         // spi_avalon_bridge_clk_reset_reset_bridge_in_reset.reset
-		.spi_avalon_bridge_avalon_master_address                 (spi_avalon_bridge_avalon_master_address),                //                   spi_avalon_bridge_avalon_master.address
-		.spi_avalon_bridge_avalon_master_waitrequest             (spi_avalon_bridge_avalon_master_waitrequest),            //                                                  .waitrequest
-		.spi_avalon_bridge_avalon_master_byteenable              (spi_avalon_bridge_avalon_master_byteenable),             //                                                  .byteenable
-		.spi_avalon_bridge_avalon_master_read                    (spi_avalon_bridge_avalon_master_read),                   //                                                  .read
-		.spi_avalon_bridge_avalon_master_readdata                (spi_avalon_bridge_avalon_master_readdata),               //                                                  .readdata
-		.spi_avalon_bridge_avalon_master_readdatavalid           (spi_avalon_bridge_avalon_master_readdatavalid),          //                                                  .readdatavalid
-		.spi_avalon_bridge_avalon_master_write                   (spi_avalon_bridge_avalon_master_write),                  //                                                  .write
-		.spi_avalon_bridge_avalon_master_writedata               (spi_avalon_bridge_avalon_master_writedata),              //                                                  .writedata
-		.id_switch_0_avalon_slave_address                        (mm_interconnect_0_id_switch_0_avalon_slave_address),     //                          id_switch_0_avalon_slave.address
-		.id_switch_0_avalon_slave_write                          (mm_interconnect_0_id_switch_0_avalon_slave_write),       //                                                  .write
-		.id_switch_0_avalon_slave_read                           (mm_interconnect_0_id_switch_0_avalon_slave_read),        //                                                  .read
-		.id_switch_0_avalon_slave_readdata                       (mm_interconnect_0_id_switch_0_avalon_slave_readdata),    //                                                  .readdata
-		.id_switch_0_avalon_slave_writedata                      (mm_interconnect_0_id_switch_0_avalon_slave_writedata),   //                                                  .writedata
-		.id_switch_0_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_0_avalon_slave_waitrequest), //                                                  .waitrequest
-		.id_switch_1_avalon_slave_address                        (mm_interconnect_0_id_switch_1_avalon_slave_address),     //                          id_switch_1_avalon_slave.address
-		.id_switch_1_avalon_slave_write                          (mm_interconnect_0_id_switch_1_avalon_slave_write),       //                                                  .write
-		.id_switch_1_avalon_slave_read                           (mm_interconnect_0_id_switch_1_avalon_slave_read),        //                                                  .read
-		.id_switch_1_avalon_slave_readdata                       (mm_interconnect_0_id_switch_1_avalon_slave_readdata),    //                                                  .readdata
-		.id_switch_1_avalon_slave_writedata                      (mm_interconnect_0_id_switch_1_avalon_slave_writedata),   //                                                  .writedata
-		.id_switch_1_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_1_avalon_slave_waitrequest)  //                                                  .waitrequest
+		.clk_0_clk_clk                                           (clk_clk),                                                              //                                         clk_0_clk.clk
+		.spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                                       // spi_avalon_bridge_clk_reset_reset_bridge_in_reset.reset
+		.spi_avalon_bridge_avalon_master_address                 (spi_avalon_bridge_avalon_master_address),                              //                   spi_avalon_bridge_avalon_master.address
+		.spi_avalon_bridge_avalon_master_waitrequest             (spi_avalon_bridge_avalon_master_waitrequest),                          //                                                  .waitrequest
+		.spi_avalon_bridge_avalon_master_byteenable              (spi_avalon_bridge_avalon_master_byteenable),                           //                                                  .byteenable
+		.spi_avalon_bridge_avalon_master_read                    (spi_avalon_bridge_avalon_master_read),                                 //                                                  .read
+		.spi_avalon_bridge_avalon_master_readdata                (spi_avalon_bridge_avalon_master_readdata),                             //                                                  .readdata
+		.spi_avalon_bridge_avalon_master_readdatavalid           (spi_avalon_bridge_avalon_master_readdatavalid),                        //                                                  .readdatavalid
+		.spi_avalon_bridge_avalon_master_write                   (spi_avalon_bridge_avalon_master_write),                                //                                                  .write
+		.spi_avalon_bridge_avalon_master_writedata               (spi_avalon_bridge_avalon_master_writedata),                            //                                                  .writedata
+		.id_switch_0_avalon_slave_address                        (mm_interconnect_0_id_switch_0_avalon_slave_address),                   //                          id_switch_0_avalon_slave.address
+		.id_switch_0_avalon_slave_write                          (mm_interconnect_0_id_switch_0_avalon_slave_write),                     //                                                  .write
+		.id_switch_0_avalon_slave_read                           (mm_interconnect_0_id_switch_0_avalon_slave_read),                      //                                                  .read
+		.id_switch_0_avalon_slave_readdata                       (mm_interconnect_0_id_switch_0_avalon_slave_readdata),                  //                                                  .readdata
+		.id_switch_0_avalon_slave_writedata                      (mm_interconnect_0_id_switch_0_avalon_slave_writedata),                 //                                                  .writedata
+		.id_switch_0_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_0_avalon_slave_waitrequest),               //                                                  .waitrequest
+		.piezo_controller_0_s1_address                           (mm_interconnect_0_piezo_controller_0_s1_address),                      //                             piezo_controller_0_s1.address
+		.piezo_controller_0_s1_write                             (mm_interconnect_0_piezo_controller_0_s1_write),                        //                                                  .write
+		.piezo_controller_0_s1_read                              (mm_interconnect_0_piezo_controller_0_s1_read),                         //                                                  .read
+		.piezo_controller_0_s1_readdata                          (mm_interconnect_0_piezo_controller_0_s1_readdata),                     //                                                  .readdata
+		.piezo_controller_0_s1_writedata                         (mm_interconnect_0_piezo_controller_0_s1_writedata),                    //                                                  .writedata
+		.ptp_simple_us_0_avalon_slave_address                    (mm_interconnect_0_ptp_simple_us_0_avalon_slave_address),               //                      ptp_simple_us_0_avalon_slave.address
+		.ptp_simple_us_0_avalon_slave_write                      (mm_interconnect_0_ptp_simple_us_0_avalon_slave_write),                 //                                                  .write
+		.ptp_simple_us_0_avalon_slave_read                       (mm_interconnect_0_ptp_simple_us_0_avalon_slave_read),                  //                                                  .read
+		.ptp_simple_us_0_avalon_slave_readdata                   (mm_interconnect_0_ptp_simple_us_0_avalon_slave_readdata),              //                                                  .readdata
+		.ptp_simple_us_0_avalon_slave_writedata                  (mm_interconnect_0_ptp_simple_us_0_avalon_slave_writedata),             //                                                  .writedata
+		.ptp_simple_us_0_avalon_slave_waitrequest                (mm_interconnect_0_ptp_simple_us_0_avalon_slave_waitrequest),           //                                                  .waitrequest
+		.realtime_clock_controll_0_avalon_slave_address          (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_address),     //            realtime_clock_controll_0_avalon_slave.address
+		.realtime_clock_controll_0_avalon_slave_write            (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_write),       //                                                  .write
+		.realtime_clock_controll_0_avalon_slave_read             (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_read),        //                                                  .read
+		.realtime_clock_controll_0_avalon_slave_readdata         (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_readdata),    //                                                  .readdata
+		.realtime_clock_controll_0_avalon_slave_writedata        (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_writedata),   //                                                  .writedata
+		.realtime_clock_controll_0_avalon_slave_waitrequest      (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_waitrequest)  //                                                  .waitrequest
 	);
 
 	altera_reset_controller #(

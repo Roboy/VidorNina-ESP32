@@ -21,7 +21,7 @@
    {
       datum _sortIndex
       {
-         value = "3";
+         value = "5";
          type = "int";
       }
    }
@@ -34,27 +34,35 @@
       }
       datum baseAddress
       {
-         value = "0";
+         value = "524288";
          type = "String";
       }
    }
-   element id_switch_1
+   element piezo_clk_div_0
    {
       datum _sortIndex
       {
-         value = "5";
+         value = "6";
          type = "int";
       }
    }
-   element id_switch_1.avalon_slave
+   element piezo_controller_0
    {
-      datum baseAddress
+      datum _sortIndex
       {
-         value = "262144";
-         type = "String";
+         value = "2";
+         type = "int";
       }
    }
-   element sdram_ctl
+   element piezo_controller_0.s1
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+   }
+   element ptp_simple_us_0
    {
       datum _sortIndex
       {
@@ -62,12 +70,38 @@
          type = "int";
       }
    }
-   element spi_0
+   element ptp_simple_us_0.avalon_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "524288";
+         type = "String";
+      }
+   }
+   element realtime_clock_controll_0
    {
       datum _sortIndex
       {
-         value = "2";
+         value = "3";
          type = "int";
+      }
+   }
+   element realtime_clock_controll_0.avalon_slave
+   {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum baseAddress
+      {
+         value = "262144";
+         type = "String";
       }
    }
    element spi_avalon_bridge
@@ -76,6 +110,22 @@
       {
          value = "1";
          type = "int";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
       }
    }
 }
@@ -106,13 +156,36 @@
    type="conduit"
    dir="end" />
  <interface
-   name="id_switch1"
-   internal="id_switch_1.conduit_end"
+   name="piezo_controller_piezo_enable"
+   internal="piezo_controller_0.piezo_enable"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="piezo_controller_piezo_out"
+   internal="piezo_controller_0.piezo_out"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="piezo_controller_piezo_status"
+   internal="piezo_controller_0.piezo_status"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="piezo_ctl"
+   internal="piezo_clk_div_0.conduit"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="ptp_piezo_interface0"
+   internal="ptp_simple_us_0.conduit_end"
    type="conduit"
    dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
- <interface name="sdram" internal="sdram_ctl.wire" />
- <interface name="spi" internal="spi_0.external" />
+ <interface
+   name="rtc_0_conduit_end"
+   internal="realtime_clock_controll_0.conduit_end"
+   type="conduit"
+   dir="end" />
  <interface
    name="spi_bridge"
    internal="spi_avalon_bridge.export_0"
@@ -125,51 +198,25 @@
   <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
  <module name="id_switch_0" kind="id_switch" version="1.0" enabled="1" />
- <module name="id_switch_1" kind="id_switch" version="1.0" enabled="1" />
- <module
-   name="sdram_ctl"
-   kind="altera_avalon_new_sdram_controller"
-   version="18.1"
-   enabled="0">
-  <parameter name="TAC" value="5.5" />
-  <parameter name="TMRD" value="3" />
-  <parameter name="TRCD" value="20.0" />
-  <parameter name="TRFC" value="70.0" />
-  <parameter name="TRP" value="20.0" />
-  <parameter name="TWR" value="14.0" />
-  <parameter name="casLatency" value="3" />
-  <parameter name="clockRate" value="50000000" />
-  <parameter name="columnWidth" value="8" />
-  <parameter name="componentName" value="vidor_sys_sdram_ctl" />
-  <parameter name="dataWidth" value="16" />
-  <parameter name="generateSimulationModel" value="false" />
-  <parameter name="initNOPDelay" value="0.0" />
-  <parameter name="initRefreshCommands" value="2" />
-  <parameter name="masteredTristateBridgeSlave" value="0" />
-  <parameter name="model">single_Micron_MT48LC4M32B2_7_chip</parameter>
-  <parameter name="numberOfBanks" value="4" />
-  <parameter name="numberOfChipSelects" value="1" />
-  <parameter name="pinsSharedViaTriState" value="false" />
-  <parameter name="powerUpDelay" value="100.0" />
-  <parameter name="refreshPeriod" value="15.625" />
-  <parameter name="registerDataIn" value="true" />
-  <parameter name="rowWidth" value="12" />
+ <module name="piezo_clk_div_0" kind="piezo_clk_div" version="2.0" enabled="1">
+  <parameter name="PULS_FREQ" value="40000" />
  </module>
- <module name="spi_0" kind="altera_avalon_spi" version="18.1" enabled="0">
-  <parameter name="avalonSpec" value="2.0" />
-  <parameter name="clockPhase" value="0" />
-  <parameter name="clockPolarity" value="0" />
-  <parameter name="dataWidth" value="8" />
-  <parameter name="disableAvalonFlowControl" value="false" />
-  <parameter name="inputClockRate" value="50000000" />
-  <parameter name="insertDelayBetweenSlaveSelectAndSClk" value="false" />
-  <parameter name="insertSync" value="false" />
-  <parameter name="lsbOrderedFirst" value="false" />
-  <parameter name="masterSPI" value="false" />
-  <parameter name="numberOfSlaves" value="1" />
-  <parameter name="syncRegDepth" value="2" />
-  <parameter name="targetClockRate" value="128000" />
-  <parameter name="targetSlaveSelectToSClkDelay" value="0.0" />
+ <module
+   name="piezo_controller_0"
+   kind="piezo_controller"
+   version="1.0"
+   enabled="1">
+  <parameter name="clock_rate" value="50000000" />
+  <parameter name="piezo_count" value="120" />
+ </module>
+ <module name="ptp_simple_us_0" kind="ptp_simple_us" version="1.0" enabled="1" />
+ <module
+   name="realtime_clock_controll_0"
+   kind="realtime_clock_controll"
+   version="1.0"
+   enabled="1">
+  <parameter name="CLOCK_SPEED_HZ" value="50000000" />
+  <parameter name="RTC_RESOLUTION" value="100" />
  </module>
  <module
    name="spi_avalon_bridge"
@@ -193,7 +240,7 @@
    kind="avalon"
    version="18.1"
    start="spi_avalon_bridge.avalon_master"
-   end="id_switch_1.avalon_slave">
+   end="ptp_simple_us_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x00040000" />
   <parameter name="defaultConnection" value="false" />
@@ -202,9 +249,18 @@
    kind="avalon"
    version="18.1"
    start="spi_avalon_bridge.avalon_master"
-   end="sdram_ctl.s1">
+   end="realtime_clock_controll_0.avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="baseAddress" value="0x00080000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="spi_avalon_bridge.avalon_master"
+   end="piezo_controller_0.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x000c0000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -212,10 +268,27 @@
    version="18.1"
    start="clk_0.clk"
    end="spi_avalon_bridge.clk" />
- <connection kind="clock" version="18.1" start="clk_0.clk" end="sdram_ctl.clk" />
- <connection kind="clock" version="18.1" start="clk_0.clk" end="spi_0.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="piezo_controller_0.clk" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="id_switch_0.clock" />
- <connection kind="clock" version="18.1" start="clk_0.clk" end="id_switch_1.clock" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="ptp_simple_us_0.clock" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="realtime_clock_controll_0.clock_sink" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="piezo_clk_div_0.clock_sink" />
  <connection
    kind="reset"
    version="18.1"
@@ -225,18 +298,27 @@
    kind="reset"
    version="18.1"
    start="clk_0.clk_reset"
-   end="sdram_ctl.reset" />
- <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="spi_0.reset" />
- <connection
-   kind="reset"
-   version="18.1"
-   start="clk_0.clk_reset"
    end="id_switch_0.reset" />
  <connection
    kind="reset"
    version="18.1"
    start="clk_0.clk_reset"
-   end="id_switch_1.reset" />
+   end="piezo_controller_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="ptp_simple_us_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="realtime_clock_controll_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="piezo_clk_div_0.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

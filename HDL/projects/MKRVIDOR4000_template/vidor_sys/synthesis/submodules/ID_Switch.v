@@ -38,15 +38,15 @@ module id_switch (
 				case(avalon_slave_address>>8)
 					8'h00: returnvalue <= foo_cnt2;//avalon_slave_address[15:0]; //foo_cnt; 
 					8'h01: returnvalue <= foo_cnt;//avalon_slave_address[15:0]; 
-					8'h02: returnvalue <= loopback[0];
-					8'h03: returnvalue <= loopback[2];
-					8'h04: returnvalue <= avalon_slave_address[15:0];  
-					8'h05: returnvalue <= 32'd4294967295; 
-					8'h06: returnvalue <= 32'd3; 
-					8'h07: returnvalue <= 32'd3221225471; 
-					8'h08: returnvalue <= 32'd3;  
-					8'h09: returnvalue <= 32'd74; 
-					8'h10: returnvalue <= 32'd3; 
+					8'h02: returnvalue <= foo_cnt2; 
+					8'h03: returnvalue <= 32'd4; 
+					8'h04: returnvalue <= 32'd3;  
+					8'h05: returnvalue <= 32'd2; 
+					8'h06: returnvalue <= 32'd1; 
+					8'h07: returnvalue <= 32'd7; 
+					8'h08: returnvalue <= 32'd8;  
+					8'h09: returnvalue <= 32'd9; 
+					8'h10: returnvalue <= 32'd10; 
 					8'h11: returnvalue <= 32'd11; 
 					8'h12: returnvalue <= 32'd3; 
 					8'h13: returnvalue <= 32'd12;
@@ -72,7 +72,7 @@ module id_switch (
 			if(avalon_slave_write && ~avalon_slave_waitrequest) begin
 				case(avalon_slave_address>>8)
 					8'h00: loopback[0] <= avalon_slave_writedata[31:0];
-					8'h01: debug_out1 <= (avalon_slave_writedata!=0);
+					8'h01: loopback[1] <= avalon_slave_writedata[31:0];
 					8'h02: loopback[2] <= avalon_slave_writedata[31:0]; 
 					8'h03: loopback[3] <= avalon_slave_writedata[31:0]; 
 					8'h04: loopback[4] <= avalon_slave_writedata[31:0]; 
@@ -87,6 +87,9 @@ module id_switch (
 					8'h13: loopback[13] <= avalon_slave_writedata[31:0]; 
 					//8'h02: waitflag_trigger <= (avalon_slave_writedata!=0);
 				endcase
+			end
+			if(loopback[0] > 32'd1) begin
+				debug_out1 <= 1;
 			end
 		end 
 	end

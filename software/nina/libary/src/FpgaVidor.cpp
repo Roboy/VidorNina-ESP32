@@ -80,7 +80,7 @@ void hardware_interface::set_time(uint32_t time_data) {
 
 //piezo out sync functions
 void hardware_interface::start_US_out() {
-    IOWR(addr->rtc_base_addr, (uint32_t)(3), 0xff);
+    IOWR(addr->rtc_base_addr, (uint32_t)(3), 1);
     US_start_time = IORD(addr->rtc_base_addr, (uint32_t)(2));
 }
 

@@ -88,6 +88,7 @@ extern "C" void app_main() {
 
     hardware_interface hw (&mySPI);
 
+    /*
 
     hw.IOWR(0x0, 0, 16);
     hw.IOWR(0x0, 1, 0);
@@ -97,15 +98,35 @@ extern "C" void app_main() {
     hw.IOWR(0x40000, 1, 0);
     hw.IOWR(0x40000, 2, 13);
 
+    */
 
+    hw.allow_input_trigger();
+    printf("\nID: %d", hw.getID());
+
+    hw.stop_US_out();
+    //hw.piezo_set_burst_cycles(700000);
+
+    hw.set_time(100);
 
     while(1){
 
     uint8_t ret_read;
     uint32_t i;
     for(i = 0; i < 20; i++){
-      printf("\n%d: data: %d",i, hw.IORD(0x0, i)); //i
-      printf("\n%d: data: %d",i, hw.IORD(0x40000, i)); //i
+      //printf("\n%d: data: %d",i, hw.IORD(0x0, i)); //i
+      //printf("\n%d: data: %d",i, hw.IORD(0x40000, i)); //i
+      hw.piezo_burst_out();
+      //hw.start_US_out();
+      printf("\ntime : %d", hw.US_start_time);//hw.read_trigger_time());
+
+      printf("\n0burst cnt %d", hw.IORD(0x80000, 4));
+      //hw.piezo_set_burst_cycles(700000);
+      printf("\n1burst cnt %d", hw.IORD(0x80000, 4));
+
+
+      printf("\npause ");
+      for(uint32_t j = 0; j<100;j++)
+          printf(".");
     }
 
   }

@@ -1,0 +1,25 @@
+// new_component.v
+
+// This file was auto-generated as a prototype implementation of a module
+// created in component editor.  It ties off all outputs to ground and
+// ignores all inputs.  It needs to be edited to make it do something
+// useful.
+// 
+// This file will not be automatically regenerated.  You should check it in
+// to your version control system if you want to keep it.
+
+`timescale 1 ps / 1 ps
+module new_component #(
+		parameter PULS_FREQ = 40000
+	) (
+		input  wire  clk,       // clock_sink.clk
+		input  wire  reset,     //      reset.reset
+		output wire  gpio_out,  //    conduit.gpio_out
+		input  wire  enable_in  //           .enable_in
+	);
+
+	// TODO: Auto-generated HDL template
+
+	assign gpio_out = 1'b0;
+
+endmodule
