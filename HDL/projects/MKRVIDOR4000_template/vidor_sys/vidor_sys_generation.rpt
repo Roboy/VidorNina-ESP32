@@ -6,6 +6,8 @@ Progress: Adding clk_0 [clock_source 18.1]
 Progress: Parameterizing module clk_0
 Progress: Adding id_switch_0 [id_switch 1.0]
 Progress: Parameterizing module id_switch_0
+Progress: Adding id_switch_1 [id_switch 1.0]
+Progress: Parameterizing module id_switch_1
 Progress: Adding sdram_ctl [altera_avalon_new_sdram_controller 18.1]
 Progress: Parameterizing module sdram_ctl
 Progress: Adding spi_0 [altera_avalon_spi 18.1]
@@ -27,6 +29,8 @@ Progress: Adding clk_0 [clock_source 18.1]
 Progress: Parameterizing module clk_0
 Progress: Adding id_switch_0 [id_switch 1.0]
 Progress: Parameterizing module id_switch_0
+Progress: Adding id_switch_1 [id_switch 1.0]
+Progress: Parameterizing module id_switch_1
 Progress: Adding sdram_ctl [altera_avalon_new_sdram_controller 18.1]
 Progress: Parameterizing module sdram_ctl
 Progress: Adding spi_0 [altera_avalon_spi 18.1]
@@ -38,15 +42,28 @@ Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
 Info: vidor_sys: Generating vidor_sys "vidor_sys" for QUARTUS_SYNTH
-Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has address signal 32 bit wide, but the slave is 16 bit wide.
-Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has byteenable signal 4 bit wide, but the slave is 0 bit wide.
-Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave id_switch_0.avalon_slave because the master has readdatavalid signal 1 bit wide, but the slave is 0 bit wide.
 Info: id_switch_0: "vidor_sys" instantiated id_switch "id_switch_0"
 Info: spi_avalon_bridge: "vidor_sys" instantiated spi_slave_to_avalon_mm_master_bridge "spi_avalon_bridge"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "vidor_sys" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: rst_controller: "vidor_sys" instantiated altera_reset_controller "rst_controller"
 Info: spi_avalon_bridge_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "spi_avalon_bridge_avalon_master_translator"
 Info: id_switch_0_avalon_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "id_switch_0_avalon_slave_translator"
-Info: vidor_sys: Done "vidor_sys" with 7 modules, 20 files
+Info: spi_avalon_bridge_avalon_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "spi_avalon_bridge_avalon_master_agent"
+Info: id_switch_0_avalon_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "id_switch_0_avalon_slave_agent"
+Info: id_switch_0_avalon_slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "id_switch_0_avalon_slave_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: spi_avalon_bridge_avalon_master_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "spi_avalon_bridge_avalon_master_limiter"
+Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_sc_fifo.v
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: vidor_sys: Done "vidor_sys" with 19 modules, 36 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

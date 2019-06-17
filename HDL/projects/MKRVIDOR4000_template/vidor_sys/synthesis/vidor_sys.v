@@ -7,6 +7,8 @@ module vidor_sys (
 		input  wire       clk_clk,                                                    //        clk.clk
 		input  wire [3:0] id_switch_sw,                                               //  id_switch.sw
 		output wire       id_switch_debug_out1,                                       //           .debug_out1
+		input  wire [3:0] id_switch1_sw,                                              // id_switch1.sw
+		output wire       id_switch1_debug_out1,                                      //           .debug_out1
 		input  wire       reset_reset_n,                                              //      reset.reset_n
 		input  wire       spi_bridge_mosi_to_the_spislave_inst_for_spichain,          // spi_bridge.mosi_to_the_spislave_inst_for_spichain
 		input  wire       spi_bridge_nss_to_the_spislave_inst_for_spichain,           //           .nss_to_the_spislave_inst_for_spichain
@@ -28,7 +30,13 @@ module vidor_sys (
 	wire         mm_interconnect_0_id_switch_0_avalon_slave_read;        // mm_interconnect_0:id_switch_0_avalon_slave_read -> id_switch_0:avalon_slave_read
 	wire         mm_interconnect_0_id_switch_0_avalon_slave_write;       // mm_interconnect_0:id_switch_0_avalon_slave_write -> id_switch_0:avalon_slave_write
 	wire  [31:0] mm_interconnect_0_id_switch_0_avalon_slave_writedata;   // mm_interconnect_0:id_switch_0_avalon_slave_writedata -> id_switch_0:avalon_slave_writedata
-	wire         rst_controller_reset_out_reset;                         // rst_controller:reset_out -> [id_switch_0:reset, mm_interconnect_0:spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset, spi_avalon_bridge:reset_n]
+	wire  [31:0] mm_interconnect_0_id_switch_1_avalon_slave_readdata;    // id_switch_1:avalon_slave_readdata -> mm_interconnect_0:id_switch_1_avalon_slave_readdata
+	wire         mm_interconnect_0_id_switch_1_avalon_slave_waitrequest; // id_switch_1:avalon_slave_waitrequest -> mm_interconnect_0:id_switch_1_avalon_slave_waitrequest
+	wire  [15:0] mm_interconnect_0_id_switch_1_avalon_slave_address;     // mm_interconnect_0:id_switch_1_avalon_slave_address -> id_switch_1:avalon_slave_address
+	wire         mm_interconnect_0_id_switch_1_avalon_slave_read;        // mm_interconnect_0:id_switch_1_avalon_slave_read -> id_switch_1:avalon_slave_read
+	wire         mm_interconnect_0_id_switch_1_avalon_slave_write;       // mm_interconnect_0:id_switch_1_avalon_slave_write -> id_switch_1:avalon_slave_write
+	wire  [31:0] mm_interconnect_0_id_switch_1_avalon_slave_writedata;   // mm_interconnect_0:id_switch_1_avalon_slave_writedata -> id_switch_1:avalon_slave_writedata
+	wire         rst_controller_reset_out_reset;                         // rst_controller:reset_out -> [id_switch_0:reset, id_switch_1:reset, mm_interconnect_0:spi_avalon_bridge_clk_reset_reset_bridge_in_reset_reset, spi_avalon_bridge:reset_n]
 
 	id_switch id_switch_0 (
 		.reset                    (rst_controller_reset_out_reset),                         //        reset.reset
@@ -40,6 +48,19 @@ module vidor_sys (
 		.avalon_slave_waitrequest (mm_interconnect_0_id_switch_0_avalon_slave_waitrequest), //             .waitrequest
 		.sw                       (id_switch_sw),                                           //  conduit_end.sw
 		.debug_out1               (id_switch_debug_out1),                                   //             .debug_out1
+		.clock                    (clk_clk)                                                 //        clock.clk
+	);
+
+	id_switch id_switch_1 (
+		.reset                    (rst_controller_reset_out_reset),                         //        reset.reset
+		.avalon_slave_address     (mm_interconnect_0_id_switch_1_avalon_slave_address),     // avalon_slave.address
+		.avalon_slave_write       (mm_interconnect_0_id_switch_1_avalon_slave_write),       //             .write
+		.avalon_slave_writedata   (mm_interconnect_0_id_switch_1_avalon_slave_writedata),   //             .writedata
+		.avalon_slave_read        (mm_interconnect_0_id_switch_1_avalon_slave_read),        //             .read
+		.avalon_slave_readdata    (mm_interconnect_0_id_switch_1_avalon_slave_readdata),    //             .readdata
+		.avalon_slave_waitrequest (mm_interconnect_0_id_switch_1_avalon_slave_waitrequest), //             .waitrequest
+		.sw                       (id_switch1_sw),                                          //  conduit_end.sw
+		.debug_out1               (id_switch1_debug_out1),                                  //             .debug_out1
 		.clock                    (clk_clk)                                                 //        clock.clk
 	);
 
@@ -78,7 +99,13 @@ module vidor_sys (
 		.id_switch_0_avalon_slave_read                           (mm_interconnect_0_id_switch_0_avalon_slave_read),        //                                                  .read
 		.id_switch_0_avalon_slave_readdata                       (mm_interconnect_0_id_switch_0_avalon_slave_readdata),    //                                                  .readdata
 		.id_switch_0_avalon_slave_writedata                      (mm_interconnect_0_id_switch_0_avalon_slave_writedata),   //                                                  .writedata
-		.id_switch_0_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_0_avalon_slave_waitrequest)  //                                                  .waitrequest
+		.id_switch_0_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_0_avalon_slave_waitrequest), //                                                  .waitrequest
+		.id_switch_1_avalon_slave_address                        (mm_interconnect_0_id_switch_1_avalon_slave_address),     //                          id_switch_1_avalon_slave.address
+		.id_switch_1_avalon_slave_write                          (mm_interconnect_0_id_switch_1_avalon_slave_write),       //                                                  .write
+		.id_switch_1_avalon_slave_read                           (mm_interconnect_0_id_switch_1_avalon_slave_read),        //                                                  .read
+		.id_switch_1_avalon_slave_readdata                       (mm_interconnect_0_id_switch_1_avalon_slave_readdata),    //                                                  .readdata
+		.id_switch_1_avalon_slave_writedata                      (mm_interconnect_0_id_switch_1_avalon_slave_writedata),   //                                                  .writedata
+		.id_switch_1_avalon_slave_waitrequest                    (mm_interconnect_0_id_switch_1_avalon_slave_waitrequest)  //                                                  .waitrequest
 	);
 
 	altera_reset_controller #(

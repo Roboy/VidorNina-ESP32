@@ -3,6 +3,8 @@
 			clk_clk                                                    : in    std_logic                    := 'X';             -- clk
 			id_switch_sw                                               : in    std_logic_vector(3 downto 0) := (others => 'X'); -- sw
 			id_switch_debug_out1                                       : out   std_logic;                                       -- debug_out1
+			id_switch1_sw                                              : in    std_logic_vector(3 downto 0) := (others => 'X'); -- sw
+			id_switch1_debug_out1                                      : out   std_logic;                                       -- debug_out1
 			reset_reset_n                                              : in    std_logic                    := 'X';             -- reset_n
 			spi_bridge_mosi_to_the_spislave_inst_for_spichain          : in    std_logic                    := 'X';             -- mosi_to_the_spislave_inst_for_spichain
 			spi_bridge_nss_to_the_spislave_inst_for_spichain           : in    std_logic                    := 'X';             -- nss_to_the_spislave_inst_for_spichain

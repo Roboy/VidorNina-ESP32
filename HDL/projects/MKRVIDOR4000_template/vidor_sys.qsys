@@ -27,9 +27,30 @@
    }
    element id_switch_0.avalon_slave
    {
+      datum _lockedAddress
+      {
+         value = "1";
+         type = "boolean";
+      }
       datum baseAddress
       {
          value = "0";
+         type = "String";
+      }
+   }
+   element id_switch_1
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element id_switch_1.avalon_slave
+   {
+      datum baseAddress
+      {
+         value = "262144";
          type = "String";
       }
    }
@@ -84,6 +105,11 @@
    internal="id_switch_0.conduit_end"
    type="conduit"
    dir="end" />
+ <interface
+   name="id_switch1"
+   internal="id_switch_1.conduit_end"
+   type="conduit"
+   dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
  <interface name="sdram" internal="sdram_ctl.wire" />
  <interface name="spi" internal="spi_0.external" />
@@ -99,6 +125,7 @@
   <parameter name="resetSynchronousEdges" value="NONE" />
  </module>
  <module name="id_switch_0" kind="id_switch" version="1.0" enabled="1" />
+ <module name="id_switch_1" kind="id_switch" version="1.0" enabled="1" />
  <module
    name="sdram_ctl"
    kind="altera_avalon_new_sdram_controller"
@@ -166,6 +193,15 @@
    kind="avalon"
    version="18.1"
    start="spi_avalon_bridge.avalon_master"
+   end="id_switch_1.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x00040000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="spi_avalon_bridge.avalon_master"
    end="sdram_ctl.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -179,6 +215,7 @@
  <connection kind="clock" version="18.1" start="clk_0.clk" end="sdram_ctl.clk" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="spi_0.clk" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="id_switch_0.clock" />
+ <connection kind="clock" version="18.1" start="clk_0.clk" end="id_switch_1.clock" />
  <connection
    kind="reset"
    version="18.1"
@@ -195,6 +232,11 @@
    version="18.1"
    start="clk_0.clk_reset"
    end="id_switch_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="id_switch_1.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

@@ -190,7 +190,10 @@ assign sw = bMKR_A[5:2];
 	  //.spi_SS_n      (iSpiCS)       //          .SS_n
 
 	  .id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch_sw	(sw[3:0])
+	  .id_switch_sw	(sw[3:0]),
+	  //.id_switch_debug_out1 (bMKR_D[6]),
+	  .id_switch1_sw	(sw[3:0])
+	  
  );
  
  //=====debug test ============DELETE WHEN DONE====

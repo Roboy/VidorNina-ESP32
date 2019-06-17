@@ -90,12 +90,19 @@ extern "C" void app_main() {
     mySPI.fpga_write(0x0, 1, 0);
     mySPI.fpga_write(0x0, 2, 14);
 
+    mySPI.fpga_write(0x40000, 0, 17);
+    mySPI.fpga_write(0x40000, 1, 0);
+    mySPI.fpga_write(0x40000, 2, 13);
+
+
+
     while(1){
 
     uint8_t ret_read;
     uint32_t i;
     for(i = 0; i < 20; i++){
       printf("\n%d: data: %d",i, mySPI.fpga_read(0x0, i)); //i
+      printf("\n%d: data: %d",i, mySPI.fpga_read(0x40000, i)); //i
     }
 
   }
