@@ -25,7 +25,7 @@ IN THE SOFTWARE.
  #include <stdio.h>
  #include <stdint.h>
  #include <stddef.h>
- #include <string.h>
+ #include <string>
 
  #include "esp_system.h"
  //#include "esp_wifi.h"
@@ -54,6 +54,9 @@ IN THE SOFTWARE.
 #include "FpgaVidor.hpp"
 
 
+using namespace std;
+
+
 #define SPI_MODE  1//original 0
 #define MISO_PIN  19
 #define MOSI_PIN  23
@@ -63,21 +66,22 @@ IN THE SOFTWARE.
 
 
 static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event);
-
 static void mqtt_app_start(void);
 
+string foo_msg = "/topic/foo";
 
 extern "C" void app_main() {
     printf("--START-- \n");
     fflush(stdout);
 
+    uint32_t in_time, trave_time;
+    double distance;
+    string msg_sub_[10];
+
     //nvs_flash_init();
     //wifi_init();
     WIFI wifi;
     //MQTT mqtt;
-
-    //mqtt_app_start();
-
 
     SPI_t &mySPI = vspi;  // vspi and hspi are the default objects
 
@@ -87,49 +91,66 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &mySPI.device_fpga));
 
     hardware_interface hw (&mySPI);
+    //fpga_mode modef(&hw);
+    //time_sync ptp(&hw);
+    //msg_sub_[0] = "/topic/foo";
 
-    /*
-
-    hw.IOWR(0x0, 0, 16);
-    hw.IOWR(0x0, 1, 0);
-    hw.IOWR(0x0, 2, 14);
-
-    hw.IOWR(0x40000, 0, 17);
-    hw.IOWR(0x40000, 1, 0);
-    hw.IOWR(0x40000, 2, 13);
-
-    */
+    //foo_msg = "/topic/foo";
+    mqtt_app_start();
 
     hw.allow_input_trigger();
     printf("\nID: %d", hw.getID());
 
     hw.stop_US_out();
-    //hw.piezo_set_burst_cycles(700000);
+    hw.piezo_set_burst_cycles(3);
 
-    hw.set_time(100);
+    //init time should be given via ntp ...
+    //ptp.time_data.sys_time = 100;
+    //printf("set rtc to ini\n\n");
+    //hw.set_time(ptp.time_data.sys_time);
+
+    printf("\n\n=====================================");
+    printf("\n\n  start loopy");
+    printf("\n\n=====================================");
+
+    char foo;
+
+    uint32_t i;
 
     while(1){
+      //msg_sub_[0]="/topic/foo";
+      //msg_id = esp_mqtt_client_subscribe(client, "/topic/foo", 0);
+      printf("\ntime : %d", hw.US_start_time);
 
-    uint8_t ret_read;
-    uint32_t i;
-    for(i = 0; i < 20; i++){
-      //printf("\n%d: data: %d",i, hw.IORD(0x0, i)); //i
-      //printf("\n%d: data: %d",i, hw.IORD(0x40000, i)); //i
       hw.piezo_burst_out();
       //hw.start_US_out();
       printf("\ntime : %d", hw.US_start_time);//hw.read_trigger_time());
 
-      printf("\n0burst cnt %d", hw.IORD(0x80000, 4));
-      //hw.piezo_set_burst_cycles(700000);
-      printf("\n1burst cnt %d", hw.IORD(0x80000, 4));
+      /*
+      modef.start_conversation(); //only does something if master changes
 
+      if(modef.burst_enable)
+        modef.conversation();
 
-      printf("\npause ");
-      for(uint32_t j = 0; j<100;j++)
-          printf(".");
-    }
+      //ros tells the master to ptp sync
+      if(modef.sync_enable){
+        cout << "\nsync was enabled\n";
+        usleep(100000);
+        modef.sync_enable = false;
+        ptp.update_time(modef.id == MASTER);  //TODO MASTER zu current master
+        cout << "\nCurrentSysTime: " << ptp.time_data.sys_time;
+        cout << "\nCurrentClkCycleCntTime: " << ptp.time_data.cycle_cnt;
+        cout << "\nCurrentSyncDivTime: " << ptp.time_data.sync_time_div;
+      }
+
+      */
+
+      for(uint32_t j = 0; j<1000;j++)
+          ;
+
 
   }
+
     mySPI.removeDevice(mySPI.device_fpga);
     mySPI.close();
     vTaskDelay(portMAX_DELAY);
@@ -142,6 +163,7 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 {
     esp_mqtt_client_handle_t client = event->client;
     int msg_id;
+    const char *msg_sub_ = "/topic/foo";//foo_msg.c_str(),""};
     // your_context_t *context = event->context;
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
@@ -154,6 +176,15 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 
             msg_id = esp_mqtt_client_unsubscribe(client, "/topic/qos1");
             ESP_LOGI("MQTT", "sent unsubscribe successful, msg_id=%d", msg_id);
+
+            msg_id = esp_mqtt_client_subscribe(client, msg_sub_, 2);
+            ESP_LOGI("MQTT", "sent subscribe successful, msg_id=%d", msg_id);
+            /*for(uint8_t i=0; i<10;i++){
+              if(msg_sub_[i] != ""){
+                msg_id = esp_mqtt_client_subscribe(client, msg_sub_[i], 1);
+                ESP_LOGI("MQTT", "sent subscribe successful, msg_id=%d", msg_id);
+              }
+            }*/
             break;
         case MQTT_EVENT_DISCONNECTED:
             ESP_LOGI("MQTT", "MQTT_EVENT_DISCONNECTED");
@@ -184,9 +215,9 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
 
 
 
-static void mqtt_app_start(void)
+static void mqtt_app_start(string msg_sub[])
 {
-  const esp_mqtt_client_config_t mqtt_cfg = {mqtt_event_handler, "mqtt://192.168.1.1", "mqtt://192.168.1.1"};
+    const esp_mqtt_client_config_t mqtt_cfg = {mqtt_event_handler, "mqtt://192.168.1.1", "mqtt://192.168.1.1"};
 
 
 

@@ -86,6 +86,7 @@ void hardware_interface::start_US_out() {
 
 void hardware_interface::piezo_set_burst_cycles(uint32_t cycle_amont) {
     IOWR(addr->rtc_base_addr, (uint32_t)(4), cycle_amont*BURSTCYCLE_OFFSET);
+   //IOWR(addr->rtc_base_addr, (uint32_t)(4), cycle_amont);//BURSTCYCLE_OFFSET
 }
 void hardware_interface::piezo_burst_out() {
     IOWR(addr->rtc_base_addr, (uint32_t)(5), 0xff);

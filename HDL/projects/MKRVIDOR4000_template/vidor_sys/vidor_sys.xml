@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.06.17.17:29:44"
+ date="2019.06.18.12:34:42"
  outputDirectory="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/">
  <perimeter>
   <parameter
@@ -193,13 +193,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1560785383,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(piezo_clk_div:2.0:PULS_FREQ=40000)(piezo_controller:1.0:clock_rate=50000000,piezo_count=120)(ptp_simple_us:1.0:)(realtime_clock_controll:1.0:CLOCK_SPEED_HZ=50000000,RTC_RESOLUTION=100)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00040000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00080000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x000c0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)"
+   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1560854078,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(piezo_clk_div:2.0:PULS_FREQ=40000)(piezo_controller:1.0:clock_rate=50000000,piezo_count=120)(ptp_simple_us:1.0:)(realtime_clock_controll:1.0:CLOCK_SPEED_HZ=50000000,RTC_RESOLUTION=100)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00040000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00080000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x000c0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="vidor_sys"
    kind="vidor_sys"
    version="1.0"
    name="vidor_sys">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1560785383" />
+  <parameter name="AUTO_GENERATION_ID" value="1560854078" />
   <parameter name="AUTO_DEVICE" value="10CL016YU256C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -713,10 +713,15 @@
    <message level="Info" culprit="realtime_clock_controll_0"><![CDATA["<b>vidor_sys</b>" instantiated <b>realtime_clock_controll</b> "<b>realtime_clock_controll_0</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8064_927470869291759541.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8064_927470869291759541.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.446s</message>
-   <message level="Debug">Command took 0.750s</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8065_3177848251831351543.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8065_3177848251831351543.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.468s</message>
+   <message level="Debug">Command took 0.749s</message>
+   <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8065_3177848251831351543.dir/0009_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8065_3177848251831351543.dir/0009_sopcqmap/ --set=HDL_INTERFACE_INSTANCE_NAME=inst --set=HDL_INTERFACE_INSTANCE_ENTITY=SPISlaveToAvalonMasterBridge --set=HDL_INTERFACE_INSTANCE_PARAMETERS=SYNC_DEPTH=D"5"; --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.456s</message>
+   <message level="Debug">Command took 0.728s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 1 starting:altera_mm_interconnect "submodules/vidor_sys_mm_interconnect_0"</message>
    <message level="Progress" culprit="min"></message>
@@ -860,25 +865,25 @@
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
+   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.010s/0.011s</message>
+   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.023s/0.034s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_001">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_001.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.001s/0.001s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.004s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.009s/0.011s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.003s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.010s/0.011s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_002">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_002.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.007s/0.008s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.004s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.015s/0.023s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -886,7 +891,7 @@
    <message level="Debug" culprit="avalon_st_adapter_003.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_003.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_003.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.007s/0.009s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.009s/0.010s</message>
    <message
        level="Debug"
        culprit="com_altera_sopcmodel_transforms_avalonst_AvalonStreamingTransform"><![CDATA[After transform: <b>39</b> modules, <b>125</b> connections]]></message>
@@ -1217,10 +1222,15 @@
   <messages>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8064_927470869291759541.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8064_927470869291759541.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.446s</message>
-   <message level="Debug">Command took 0.750s</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8065_3177848251831351543.dir/0003_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8065_3177848251831351543.dir/0003_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.468s</message>
+   <message level="Debug">Command took 0.749s</message>
+   <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_sh -t /tmp/alt8065_3177848251831351543.dir/0009_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/sausy/intelFPGA_lite/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/sausy/intelFPGA_lite/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8065_3177848251831351543.dir/0009_sopcqmap/ --set=HDL_INTERFACE_INSTANCE_NAME=inst --set=HDL_INTERFACE_INSTANCE_ENTITY=SPISlaveToAvalonMasterBridge --set=HDL_INTERFACE_INSTANCE_PARAMETERS=SYNC_DEPTH=D"5"; --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command took 0.456s</message>
+   <message level="Debug">Command took 0.728s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
   </messages>
  </entity>
@@ -1669,25 +1679,25 @@
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
+   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.010s/0.011s</message>
+   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.023s/0.034s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_001">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_001.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.001s/0.001s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.004s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.009s/0.011s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.003s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.010s/0.011s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_002">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_002.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.007s/0.008s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.004s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.015s/0.023s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -1695,7 +1705,7 @@
    <message level="Debug" culprit="avalon_st_adapter_003.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_003.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_003.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.007s/0.009s</message>
+   <message level="Debug" culprit="avalon_st_adapter_003">Timing: COM:3/0.009s/0.010s</message>
    <message
        level="Debug"
        culprit="com_altera_sopcmodel_transforms_avalonst_AvalonStreamingTransform"><![CDATA[After transform: <b>39</b> modules, <b>125</b> connections]]></message>

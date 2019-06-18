@@ -119,7 +119,7 @@ module rtc (
 					8'h00: time_cnt <= avalon_slave_writedata[31:0];
 					8'h02: waitflag_trigger <= (avalon_slave_writedata!=0);
 					8'h03: US_out_trigger <= (avalon_slave_writedata!=0);
-					//8'h04: burst_cycles_def <= avalon_slave_writedata[31:0];
+					8'h04: burst_cycles_def <= avalon_slave_writedata[31:0];
 					8'h05: burst_enable <= (avalon_slave_writedata!=0);
 				endcase
 			end
