@@ -111,9 +111,9 @@ uint32_t SPI::fpga_read(uint32_t base, uint32_t inc_addr){
 void SPI::fpga_write(uint32_t base, uint32_t inc_addr, uint32_t data){
   unsigned char data_buffer[BUFFER_LENGTH];
   data_buffer[0] = uint8_t(data & 0xff);
-  data_buffer[1] = uint8_t((data<<8) & 0xff);
-  data_buffer[2] = uint8_t((data<<16)  & 0xff);
-  data_buffer[3] = uint8_t((data<<24)  & 0xff);
+  data_buffer[1] = uint8_t((data>>8) & 0xff);
+  data_buffer[2] = uint8_t((data>>16)  & 0xff);
+  data_buffer[3] = uint8_t((data>>24)  & 0xff);
 
   transaction_channel_write(base+(inc_addr<<10),4, &data_buffer[0],INCREMENT_ADDRESS);
 
