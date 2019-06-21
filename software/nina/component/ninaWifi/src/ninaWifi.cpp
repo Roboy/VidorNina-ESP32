@@ -24,7 +24,7 @@ IN THE SOFTWARE.
  #include "ninaWifi.hpp"
 
  WIFI::WIFI() {
-   nvs_flash_init();
+   //nvs_flash_init();
    wifi_init();
 
  }
