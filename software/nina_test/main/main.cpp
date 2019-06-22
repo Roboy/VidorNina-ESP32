@@ -24,6 +24,8 @@
 //#include "driver/spi_master.h"
 #include "SPIbus.hpp"
 #include "FpgaVidor.hpp"
+#include "interface.hpp"
+#include "mode_ctl.hpp"
 
 static const char *TAG = "MQTTS_SAMPLE";
 
@@ -142,23 +144,7 @@ static void mqtt_app_start(void)
 
 }
 
-void push_pub(std::string topic, std::string data){
-  int msg_id = 0;
-  const char *topic_ = topic.c_str();
-  const char *pub_data = data.c_str();
-  //std::cout << "\nDATA: " << data;
 
-  //esp_mqtt_client_stop(mqtt_client);
-  //esp_mqtt_client_start(mqtt_client);
-
-  //msg_id = esp_mqtt_client_publish(mqtt_client, topic_, pub_data, 0, 0, 1);
-  msg_id = esp_mqtt_client_publish(mqtt_client, topic_, pub_data, 0, 0, 1);
-
-  if(msg_id==0){
-    printf("\nMSG COULDN'T BE PUBLISHED");
-  }
-
-}
 
 
 //static void wifi_init(void)
@@ -166,6 +152,7 @@ void push_pub(std::string topic, std::string data){
 extern "C" void app_main() {
     printf("--START-- \n");
     fflush(stdout);
+
 
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
@@ -190,7 +177,9 @@ extern "C" void app_main() {
     ESP_ERROR_CHECK( mySPI.begin(MOSI_PIN, MISO_PIN, SCLK_PIN,8));
     ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &mySPI.device_fpga));
 
-    hardware_interface hw (&mySPI);
+    ros_interface ros_i(&mqtt_client);
+    hardware_interface hw (&mySPI,&ros_i);
+    fpga_mode modef(&hw);
 
     uint8_t buffer[6];
 
@@ -217,7 +206,9 @@ extern "C" void app_main() {
         std::stringstream ss;
         ss << i;
 
-        push_pub("/topic/qos3", ss.str());
+        //push_pub("/topic/qos3", ss.str(), mqtt_client);
+
+        ros_i.push_pub("/topic/qos3", ss.str());
 
         /*int msg_id = 0;
 

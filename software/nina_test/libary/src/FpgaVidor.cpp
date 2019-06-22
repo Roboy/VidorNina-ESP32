@@ -47,12 +47,13 @@ addr_base::addr_base(){
 }
 
 
-hardware_interface::hardware_interface(SPI *spi_){  //SPI_t spi_:spi(nullptr)
+hardware_interface::hardware_interface(SPI *spi_,ros_interface *ros_){  //SPI_t spi_:spi(nullptr)
   //rtc_base=base_addr_;
   US_start_time=0;
   addr = new addr_base();
-
   spi = spi_;
+
+  ros = ros_;
 }
 
 

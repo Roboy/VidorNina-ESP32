@@ -131,7 +131,8 @@ main.o: \
  /home/sausy/esp/esp-idf/components/soc/esp32/include/soc/gpio_sig_map.h \
  /home/sausy/esp/esp-idf/components/driver/include/driver/spi_master.h \
  /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/FpgaVidor.hpp \
- /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/soc_system.h
+ /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/soc_system.h \
+ /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/interface.hpp
 
 /home/sausy/esp/esp-idf/components/newlib/include/stdio.h:
 
@@ -396,4 +397,6 @@ main.o: \
 /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/FpgaVidor.hpp:
 
 /home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/soc_system.h:
+
+/home/sausy/Projects/VidorNina-ESP32/software/nina_test/libary/include/interface.hpp:
 /home/sausy/Projects/VidorNina-ESP32/software/nina_test/main/./main.cpp:

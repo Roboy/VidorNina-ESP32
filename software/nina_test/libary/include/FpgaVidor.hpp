@@ -49,7 +49,7 @@ class addr_base{
 //------ AVALON BRIDGE ----
 class hardware_interface{
   public:
-    hardware_interface(SPI *spi_);
+    hardware_interface(SPI *spi_,esp_mqtt_client_handle_t *mqtt_client_);
     SPI *spi;
 
     addr_base *addr;// = nullptr;
@@ -79,6 +79,9 @@ class hardware_interface{
 
 
     //--BI--
+
+  private:
+    ros_interface *ros;
 
 
 };
