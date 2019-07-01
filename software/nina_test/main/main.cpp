@@ -2,8 +2,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
-#include <sstream>
-#include <iostream>
+
 #include "esp_wifi.h"
 #include "esp_system.h"
 #include "nvs_flash.h"
@@ -176,7 +175,7 @@ extern "C" void app_main() {
     printf("\nbegin SPI");
     ESP_ERROR_CHECK( mySPI.begin(MOSI_PIN, MISO_PIN, SCLK_PIN,8));
     ESP_ERROR_CHECK( mySPI.addDevice(SPI_MODE, SPI_CLOCK, CS_PIN, &mySPI.device_fpga));
-
+    
     ros_interface ros_i(&mqtt_client);
     hardware_interface hw (&mySPI,&ros_i);
     fpga_mode modef(&hw);

@@ -2,7 +2,7 @@
 
 
 msg_gen::msg_gen(ros_interface *transmit_){
-    transmit + transmit_;
+    transmit = transmit_;
 }
 
 template <typename T>
