@@ -221,7 +221,7 @@ extern "C" void app_main() {
     //struct msg_mqtt msg_mqtt;
     msg_gen transmit (&mqtt_client);
     hardware_interface hw (&mySPI,&transmit);
-    fpga_mode modef(&hw,&mqtt_client);
+    fpga_mode modef(&hw,&transmit,&mqtt_client);
 
     uint8_t buffer[6];
 
@@ -242,6 +242,8 @@ extern "C" void app_main() {
     hw.piezo_set_burst_cycles(3);
     hw.piezo_burst_out();
 
+    modef.transmission_init(&mqtt_client);
+
 
     int i = 0;
     while (1) {
@@ -255,6 +257,12 @@ extern "C" void app_main() {
         //push_pub("/topic/qos3", ss.str(), mqtt_client);
 
         transmit.push_pub("/topic/qos3", ss.str());
+        transmit.push_pub("/triangulation/master/masterlist/", ss.str());
+        transmit.push_pub("/triangulation/master/start_burst/", ss.str());
+        transmit.push_pub("/triangulation/master/start_continiouse/", ss.str());
+        transmit.push_pub("/triangulation/master/start_ptp_sync/", ss.str());
+        transmit.push_pub("/triangulation/master/burst_cycles/", ss.str());
+
 
         int msg_id = 0;
 
@@ -266,6 +274,7 @@ extern "C" void app_main() {
 
         msg_id = esp_mqtt_client_subscribe(mqtt_client, "/topic/qos3", 0);
         msg_id = esp_mqtt_client_subscribe(mqtt_client, "/triangulation/0ID/ctl/", 0);
+
         //if(msg_id==0){
         //  printf("\n[ERROR] NOT SUBED");
         //}

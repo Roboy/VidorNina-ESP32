@@ -31,9 +31,14 @@ using namespace std;
 #define SYNC_MASTER 0
 #define SYNC_SLAVE 1
 
+#define MAX_SUBS 7
+
+
+//static struct msg_mqtt msg_mqtt;
+
 class fpga_mode{
   public:
-    fpga_mode(hardware_interface *hw_,esp_mqtt_client_handle_t *mqttclient_);
+    fpga_mode(hardware_interface *hw_,msg_gen *trans_,esp_mqtt_client_handle_t *mqttclient_);
 
     uint8_t   current_master_id = 0;
     uint8_t   id, master_id;
@@ -42,24 +47,30 @@ class fpga_mode{
     //string *system_pub, *master_pub;
 
   typedef void (fpga_mode::*funcPtr)(string);
-  funcPtr sub_func_list[2] = {};  // static array
-  string system_pub_buff[10], master_pub_buff[10];
-  string topic_list_sub[10];
-  string SUB_system_ctl_buff[10], SUB_master_list_buff[10];
+  funcPtr sub_func_list[MAX_SUBS] = {};  // static array
+  //string system_pub_buff[10], master_pub_buff[10];
+  string topic_list_sub[MAX_SUBS];
+  //string SUB_system_ctl_buff[10], SUB_master_list_buff[10];
   //  uint32_t system_pub_cnt = 0;
 //    uint32_t master_pub_cnt = 0;
 
+    void transmission_init(esp_mqtt_client_handle_t *mqttclient_);
 
     //void select_subf(uint32_t location,string data_);
+    void register_sub(esp_mqtt_client_handle_t *mqttclient_,string topic_,funcPtr func_ = nullptr);
+
     void select_subf(uint32_t location, string data_);
-    void get_slav_time(string data_);
-    void get_syst_ctl(string data_);
-    void master_ctl(string data_);
+
     void masterlist(string data_);
+    void start_burst(string data_);
+    void start_continiouse(string data_);
+    void start_ptp_sync(string data_);
+    void burst_cycles(string data_);
+    void allow_input(string data_);
 
     //void transmission_init();
 
-    void register_sub(string topic_,funcPtr func_ = nullptr);
+
 
     //struct msg_mqtt msg_mqtt;
 
@@ -72,8 +83,13 @@ class fpga_mode{
     hardware_interface *hw;
     msg_gen *trans;
 
+    //esp_mqtt_client_handle_t *mqttclient;
 
-    esp_mqtt_client_handle_t *mqttclient;
+    //struct msg_mqtt msg_mqtt = {};
+    //struct mqtt_out msg_tx;
+    //struct mqtt_in msg_rx;
+
+    //esp_mqtt_client_handle_t *mqttclient;
 
     //uint8_t mode_pub;
 
