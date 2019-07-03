@@ -14,7 +14,7 @@ using namespace std;
 void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
 	if(message->payloadlen){
-		printf("%s %s\n", message->topic, message->payload);
+		;//printf("%s %s\n", message->topic, message->payload);
 	}else{
 		printf("%s (null)\n", message->topic);
 	}
@@ -118,16 +118,46 @@ int main(int argc, char *argv[])
 	cout << "\n\n===============START==================\n" << s_masterlist_data <<  "\n";
 	cout << "all members connected?\n";
 	//for(uint8_t i = 0; i < 2; i++){
-		mosquitto_publish(mosq,NULL,"/topic/qos3",8,"a",2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size()*sizeof(char),masterlist_data,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",sbool_size,FALSE_S,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,FALSE_S,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",sbool_size,FALSE_S,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",8,"4",1,false);
+
+	//mosquitto_loop_forever(mosq, -1, 1);
+
+	mosquitto_loop_start(	mosq);
+
+	for(uint32_t i = 0; i<2; i++){
+
+		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
+
+		//mosquitto_publish(mosq,NULL,"/topic/qos3",8,"a",1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"0",1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"1",1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"2",1,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,0,false);
+		/*
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"1",1,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"2",2,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"3",0,true);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"4",1,true);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"5",2,true);
+		*/
+
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,1,false);
+
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,0,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"1",1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"2",2,false);
+
+		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",sbool_size,FALSE_S,1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,FALSE_S,1,false);
+		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"0",1,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
+	}
 	//}
 
+
+
+
 	char input_key = 0;
-  //while(input_key!=27){
+  while(input_key!=27){
     //menu.options_menu(menu.select());
     //input_key = getch();
 		cout << "\n 1: Options";
@@ -150,7 +180,8 @@ int main(int argc, char *argv[])
         //start ptp sync
         cout<<"\nstart ptp sync";
         //masterctl.time_sync_tgl(true);
-				mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",sbool_size,TRUE_S,1,false);
+				mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",sbool_size,TRUE_S,2,false);
+				//cin >> input_key;
         break;
       case '4':
           //start ptp sync
@@ -161,9 +192,11 @@ int main(int argc, char *argv[])
       default:
         break;
     }
+		//mosquitto_loop(mosq, -1, 1);
+	}
 
 
-	mosquitto_loop_forever(mosq, -1, 1);
+	//mosquitto_loop_forever(mosq, -1, 1);
 
 
 
@@ -173,7 +206,7 @@ int main(int argc, char *argv[])
 
 
 
-
+	mosquitto_loop_stop(mosq,true);
 	mosquitto_destroy(mosq);
 	mosquitto_lib_cleanup();
 	return 0;

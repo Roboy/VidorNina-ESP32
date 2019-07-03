@@ -70,7 +70,7 @@ class fpga_mode{
     void burst_cycles(string data_);
     void allow_input(string data_);
 
-    void send_time_frame(float time_);
+    void send_time_frame(uint32_t time_);
 
 
     //void transmission_init();
@@ -87,6 +87,18 @@ class fpga_mode{
 
     hardware_interface *hw;
     msg_gen *trans;
+
+    void (fpga_mode::*fp_start_conv)() = &fpga_mode::slave_init;
+    void (fpga_mode::*fp_conv)();
+
+    void slave_init();
+    void master_init();
+
+    void master_conv();
+    void slave_conv();
+
+    void start_conversation();
+    void conversation();
 
     //esp_mqtt_client_handle_t *mqttclient;
 

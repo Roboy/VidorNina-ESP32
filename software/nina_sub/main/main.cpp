@@ -236,6 +236,13 @@ extern "C" void app_main() {
     mqtt_app_start(&mqtt_client);
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA, custom_handl, &modef);
 
+    //transmit.push_pub("/init", "0");
+    (void)esp_mqtt_client_publish(mqtt_client, "/init", "1", 0, 1, 1);
+    for(uint8_t i=0; i < 1000; i++){
+      if(esp_mqtt_client_subscribe(mqtt_client, "/init", 0) > 0)
+        break;
+    }
+    (void)esp_mqtt_client_unsubscribe(mqtt_client, "/init");
 
     hw.allow_input_trigger();
     printf("\nID: %d", hw.getID());
@@ -244,8 +251,11 @@ extern "C" void app_main() {
     hw.piezo_set_burst_cycles(3);
     hw.piezo_burst_out();
 
+
+
     modef.transmission_init(&mqtt_client);
 
+    (void)esp_mqtt_client_subscribe(mqtt_client, "/triangulation/testno", 0);
 
     int i = 0;
     while (1) {
@@ -254,7 +264,7 @@ extern "C" void app_main() {
 
 
         std::stringstream ss;
-        ss << i;
+        ss << i*5;
 
         //push_pub("/topic/qos3", ss.str(), mqtt_client);
 
@@ -264,7 +274,7 @@ extern "C" void app_main() {
         //transmit.push_pub("/triangulation/master/start_continiouse/", ss.str());
         //transmit.push_pub("/triangulation/master/start_ptp_sync/", ss.str());
         //transmit.push_pub("/triangulation/master/burst_cycles/", ss.str());
-        transmit.push_pub("/triangulation/test", ss.str());
+        //transmit.push_pub("/triangulation/test", ss.str());
 
 
         //int msg_id = 0;
@@ -275,7 +285,7 @@ extern "C" void app_main() {
         //  printf("\nMSG COULDN'T BE PUBLISHED");
         //}
 
-        (void)esp_mqtt_client_subscribe(mqtt_client, "/foo/qos3", 0);
+
         //msg_id = esp_mqtt_client_subscribe(mqtt_client, "/triangulation/0ID/ctl/", 0);
 
         //if(msg_id==0){

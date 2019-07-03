@@ -56,7 +56,7 @@ void msg_gen::creat_topics(string *ret_data,string base_topic, const char* names
    msg_id = esp_mqtt_client_publish(*mqttclient, topic_, pub_data, 0, 0, 1);
 
    if(msg_id==0){
-     printf("\nMSG COULDN'T BE PUBLISHED");
+     ;//printf("\nMSG COULDN'T BE PUBLISHED");
    }
 
  }
