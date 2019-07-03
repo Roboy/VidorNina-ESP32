@@ -164,6 +164,8 @@ static void custom_handl(void *handler_args, esp_event_base_t base, int32_t even
 
   for(uint8_t i = 0; i < event->topic_len; i++)
     s_topic += *event->topic++;
+  for(uint8_t i = 0; i < event->data_len; i++)
+    s_data += *event->data++;
 
   search_topic_handl(mode_,s_topic,s_data);
 
@@ -256,15 +258,16 @@ extern "C" void app_main() {
 
         //push_pub("/topic/qos3", ss.str(), mqtt_client);
 
-        transmit.push_pub("/topic/qos3", ss.str());
-        transmit.push_pub("/triangulation/master/masterlist/", ss.str());
-        transmit.push_pub("/triangulation/master/start_burst/", ss.str());
-        transmit.push_pub("/triangulation/master/start_continiouse/", ss.str());
-        transmit.push_pub("/triangulation/master/start_ptp_sync/", ss.str());
-        transmit.push_pub("/triangulation/master/burst_cycles/", ss.str());
+        //transmit.push_pub("/topic/qos3", ss.str());
+        //transmit.push_pub("/triangulation/master/masterlist/", ss.str());
+        //transmit.push_pub("/triangulation/master/start_burst/", ss.str());
+        //transmit.push_pub("/triangulation/master/start_continiouse/", ss.str());
+        //transmit.push_pub("/triangulation/master/start_ptp_sync/", ss.str());
+        //transmit.push_pub("/triangulation/master/burst_cycles/", ss.str());
+        transmit.push_pub("/triangulation/test", ss.str());
 
 
-        int msg_id = 0;
+        //int msg_id = 0;
 
         //msg_id = esp_mqtt_client_publish(mqtt_client, "/topic/qos3", "foo data", 0, 0, 1);
 
@@ -272,8 +275,8 @@ extern "C" void app_main() {
         //  printf("\nMSG COULDN'T BE PUBLISHED");
         //}
 
-        msg_id = esp_mqtt_client_subscribe(mqtt_client, "/topic/qos3", 0);
-        msg_id = esp_mqtt_client_subscribe(mqtt_client, "/triangulation/0ID/ctl/", 0);
+        (void)esp_mqtt_client_subscribe(mqtt_client, "/foo/qos3", 0);
+        //msg_id = esp_mqtt_client_subscribe(mqtt_client, "/triangulation/0ID/ctl/", 0);
 
         //if(msg_id==0){
         //  printf("\n[ERROR] NOT SUBED");

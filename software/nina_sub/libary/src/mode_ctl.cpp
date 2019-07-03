@@ -20,20 +20,17 @@ fpga_mode::fpga_mode(hardware_interface *hw_, msg_gen *trans_,esp_mqtt_client_ha
   pub_cnt = 0;
 
 
+  std::stringstream ss_buffer;
+
+  ss_buffer << "/triangulation/" << id << "/time_data/";
+  time_frame_topic = ss_buffer.str();
+  ss_buffer.str("");
+
 }
 
 void fpga_mode::transmission_init(esp_mqtt_client_handle_t *mqttclient_){
-  struct msg_mqtt msg_mqtt;
-  std::stringstream ss_buffer;
-
-
-
-
-  ss_buffer << "/triangulation/" << id << "/time_data/";
-  trans->push_pub(ss_buffer.str(),"time_data");
-  ss_buffer.str("");
-
-  /*
+  //struct msg_mqtt msg_mqtt;
+    /*
 
   struct simple_msg{
     struct mqtt_out{
@@ -52,7 +49,7 @@ void fpga_mode::transmission_init(esp_mqtt_client_handle_t *mqttclient_){
 
 
   */
-  register_sub(mqttclient_,"/triangulation/master/masterlist/", &fpga_mode::masterlist);
+  register_sub(mqttclient_,"/triangulation/master/masterlist/", &fpga_mode::get_masterlist);
   register_sub(mqttclient_,"/triangulation/master/start_burst/", &fpga_mode::start_burst);
   register_sub(mqttclient_,"/triangulation/master/start_continiouse/", &fpga_mode::start_continiouse);
   register_sub(mqttclient_,"/triangulation/master/start_ptp_sync/", &fpga_mode::start_ptp_sync);
@@ -69,7 +66,7 @@ void fpga_mode::transmission_init(){
 
 void fpga_mode::select_subf(uint32_t location, string data_){
   printf("\nsub subf\n");
-  //(*this.*sub_func_list[location])(data_);       //<--- her the overflow probably happens ...
+  (*this.*sub_func_list[location])(data_);       //<--- her the overflow probably happens ...
 }
 
 void fpga_mode::register_sub(esp_mqtt_client_handle_t *mqttclient_,string topic_,funcPtr func_){
@@ -83,8 +80,52 @@ void fpga_mode::register_sub(esp_mqtt_client_handle_t *mqttclient_,string topic_
   pub_cnt++;
 }
 //--------------------------------SUB - FUNCTIONS -----------
-void fpga_mode::masterlist(string data_){
+void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
   printf("\n-==MASTERLIST===\n");
+  //cout << "original data: " << data_ << "\n";
+  const char *data_buffer = data_.c_str();
+  uint8_t digit_buffer = 0;
+
+  bool err_dat = false;
+
+  for(uint8_t i = 0; i < 100; i++){
+    if(*data_buffer != ',' && *data_buffer != ';'){
+      if((uint8_t)*data_buffer > 57 || (uint8_t)*data_buffer < 48)
+        return;
+      digit_buffer += (uint8_t)*data_buffer - 48;
+      //printf("\ncnt:  %d", i);
+      //printf("\nSTRING DATA:  %c", *data_buffer);
+      //printf("\nconv DATA:  %d", digit_buffer);
+      //printf("\nraw conv DATA: %d", (uint8_t)*data_buffer);
+
+      data_buffer++;
+    }
+    else{
+      if(i == 0){
+        cout << "\n[ERROR] MASTERLIST EMPTY";
+        return;
+      }
+      cout<<"\nMaster ID: " << digit_buffer;
+      push_vec(masterlist, digit_buffer);
+      //*list++ = digit_buffer;
+      digit_buffer = 0;
+      if(*data_buffer == ';')
+        break;
+
+      data_buffer++;
+    }
+  }
+
+  //cout << "\n==END MASTERLIST ==\n";
+  /*for(uint8_t i = 0; i < 20; i++){
+    //printf("\nList: (%d):  %d", i, masterlist[i]);
+    printf("\nList: (%d):  %d", i, masterlist.front());
+    //masterlist.pop_back();
+
+  }*/
+
+  //cout <<"\nList: (0)" << masterlist.at(0) << "..(1)" << masterlist.at(1);
+
   //std::vector<int> master_list;
 
 }
@@ -102,4 +143,69 @@ void fpga_mode::burst_cycles(string data_){
 }
 void fpga_mode::allow_input(string data_){
   printf("\n-==allow_input===\n");
+}
+
+
+//-------- void pub ...
+void fpga_mode::send_time_frame(float time_){
+  std::stringstream ss_buffer;
+  ss_buffer << "[" << masterlist.front() << "]" << (uint32_t)time_;
+  pop_vec(masterlist);
+
+  trans->push_pub(time_frame_topic,ss_buffer.str());
+}
+
+
+void fpga_mode::pop_vec(vector<uint8_t>& vec){
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+  vec.pop_back();
+  vec.resize(MAX_MASTER_LIST_SIZE);
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+}
+
+//ring bufferd vector push
+void fpga_mode::push_vec(vector<float>& vec, float data){
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+  vec.resize(MAX_MASTER_LIST_SIZE);
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+
+  vec.push_back(data);
+}
+
+void fpga_mode::push_vec(vector<uint8_t>& vec, uint8_t data){
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+  vec.resize(MAX_MASTER_LIST_SIZE-1);
+  for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
+    int buff;
+    buff = vec[vec.size()-1-vec_cnt];
+    vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
+    vec[vec_cnt]=buff;
+  }
+
+  vec.push_back(data);
 }

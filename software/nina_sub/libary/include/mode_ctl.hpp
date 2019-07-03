@@ -11,6 +11,7 @@
 #include <iostream>
 #include "mqtt_client.h"
 #include "FpgaVidor.hpp"
+#include <vector>
 //#include "time_controll.hpp"
 /*#include <triangulation_msg/mode_msg.h>
 #include <triangulation_msg/system_ctl.h>
@@ -32,6 +33,7 @@ using namespace std;
 #define SYNC_SLAVE 1
 
 #define MAX_SUBS 7
+#define MAX_MASTER_LIST_SIZE 20
 
 
 //static struct msg_mqtt msg_mqtt;
@@ -61,12 +63,15 @@ class fpga_mode{
 
     void select_subf(uint32_t location, string data_);
 
-    void masterlist(string data_);
+    void get_masterlist(string data_);
     void start_burst(string data_);
     void start_continiouse(string data_);
     void start_ptp_sync(string data_);
     void burst_cycles(string data_);
     void allow_input(string data_);
+
+    void send_time_frame(float time_);
+
 
     //void transmission_init();
 
@@ -88,10 +93,18 @@ class fpga_mode{
     //struct msg_mqtt msg_mqtt = {};
     //struct mqtt_out msg_tx;
     //struct mqtt_in msg_rx;
+    std::vector<uint8_t> masterlist;
+
+    string time_frame_topic;
+    //uint8_t
 
     //esp_mqtt_client_handle_t *mqttclient;
 
     //uint8_t mode_pub;
+
+    void push_vec(vector<float>& vec, float data);
+    void push_vec(vector<uint8_t>& vec, uint8_t data);
+    void pop_vec(vector<uint8_t>& vec);
 
 
     //subs
