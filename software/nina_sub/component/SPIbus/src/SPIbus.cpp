@@ -43,6 +43,8 @@ IN THE SOFTWARE.
 
 static const char* TAG __attribute__((unused)) = "SPIbus";
 
+static bool xWaitVec = 0;
+
 /*******************************************************************************
  * OBJECTS
  ******************************************************************************/
@@ -324,10 +326,12 @@ uint16_t AvalonMMClass::readPacket_() {
 esp_err_t SPI::transductBytes_fpga(uint32_t base, uint32_t slave, uint32_t write_length, const uint8_t * write_data,
                  uint32_t read_length, uint8_t * read_data, uint32_t flags){
 
+      while(xWaitVec);
+      xWaitVec = true;
       esp_err_t err;
       spi_transaction_t transaction;
 
-     //for(uint32_t cnt= 0; cnt < write_length;cnt++)  //
+    // for(uint32_t cnt= 0; cnt < write_length;cnt++)  //
     //    SPIBUS_LOG_RW("write data: %d",write_data[cnt]);
 
 
@@ -341,6 +345,10 @@ esp_err_t SPI::transductBytes_fpga(uint32_t base, uint32_t slave, uint32_t write
         transaction.rx_buffer = read_data;
 
       err = spi_device_transmit(device_fpga, &transaction);
+
+      xWaitVec=false;
+
+      //printf("\nSPI trans: %d\n", err);
 
 
       //uint16_t ret_val = readPacket_();

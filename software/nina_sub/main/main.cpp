@@ -27,10 +27,15 @@
 #include "mode_ctl.hpp"
 #include "msg.hpp"
 
+//#include "esp_sntp.h"
+
 static const char *TAG = "MQTTS_SAMPLE";
+
+static uint32_t sys_time_debug = 0;
 
 static EventGroupHandle_t wifi_event_group;
 const static int CONNECTED_BIT = BIT0;
+static bool xUserWaitflage_main_cpp = false;
 
 //Config
 #ifndef CONFIG_WIFI_SSID
@@ -145,8 +150,13 @@ void search_topic_handl(user_class *c, string topic_, string data_){
     if(topic_ == c->topic_list_sub[i]){
         //printf("\n....HEURIKA....\n");
         c->select_subf(i,data_);
-      }
+    }
   }
+    if(topic_== "/time/set_zero"){
+      //sys_time_debug = 0;
+      //cout << "\nSET TIME";
+      c->set_time(0);
+    }
 }
 static void custom_handl(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
   //printf("\n===HELLO I'm custom ==");
@@ -189,13 +199,49 @@ static void mqtt_app_start(esp_mqtt_client_handle_t *client_)
 
 }
 
+/*
+static void initialize_sntp(void)
+{
+    char strftime_buf[64];
+
+    ESP_LOGI("NTP", "Initializing SNTP");
+    sntp_setoperatingmode(SNTP_OPMODE_POLL);
+    sntp_setservername(0, "pool.ntp.org");
+    //sntp_set_time_sync_notification_cb(time_sync_notification_cb);
+//#ifdef CONFIG_SNTP_TIME_SYNC_METHOD_SMOOTH
+//    sntp_set_sync_mode(SNTP_SYNC_MODE_SMOOTH);
+//#endif
+    sntp_init();
 
 
+    // wait for time to be set
+    time_t now = 0;
+    struct tm timeinfo = { 0 };
+    int retry = 0;
+    const int retry_count = 10;
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
+
+  //  while (sntp_get_sync_status() == SNTP_SYNC_STATUS_RESET && ++retry < retry_count) {
+//        ESP_LOGI(TAG, "Waiting for system time to be set... (%d/%d)", retry, retry_count);
+//        vTaskDelay(2000 / portTICK_PERIOD_MS);
+  //  }
+    time(&now);
+    localtime_r(&now, &timeinfo);
+
+    setenv("TZ", "EST5EDT,M3.2.0/2,M11.1.0", 1);
+    tzset();
+    localtime_r(&now, &timeinfo);
+    strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+    ESP_LOGI(TAG, "The current date/time in New York is: %s", strftime_buf);
+
+    //ESP_ERROR_CHECK( example_disconnect() );
+}
+*/
 
 
 
 //static void wifi_init(void)
-
+//static int wait_for_user_input = 0;
 extern "C" void app_main() {
     printf("--START-- \n");
     fflush(stdout);
@@ -236,20 +282,22 @@ extern "C" void app_main() {
     mqtt_app_start(&mqtt_client);
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA, custom_handl, &modef);
 
+
     //transmit.push_pub("/init", "0");
-    (void)esp_mqtt_client_publish(mqtt_client, "/init", "1", 0, 1, 1);
+    (void)esp_mqtt_client_publish(mqtt_client, "/init", "1", 0, 0, 1);
     for(uint8_t i=0; i < 1000; i++){
       if(esp_mqtt_client_subscribe(mqtt_client, "/init", 0) > 0)
         break;
     }
     (void)esp_mqtt_client_unsubscribe(mqtt_client, "/init");
+    (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 0) ;
 
     hw.allow_input_trigger();
     printf("\nID: %d", hw.getID());
 
     hw.stop_US_out();
-    hw.piezo_set_burst_cycles(3);
-    hw.piezo_burst_out();
+    //hw.piezo_set_burst_cycles(3);
+    //hw.piezo_burst_out();
 
 
 
@@ -257,11 +305,92 @@ extern "C" void app_main() {
 
     (void)esp_mqtt_client_subscribe(mqtt_client, "/triangulation/testno", 0);
 
+
+    //cout <<"\n Start NTP SYNC\n";
+    //sntp_set_sync_mode(SNTP_SYNC_MODE_IMMED);
+    //while (sntp_get_sync_status() == SNTP_SYNC_STATUS_IN_PROGRESS);
+
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    //initialize_sntp();
+
     int i = 0;
+    int wait_for_user_input = 0;
+
+    //int8_t cRxedChar, cInputIndex = 0;
+    //Peripheral_Descriptor_t xConsole;
+
+
     while (1) {
+
+        cout << "\n\n===start burst===";
+        cout << "\nFPGA TIME: " << hw.read_time();
+
+        modef.start_conversation();
+
+        hw.piezo_burst_out();
+        //vTaskDelay(10000 / portTICK_PERIOD_MS);
+
+      //hw.start_US_out();
+        printf("\ntime : %d", hw.US_start_time);//hw.read_trigger_time());
+
+        hw.allow_input_trigger(); //TODO ... do it via ros
+        for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
+          if(hw.rdy_to_read()){
+            cout << "\nready to read " << time_out_cnt;
+            break;
+          }
+
+        }
+        //cout << "\nBREAK";
+        cout <<"\ntrigger time: " <<  hw.read_trigger_time();
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+
+
         //ESP_ERROR_CHECK(mySPI.readBytes(mySPI.device_fpga, 0x3B, 6, buffer));
 
 
+        //hw.start_US_out();
+
+        //printf("\nread time %d", hw.read_time());
+        //printf("\ntrigger time %d",hw.read_trigger_time());
+
+        //xUserWaitflage_main_cpp =
+
+
+
+        /*
+        xUserWaitflage_main_cpp = true;
+        while(xUserWaitflage_main_cpp){
+          FreeRTOS_read( xConsole, &cRxedChar, sizeof( cRxedChar ) );
+
+          scanf("\nScann data %d", &wait_for_user_input);
+          vTaskDelay(1000 / portTICK_PERIOD_MS);
+          //cin >> wait_for_user_input;
+          cout << "wait for user input: " << wait_for_user_input << "\n";
+          if(wait_for_user_input == 1)
+            xUserWaitflage_main_cpp = false;
+        }
+        */
+        //vTaskDelay(1000 / portTICK_PERIOD_MS);
+        //hw.piezo_set_burst_cycles(3);
+
+        /*time_t now;
+        struct tm timeinfo;
+        time(&now);
+        char strftime_buf[64];
+
+        localtime_r(&now, &timeinfo);
+        strftime(strftime_buf, sizeof(strftime_buf), "%c", &timeinfo);
+        ESP_LOGI(TAG, "The current date/time in New York is: %s", strftime_buf);*/
+
+        /*printf("\nUS_out");
+        hw.start_US_out();
+        //cin >> wait_for_user_input;
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+
+        hw.stop_US_out();
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+        */
 
         std::stringstream ss;
         ss << i*5;
@@ -294,7 +423,8 @@ extern "C" void app_main() {
 
         //vTaskDelay(1000 / portTICK_PERIOD_MS);
         i++;
-        if(i >= 100){
+        if(i >= 2){
+
           i=0;
         }
     }

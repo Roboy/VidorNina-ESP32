@@ -124,32 +124,12 @@ int main(int argc, char *argv[])
 	mosquitto_loop_start(	mosq);
 
 	for(uint32_t i = 0; i<2; i++){
-
 		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
-
-		//mosquitto_publish(mosq,NULL,"/topic/qos3",8,"a",1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"0",1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"1",1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/testno",1,"2",1,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,0,false);
-		/*
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"1",1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"2",2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"3",0,true);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"4",1,true);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,"5",2,true);
-		*/
-
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,1,false);
-
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,0,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"1",1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"2",2,false);
-
-		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",sbool_size,FALSE_S,1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,FALSE_S,1,false);
-		//mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,"0",1,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
+		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
 	}
 	//}
 
@@ -157,18 +137,29 @@ int main(int argc, char *argv[])
 
 
 	char input_key = 0;
+	bool t_burst = false;
+	bool t_ptp = false;
+	bool t_continiouse = false;
+	string amount_burst_cycles = "4";
+
   while(input_key!=27){
+		//const char *num_cycl = "4";
     //menu.options_menu(menu.select());
     //input_key = getch();
-		cout << "\n 1: Options";
+		cout << "\n 1: burst cycle amount";
 	  cout << "\n 2: start burst data";
 	  cout << "\n 3: start ptp time sync";
 	  cout << "\n 4: continouse burst";
+		cout << "\n 5: simple zero time";
 
     cin >> input_key;
     cout << input_key;
     switch (input_key){
       case '1':
+				//cout <<"\nAmount of Cycles: ";
+				//cin >> amount_burst_cycles;
+				//const char *num_cycl = amount_burst_cycles.c_str();
+				mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
         break;
       case '2':
         //activate burst
@@ -186,9 +177,22 @@ int main(int argc, char *argv[])
       case '4':
           //start ptp sync
           cout<<"\nstart continouse mode";
-					mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,TRUE_S,1,false);
+					t_continiouse = !t_continiouse;
+					if(t_continiouse){
+						cout << " TRUE";
+						mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,TRUE_S,1,false);
+					}
+					else{
+						cout << " FALSE";
+						mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",sbool_size,FALSE_S,1,false);
+					}
+
+
           //masterctl.tgl_continiouse_mode();
           break;
+			case '5':
+					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
+				break;
       default:
         break;
     }

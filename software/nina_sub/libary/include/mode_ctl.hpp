@@ -72,6 +72,11 @@ class fpga_mode{
 
     void send_time_frame(uint32_t time_);
 
+    void set_time(uint32_t time_);
+
+    void start_conversation();
+    void conversation();
+
 
     //void transmission_init();
 
@@ -97,8 +102,7 @@ class fpga_mode{
     void master_conv();
     void slave_conv();
 
-    void start_conversation();
-    void conversation();
+
 
     //esp_mqtt_client_handle_t *mqttclient;
 

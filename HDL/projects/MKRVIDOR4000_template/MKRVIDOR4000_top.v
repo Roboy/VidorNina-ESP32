@@ -183,10 +183,15 @@ wire oPiezoIN_enable[SIZE:0];
 wire [31:0] wMaster_time_ptp;
 wire [31:0] wSlave_time_ptp; 
 
+reg  [8:0] ENABEL_delay;
+reg  [8:0] ENABEL_IN_delay;
+
+wire enable;
 wire ENABLE_PIEZO;
 wire ENABEL_PIEZO_IN;
 wire PIEZO;
 wire INPUT_SIGNAL;
+
 
 //LOGIC
 /*
@@ -209,16 +214,40 @@ assign oPiezoOUT_enable[SIZE] = oPiezoOUT_enable[0] | oPiezoOUT_enable[1];
 //PIN - MAP
 assign bMKR_D[3] = ENABLE_PIEZO;
 assign bMKR_D[4] = ENABEL_PIEZO_IN;
-assign bMKR_D[6] = PIEZO;
-assign INPUT_SIGNAL = bMKR_D[1];
+assign bMKR_D[1] = PIEZO;
+assign INPUT_SIGNAL = bMKR_D[6];//bMKR_D[1];
 
 //=================================================
 
 always @(posedge iCLK)
 begin
   if (iRESETn)
-  begin
+	ENABEL_delay <= 0;
+	ENABEL_IN_delay <= 0;
 	ENABEL_PIEZO_IN <= 0;
+  begin		
+   //if(ENABLE_PIEZO == 1) begin
+		ENABEL_PIEZO_IN <= !ENABLE_PIEZO;
+		/*ENABEL_IN_delay <= 0;
+		ENABEL_PIEZO_IN <= 0;
+		if (ENABEL_IN_delay >= 32'd3) begin
+			ENABLE_PIEZO <= 1;
+		end else begin
+			ENABLE_PIEZO <= 0;
+			ENABEL_delay <= ENABEL_delay + 32'd1;
+		end
+		*/
+	/*end else begin
+		ENABEL_delay <= 0;
+		if (ENABEL_IN_delay >= 32'd1) begin
+			ENABEL_PIEZO_IN <= 1;
+		end else begin
+			ENABEL_PIEZO_IN <= 0;
+			ENABEL_IN_delay <= ENABEL_IN_delay + 32'd1;
+		end
+	end
+	*/
+	
   end
 end
 
@@ -227,7 +256,7 @@ end
 		  .reset_reset_n                                              (iRESETn),    
         .id_switch_sw                                               (sw[3:0]),                                               //                     id_switch.sw
        // .id_switch_debug_out1                                       (bMKR_D[6]),                                       //                              .debug_out1
-        //.piezo_controller_piezo_enable_export                       (ENABLE_PIEZO ),                       // piezo_controller_piezo_enable.export
+        // .piezo_controller_piezo_enable_export                       (ENABLE_PIEZO ),                       // piezo_controller_piezo_enable.export
         .piezo_controller_piezo_enable_piezo_enable_in              (oPiezoOUT_enable[SIZE]),              //                              .piezo_enable_in
         //.piezo_controller_piezo_out_export                          (PIEZO),                          //    piezo_controller_piezo_out.export
         //.piezo_controller_piezo_status_export                       (<connected-to-piezo_controller_piezo_status_export>),                       // piezo_controller_piezo_status.export

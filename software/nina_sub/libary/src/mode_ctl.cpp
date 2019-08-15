@@ -140,9 +140,22 @@ void fpga_mode::start_burst(string data_){
 }
 void fpga_mode::start_continiouse(string data_){
   printf("\n-==start_continiouse===\n");
+  uint32_t i;
+  istringstream(data_) >> i;
+
+  printf("contin: %d\n", i);
+
+  if(i == 0)
+    hw->stop_US_out();
+  else {
+    cout << "\nSTART US\n";
+    hw->start_US_out();
+  }
+
 }
 void fpga_mode::start_ptp_sync(string data_){
   printf("\n-==start_ptp_sync===\n");
+
   //send_time_frame(0.2);
 }
 void fpga_mode::burst_cycles(string data_){
@@ -249,6 +262,8 @@ void fpga_mode::master_conv(){
   //...
   //hw->start_US_out();
   hw->piezo_burst_out();
+  send_time_frame(hw->US_start_time);
+
 
   //push_vec(time_msg_pub.trigger_time, hw->US_start_time);
   //push_vec(time_msg_pub.master_identifier, id); //master id
@@ -274,10 +289,15 @@ void fpga_mode::slave_conv(){
   }
 
   send_time_frame(hw->read_trigger_time());
+  //send_time_frame(uint32_t time_);
   //push_vec(time_msg_pub.trigger_time, hw->read_trigger_time());
   //push_vec(time_msg_pub.master_identifier, current_master_id); //master id
 
   //system_pub.publish(time_msg_pub);
+}
+
+void fpga_mode::set_time(uint32_t time_){
+  hw->set_time(time_);
 }
 
 

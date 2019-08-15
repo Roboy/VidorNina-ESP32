@@ -77,6 +77,7 @@ bool hardware_interface::rdy_to_read(void) {
 
 void hardware_interface::set_time(uint32_t time_data) {
     IOWR(addr->rtc_base_addr, (uint32_t)(0), time_data);
+    //printf("\n(SET_TIME) %d",IORD(addr->rtc_base_addr, (uint32_t)(0)));
 }
 
 //piezo out sync functions
