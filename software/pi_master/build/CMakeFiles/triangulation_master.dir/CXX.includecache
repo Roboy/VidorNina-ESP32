@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/main.cpp
+stdio.h
+-
+iostream
+-
+stdlib.h
+-
+string
+-
+sstream
+-
+mosquitto.h
+-
+unistd.h
+-
+cstdio
+-
+curses.h
+-
+chrono
+-
+thread
+-
+common.hpp
+/home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/common.hpp
+

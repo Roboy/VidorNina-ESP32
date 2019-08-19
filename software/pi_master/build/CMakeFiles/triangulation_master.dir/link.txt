@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -g -g  -rdynamic CMakeFiles/triangulation_master.dir/src/main.cpp.o CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o  -o triangulation_master -lpthread -lrt -lmosquitto -lncurses 

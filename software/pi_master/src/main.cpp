@@ -4,9 +4,12 @@
 #include <string>
 #include <sstream>
 #include <mosquitto.h>
- #include <unistd.h>
- #include <cstdio>
- #include <conio.h>
+#include <unistd.h>
+#include <cstdio>
+#include <curses.h>
+
+#include <chrono>
+#include <thread>
 
 //#include <thread>
 
@@ -20,7 +23,10 @@ using namespace std;
 
 void sub_thread();
 void set_burst_cycles(struct mosquitto *mosq);
-void start_conver(struct mosquitto *mosq);
+
+void spezific_conver(struct mosquitto *mosq);
+void start_conver(struct mosquitto *mosq,int id_input);
+
 
 unsigned int t_dat[30];
 unsigned int tag_dat[30];
@@ -63,7 +69,9 @@ void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mo
 					t_dat[current_id] = time_dat;
 					tag_dat[current_id] = current_master_id;
 					//printf("\ntime master %u: time %u \n%u\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
-					printf("\n%u",t_dat[tag_dat[current_id]] - t_dat[current_id]);
+					//if(current_master_id != current_id)
+						printf("\ntime %u: master time %u \n%d\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
+						//printf("\n%u",t_dat[tag_dat[current_id]] - t_dat[current_id]);
 					//printf("\nTime DATA: %x [%d,%d]", t_dat[current_id], current_id,tag_dat[current_id] );
 					//time_dat[current_id] = message->payload;
 				}
@@ -191,12 +199,12 @@ int main(int argc, char *argv[])
 
 	//for(uint32_t i = 0; i<2; i++){
 		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,0,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,0,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
-		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,2,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,2,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,2,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",2,false);
+		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",2,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",2,false);
 
 
 		//mosquitto_loop_start(mosq2);
@@ -272,8 +280,11 @@ int main(int argc, char *argv[])
 					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
 				break;
 			case '6':
-					start_conver(mosq);
+					start_conver(mosq,0);
 				break;
+			case '7':
+						spezific_conver(mosq);
+					break;
       default:
 				;
         break;
@@ -308,26 +319,39 @@ void set_burst_cycles(struct mosquitto *mosq){
 	string foo = std::to_string(amount_burst_cycles);
 	const char *num_cycl = foo.c_str();
 
-	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",2,num_cycl,1,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",2,num_cycl,2,false);
 
 }
 
-void start_conver(struct mosquitto *mosq){
+void spezific_conver(struct mosquitto *mosq){
 	cout<<"\nstart conversation..[enter ID]";
-	std::stringstream ss_buffer;
 	int id_input = 0;
-
 	cin >> id_input;
+
+	start_conver(mosq,id_input);
+}
+void start_conver(struct mosquitto *mosq,int id_input){
+
+	std::stringstream ss_buffer;
+
 	ss_buffer.str("");
 	ss_buffer << id_input;
 	string id_temp_string = ss_buffer.str();
 	const char *id_temp_char = id_temp_string.c_str();
 
-	char c;
-	for(uint32_t i = 0; i<=100; i++){
+	/*uint8_t low_cnt = 0;
+	for(uint32_t i = 0; i< 100; i++){
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",id_temp_string.size(),id_temp_char,2,false);
-		c = getch();
-	}
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		low_cnt++;
+		if(low_cnt > 5){
+			mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",2,false);
+			low_cnt = 0;
+		}
+
+	}*/
+	mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",id_temp_string.size(),id_temp_char,1,false);
+
 
 
 	//mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);

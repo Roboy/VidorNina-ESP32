@@ -87,17 +87,18 @@ void fpga_mode::register_sub(esp_mqtt_client_handle_t *mqttclient_,string topic_
 }
 //--------------------------------SUB - FUNCTIONS -----------
 void fpga_mode::start_conv_mqtt(string data_){
-  printf("\nCONVERSATION\n");
+  //printf("\nCONVERSATION\n");
   uint32_t i;
   istringstream(data_) >> i;
 
   current_master = i;
+  enable_input = false;
 
   if(i == id){
     mode = MODE_MASTER;
     fp_start_conv = &fpga_mode::master_init;  //default &fpga_mode::slave_init
   }else{
-    enable_input=false;
+    enable_input=true;
     mode = MODE_SLAVE;
     fp_start_conv = &fpga_mode::slave_init;  //default &fpga_mode::slave_init
   }
@@ -209,7 +210,10 @@ void fpga_mode::burst_cycles(string data_){
   hw->piezo_set_burst_cycles(i);
 
 }
+static bool xBIT_allow_in = 0;
 void fpga_mode::allow_input(string data_){
+  /*while(xBIT_allow_in);
+  xBIT_allow_in = true;
   printf("\n-==allow_input===\n");
   int time_out_cnt = 0;
   unsigned int time_dat = 0;
@@ -220,7 +224,7 @@ void fpga_mode::allow_input(string data_){
 
     hw->allow_input_trigger();
 
-    //*hw.allow_input_trigger();
+    //hw.allow_input_trigger();
     //while(hw.rdy_to_read());
     for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
       if(!hw->rdy_to_read()){
@@ -230,16 +234,17 @@ void fpga_mode::allow_input(string data_){
       }
       cout << "\nCNT:" <<  +time_out_cnt;
     }
-    /*for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
-      if(hw->rdy_to_read())
-        break;
-    }*/
+    //for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
+    //  if(hw->rdy_to_read())
+    //    break;
+    //}
     //cout << "\n time_out_cnt " << time_out_cnt;
 
     send_time_frame(time_dat);
 
     enable_input = false;
   }
+  xBIT_allow_in = false;*/
 }
 
 /*
@@ -325,6 +330,7 @@ void fpga_mode::slave_init(){
   //system_pub  = nh->advertise<triangulation_msg::time_msg>("/triangulation/" + std::to_string(id) + "/time_data", 1);
   //system_sub[MAX_CLIENTS] = nh->subscribe("/triangulation/all/ctl", 1, &fpga_mode::get_syst_ctl, this); //Todo add sub function
   //system_pub.publish(time_msg_pub);
+
 }
 
 //==============================
@@ -332,7 +338,7 @@ void fpga_mode::slave_init(){
 //==============================
 void fpga_mode::master_conv(){
   cout << "\nstart master conversation: ";
-  trans->push_pub("/triangulation/master/allow_input/","1");
+  trans->push_pub("/time/set_zero","0");
   //enable slave
   //system_ctl_msg_pub.enable_slave_input=true;
   //master_pub.publish(system_ctl_msg_pub);
@@ -357,7 +363,41 @@ void fpga_mode::master_conv(){
 
 //-------------------------------
 void fpga_mode::slave_conv(){
-  std::cout << "\nstart slave conversation: ";
+  //std::cout << "\nstart slave conversation: ";
+  while(xBIT_allow_in);
+  xBIT_allow_in = true;
+  //printf("\n-==allow_input===\n");
+  int time_out_cnt = 0;
+  unsigned int time_dat = 0;
+  //uint32_t i;
+  //istringstream(data_) >> i;
+  //enable_input = i;
+  if(mode == MODE_SLAVE){
+
+    hw->allow_input_trigger();
+
+    //hw.allow_input_trigger();
+    //while(hw.rdy_to_read());
+    for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
+      if(!hw->rdy_to_read()){
+        //time_dat = hw->read_trigger_time();
+        time_dat = hw->read_trigger_time();
+        //cout << "\nTIME:" <<  +time_dat ; //<< " clk count : " << hw->read_trigger_time2();
+        break;
+      }
+      //cout << "\nCNT:" <<  +time_out_cnt;
+    }
+    //for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
+    //  if(hw->rdy_to_read())
+    //    break;
+    //}
+    //cout << "\n time_out_cnt " << time_out_cnt;
+
+    send_time_frame(time_dat);
+
+    enable_input = false;
+  }
+  xBIT_allow_in = false;
 
 
   //TODO: wait till slave allow;

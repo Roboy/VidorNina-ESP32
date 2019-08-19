@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.08.19.15:33:57"
+ date="2019.08.19.20:30:06"
  outputDirectory="/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/">
  <perimeter>
   <parameter
@@ -193,13 +193,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1566221636,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(piezo_clk_div:2.0:PULS_FREQ=40000)(piezo_controller:1.0:clock_rate=50000000,piezo_count=120)(ptp_simple_us:1.0:)(realtime_clock_controll:1.0:CLOCK_SPEED_HZ=50000000,RTC_RESOLUTION=100)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00040000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00080000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x000c0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)"
+   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1566239405,AUTO_UNIQUE_ID=(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(id_switch:1.0:)(piezo_clk_div:2.0:PULS_FREQ=40000)(piezo_controller:1.0:clock_rate=50000000,piezo_count=120)(ptp_simple_us:1.0:)(realtime_clock_controll:1.0:CLOCK_SPEED_HZ=50000000,RTC_RESOLUTION=100)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00040000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x00080000,defaultConnection=false)(avalon:18.1:arbitrationPriority=1,baseAddress=0x000c0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="vidor_sys"
    kind="vidor_sys"
    version="1.0"
    name="vidor_sys">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1566221636" />
+  <parameter name="AUTO_GENERATION_ID" value="1566239405" />
   <parameter name="AUTO_DEVICE" value="10CL016YU256C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -860,9 +860,9 @@
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
-   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.008s/0.015s</message>
+   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.003s</message>
+   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.006s/0.006s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -870,15 +870,15 @@
    <message level="Debug" culprit="avalon_st_adapter_001.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
    <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.005s/0.006s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.006s/0.007s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_002">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_002.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.001s/0.001s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
    <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.006s/0.007s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.009s/0.016s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -1669,9 +1669,9 @@
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
-   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.008s/0.015s</message>
+   <message level="Debug" culprit="avalon_st_adapter.rst_bridge_0">Timing: ELA:2/0.000s/0.000s</message>
+   <message level="Debug" culprit="avalon_st_adapter.error_adapter_0">Timing: ELA:1/0.003s</message>
+   <message level="Debug" culprit="avalon_st_adapter">Timing: COM:3/0.006s/0.006s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
@@ -1679,15 +1679,15 @@
    <message level="Debug" culprit="avalon_st_adapter_001.clk_bridge_0">Timing: ELA:1/0.000s</message>
    <message level="Debug" culprit="avalon_st_adapter_001.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
    <message level="Debug" culprit="avalon_st_adapter_001.error_adapter_0">Timing: ELA:1/0.002s</message>
-   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.005s/0.006s</message>
+   <message level="Debug" culprit="avalon_st_adapter_001">Timing: COM:3/0.006s/0.007s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>
    <message level="Info" culprit="avalon_st_adapter_002">Inserting error_adapter: error_adapter_0</message>
    <message level="Debug" culprit="avalon_st_adapter_002.clk_bridge_0">Timing: ELA:1/0.000s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.001s/0.001s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002.rst_bridge_0">Timing: ELA:2/0.000s/0.001s</message>
    <message level="Debug" culprit="avalon_st_adapter_002.error_adapter_0">Timing: ELA:1/0.003s</message>
-   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.006s/0.007s</message>
+   <message level="Debug" culprit="avalon_st_adapter_002">Timing: COM:3/0.009s/0.016s</message>
    <message level="Progress" culprit="min"></message>
    <message level="Progress" culprit="max"></message>
    <message level="Progress" culprit="current"></message>

@@ -190,14 +190,26 @@ module rtc (
 						end
 					end
 				end
-				if(filter_cnt >= 32'd7000) begin
+				/*if(filter_cnt >= 32'd7000) begin
 					first_trigger <=1;
 					filter_cnt <= 0;
-					if(peak_cnt >= 32'd4000)begin
+					if(peak_cnt >= 32'd1000)begin
 						//rtc_trigger_data <= peak_cnt [31:0];
-						rtc_trigger_data2 <= filter_cnt [31:0];
+						rtc_trigger_data2 <= peak_cnt [31:0];
 						waitflag_status <= 0;
 					end 
+				end*/
+				if(filter_cnt >= 32'd4000) begin
+					//peak_cnt <= 0;
+					if(peak_cnt >= 32'd2600)begin
+						//rtc_trigger_data <= peak_cnt [31:0];
+						rtc_trigger_data2 <= peak_cnt [31:0];
+						#1;
+						waitflag_status <= 0;
+						peak_cnt <= 0;
+					end 
+					first_trigger <=1;
+					filter_cnt <= 0;
 				end
 			end
 		end

@@ -25,4 +25,4 @@ add_executable( triangulation_master
         ${INCLUDE_FILES}
         )
 
-target_link_libraries( triangulation_master -lpthread -lrt -lmosquitto)
+target_link_libraries( triangulation_master -lpthread -lrt -lmosquitto -lncurses)

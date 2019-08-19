@@ -290,7 +290,7 @@ extern "C" void app_main() {
         break;
     }
     (void)esp_mqtt_client_unsubscribe(mqtt_client, "/init");
-    (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 0) ;
+    (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 1) ;
 
     hw.allow_input_trigger();
     printf("\nID: %d", hw.getID());
@@ -319,10 +319,43 @@ extern "C" void app_main() {
     //int8_t cRxedChar, cInputIndex = 0;
     //Peripheral_Descriptor_t xConsole;
 
+    std::stringstream ss_buffer_;
+    unsigned int t_;
+    int time_out_cnt = 0;
+
 
     while (1) {
+        hw.piezo_set_burst_cycles(30);
+        //cout << "\nALLOW Input trigger";
+        /*
+        hw.allow_input_trigger();
+        //hw.allow_input_trigger();
+        //while(hw.rdy_to_read());
+        //t_ = 0;
+        for(time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
+          if(!hw.rdy_to_read()){
+            //time_dat = hw->read_trigger_time();
+            t_ = hw.read_trigger_time();
+            //cout << "\nTIME:" <<  +time_dat ; //<< " clk count : " << hw->read_trigger_time2();
+            break;
+          }
+          //cout << "\nCNT:" <<  +time_out_cnt;
+        }*/
+        //for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
+        //  if(hw->rdy_to_read())
+        //    break;
+        //}
+        //cout << "\n time_out_cnt " << time_out_cnt;
 
-        cout << "\nALLOW Input trigger";
+
+        /*
+        ss_buffer_ <<"[0]" << +(int)t_;
+        transmit.push_pub("/triangulation/1/time_data/",ss_buffer_.str());
+        ss_buffer_.str("");
+
+        */
+
+
         //cout << "\nFPGA TIME: " << hw.read_time();
         //cout << "\nID: " <<  hw.getID();
 
@@ -450,8 +483,8 @@ extern "C" void app_main() {
 
         //vTaskDelay(1000 / portTICK_PERIOD_MS);
         i++;
-        if(i >= 2){
-
+        if(i >= 10000){
+          modef.id = hw.getID();
           i=0;
         }
     }
