@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -g -g  -rdynamic CMakeFiles/visualitation.dir/src/main.cpp.o CMakeFiles/visualitation.dir/src/mqtt.cpp.o  -o visualitation -lpthread -lrt -lmosquitto 

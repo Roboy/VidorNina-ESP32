@@ -36,7 +36,7 @@ module id_switch (
 			avalon_slave_waitFlag <= 1;
 			if(avalon_slave_read) begin
 				case(avalon_slave_address>>8)
-					8'h00: returnvalue <= foo_cnt2;//avalon_slave_address[15:0]; //foo_cnt; 
+					8'h00: returnvalue <= sw[3:0];//avalon_slave_address[15:0]; //foo_cnt; 
 					8'h01: returnvalue <= foo_cnt;//avalon_slave_address[15:0]; 
 					8'h02: returnvalue <= foo_cnt2; 
 					8'h03: returnvalue <= 32'd4; 

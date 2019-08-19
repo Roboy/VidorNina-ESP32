@@ -53,6 +53,7 @@ void msg_gen::creat_topics(string *ret_data,string base_topic, const char* names
    //esp_mqtt_client_start(mqttclient);
 
    //msg_id = esp_mqtt_client_publish(mqtt_client, topic_, pub_data, 0, 0, 1);
+   //printf("\nMSG will be published %s\n", topic.c_str());
    msg_id = esp_mqtt_client_publish(*mqttclient, topic_, pub_data, 0, 0, 1);
 
    if(msg_id==0){

@@ -1,6 +1,7 @@
 #include "mode_ctl.hpp"
 #include <string>
 #include <iostream>
+
 /*
 TODO:
 Testzwecke master ctl via ROS
@@ -23,13 +24,14 @@ fpga_mode::fpga_mode(hardware_interface *hw_, msg_gen *trans_,esp_mqtt_client_ha
 
   std::stringstream ss_buffer;
 
-  ss_buffer << "/triangulation/" << id << "/time_data/";
+  ss_buffer << "/triangulation/" << +(int)id << "/time_data/";
   time_frame_topic = ss_buffer.str();
   ss_buffer.str("");
 
 }
 
 void fpga_mode::transmission_init(esp_mqtt_client_handle_t *mqttclient_){
+  std::stringstream ss_buffer;
   //struct msg_mqtt msg_mqtt;
     /*
 
@@ -56,8 +58,8 @@ void fpga_mode::transmission_init(esp_mqtt_client_handle_t *mqttclient_){
   register_sub(mqttclient_,"/triangulation/master/start_ptp_sync/", &fpga_mode::start_ptp_sync);
   register_sub(mqttclient_,"/triangulation/master/burst_cycles/", &fpga_mode::burst_cycles);
   register_sub(mqttclient_,"/triangulation/master/start_burst/", &fpga_mode::start_burst);
-
-
+  register_sub(mqttclient_,"/triangulation/master/start_conv/", &fpga_mode::start_conv_mqtt);
+  ss_buffer.str("");
 }
 
 /*
@@ -67,7 +69,7 @@ void fpga_mode::transmission_init(){
 }*/
 
 void fpga_mode::select_subf(uint32_t location, string data_){
-  printf("\nsub subf: %d\n", location);
+  //printf("\nsub subf: %d\n", location);
   (*this.*sub_func_list[location])(data_);       //<--- her the overflow probably happens ...
 }
 
@@ -84,19 +86,42 @@ void fpga_mode::register_sub(esp_mqtt_client_handle_t *mqttclient_,string topic_
   pub_cnt++;
 }
 //--------------------------------SUB - FUNCTIONS -----------
+void fpga_mode::start_conv_mqtt(string data_){
+  printf("\nCONVERSATION\n");
+  uint32_t i;
+  istringstream(data_) >> i;
+
+  current_master = i;
+
+  if(i == id){
+    mode = MODE_MASTER;
+    fp_start_conv = &fpga_mode::master_init;  //default &fpga_mode::slave_init
+  }else{
+    enable_input=false;
+    mode = MODE_SLAVE;
+    fp_start_conv = &fpga_mode::slave_init;  //default &fpga_mode::slave_init
+  }
+  ((*this).*(fp_start_conv))();
+  conversation();
+
+}
+//static bool get_masterlist_xBIT = 0;
 void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
+  //while(get_masterlist_xBIT != 0);
+  //get_masterlist_xBIT = 1;
   printf("\n-==MASTERLIST===\n");
   //cout << "original data: " << data_ << "\n";
   const char *data_buffer = data_.c_str();
-  uint8_t digit_buffer = 0;
+  uint16_t digit_buffer = 0;
 
   bool err_dat = false;
 
   for(uint8_t i = 0; i < 100; i++){
     if(*data_buffer != ',' && *data_buffer != ';'){
       if((uint8_t)*data_buffer > 57 || (uint8_t)*data_buffer < 48)
-        return;
-      digit_buffer += (uint8_t)*data_buffer - 48;
+        break;
+      digit_buffer += (uint16_t)*data_buffer - 48;
+      digit_buffer *=10;
       //printf("\ncnt:  %d", i);
       //printf("\nSTRING DATA:  %c", *data_buffer);
       //printf("\nconv DATA:  %d", digit_buffer);
@@ -110,6 +135,7 @@ void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
         return;
       }
       //cout<<"\nMaster ID: " << digit_buffer;
+      digit_buffer = digit_buffer/10;
       push_vec(masterlist, digit_buffer);
       //*list++ = digit_buffer;
       digit_buffer = 0;
@@ -121,9 +147,26 @@ void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
   }
 
   //cout << "\n==END MASTERLIST ==\n";
-  /*for(uint8_t i = 0; i < 20; i++){
-    //printf("\nList: (%d):  %d", i, masterlist[i]);
+  if(masterlist.size() == 0){
+    for(uint8_t i = 0; i < 7; i++){
+      //masterlist.resize(0)
+      push_vec(masterlist, 0);
+      push_vec(masterlist, 1);
+      push_vec(masterlist, 2);
+    }
+  }
+  cout << "\nlist" << masterlist.size();
+  for(uint8_t i = 0; i < masterlist.size(); i++){
+    //printf("\nList: (%d):  ", i);
+    printf("\nList: (%d):  %d", i, masterlist[i]);
+    //masterlist.pop_back();
+
+  }
+  /*for(uint8_t i = 0; masterlist.size() == 0; i++){
+    //printf("\nList: (%d):  ", i);
     printf("\nList: (%d):  %d", i, masterlist.front());
+    //printf("\n...List: (%d):  %d", i, masterlist.back());
+    pop_vec(masterlist);
     //masterlist.pop_back();
 
   }*/
@@ -131,7 +174,7 @@ void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
   //cout <<"\nList: (0)" << masterlist.at(0) << "..(1)" << masterlist.at(1);
 
   //std::vector<int> master_list;
-
+//get_masterlist_xBIT = 0;
 }
 void fpga_mode::start_burst(string data_){
   printf("\n-==start_burst===\n");
@@ -168,8 +211,35 @@ void fpga_mode::burst_cycles(string data_){
 }
 void fpga_mode::allow_input(string data_){
   printf("\n-==allow_input===\n");
+  int time_out_cnt = 0;
+  unsigned int time_dat = 0;
+  //uint32_t i;
+  //istringstream(data_) >> i;
+  //enable_input = i;
+  if(mode == MODE_SLAVE){
 
-  //send_time_frame(0.2);
+    hw->allow_input_trigger();
+
+    //*hw.allow_input_trigger();
+    //while(hw.rdy_to_read());
+    for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
+      if(!hw->rdy_to_read()){
+        time_dat = hw->read_trigger_time();
+        cout << "\nTIME:" <<  +time_dat ; //<< " clk count : " << hw->read_trigger_time2();
+        break;
+      }
+      cout << "\nCNT:" <<  +time_out_cnt;
+    }
+    /*for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
+      if(hw->rdy_to_read())
+        break;
+    }*/
+    //cout << "\n time_out_cnt " << time_out_cnt;
+
+    send_time_frame(time_dat);
+
+    enable_input = false;
+  }
 }
 
 /*
@@ -188,16 +258,24 @@ void fpga_mode::send_time_frame(uint32_t time_){
   std::stringstream ss_buffer;
   //cout << "\n========================= SEND TIMEFRAME\n";
   //ss_buffer <<"[" << masterlist.front() << "]" << (uint32_t)time_;
-  if(masterlist.size() == 0){
-    ss_buffer <<"[" << 0 << "]" << time_;
+  /*if(masterlist.size() == 0){
+    cout << "\n MASTERLISTFRONT = EMPTY";
+    ss_buffer <<"[" << -4 << "]" << time_;
     return;
   }else{
-    ss_buffer <<"[" << masterlist.front() << "]" << time_;
-  }
+    //cout << "\n MASTERLISTFRONT = " << +masterlist.front();
+    //ss_buffer <<"[" << +masterlist.front() << "]" << time_;
+    //printf("masterlist front %d\n", masterlist.front());
+    //pop_vec(masterlist);
+
+
+  }*/
+  ss_buffer <<"[" << +(int)current_master << "]" << time_;
+  //cout << "\n time out " << ss_buffer.str();
 
   //printf("list %d\n", masterlist.size());
   //printf("time %d\n", time_);
-  //printf("masterlist front %d\n", masterlist.front());
+
   //cout << ss_buffer.str();
   //pop_vec(masterlist);
 
@@ -212,6 +290,7 @@ void fpga_mode::send_time_frame(uint32_t time_){
 //Interface
 //==============================
 void fpga_mode::start_conversation(){
+  enable_input = false;
   if(mode_pub != mode){
       mode = mode_pub;
     if(mode == MODE_MASTER){
@@ -253,14 +332,15 @@ void fpga_mode::slave_init(){
 //==============================
 void fpga_mode::master_conv(){
   cout << "\nstart master conversation: ";
-
+  trans->push_pub("/triangulation/master/allow_input/","1");
   //enable slave
   //system_ctl_msg_pub.enable_slave_input=true;
   //master_pub.publish(system_ctl_msg_pub);
-  cout<<"\nTODO enable slave";
+  //cout<<"\nTODO enable slave";
   //TODO: wait for response over ROS;
   //...
   //hw->start_US_out();
+
   hw->piezo_burst_out();
   send_time_frame(hw->US_start_time);
 
@@ -279,9 +359,19 @@ void fpga_mode::master_conv(){
 void fpga_mode::slave_conv(){
   std::cout << "\nstart slave conversation: ";
 
+
   //TODO: wait till slave allow;
   //....
-
+/*  uint32_t input_delay_cnt = 0;
+  for(;;){
+    if(enable_input == true)
+      break;
+    input_delay_cnt++;
+    if(input_delay_cnt >=  4294967294)
+      return;
+  }
+  //while(enable_input != true);
+  //if(enable_input == true)
   hw->allow_input_trigger(); //TODO ... do it via ros
   for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
     if(hw->rdy_to_read())
@@ -289,6 +379,8 @@ void fpga_mode::slave_conv(){
   }
 
   send_time_frame(hw->read_trigger_time());
+
+  enable_input = false;*/
   //send_time_frame(uint32_t time_);
   //push_vec(time_msg_pub.trigger_time, hw->read_trigger_time());
   //push_vec(time_msg_pub.master_identifier, current_master_id); //master id
@@ -327,7 +419,7 @@ void fpga_mode::pop_vec(vector<uint8_t>& vec){
     vec[vec_cnt]=buff;
   }
   vec.pop_back();
-  vec.resize(MAX_MASTER_LIST_SIZE);
+  //vec.resize(MAX_MASTER_LIST_SIZE);
   for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
     int buff;
     buff = vec[vec.size()-1-vec_cnt];
@@ -338,6 +430,10 @@ void fpga_mode::pop_vec(vector<uint8_t>& vec){
 
 //ring bufferd vector push
 void fpga_mode::push_vec(vector<float>& vec, float data){
+  if(vec.size() < MAX_MASTER_LIST_SIZE){
+    vec.push_back(data);
+    return;
+  }
   for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
     int buff;
     buff = vec[vec.size()-1-vec_cnt];
@@ -356,13 +452,20 @@ void fpga_mode::push_vec(vector<float>& vec, float data){
 }
 
 void fpga_mode::push_vec(vector<uint8_t>& vec, uint8_t data){
+  if(vec.size() < MAX_MASTER_LIST_SIZE){
+    vec.push_back(data);
+    return;
+  }
   for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
     int buff;
     buff = vec[vec.size()-1-vec_cnt];
     vec[vec.size()-1-vec_cnt]=vec[vec_cnt];
     vec[vec_cnt]=buff;
   }
+
   vec.resize(MAX_MASTER_LIST_SIZE-1);
+
+  //vec.resize(MAX_MASTER_LIST_SIZE-1);
   for (uint8_t vec_cnt = 0; vec_cnt < vec.size()/2; vec_cnt++){
     int buff;
     buff = vec[vec.size()-1-vec_cnt];

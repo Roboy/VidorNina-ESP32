@@ -1,3 +1,0 @@
-/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/rebuild_cache.dir
-/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/triangulation_master.dir
-/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/edit_cache.dir

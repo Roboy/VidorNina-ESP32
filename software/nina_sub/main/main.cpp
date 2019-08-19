@@ -126,8 +126,8 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
             break;
         case MQTT_EVENT_DATA:
             ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-            printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
-            printf("DATA=%.*s\r\n", event->data_len, event->data);
+            //printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
+            //printf("DATA=%.*s\r\n", event->data_len, event->data);
             break;
         case MQTT_EVENT_ERROR:
             ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
@@ -322,28 +322,55 @@ extern "C" void app_main() {
 
     while (1) {
 
-        cout << "\n\n===start burst===";
-        cout << "\nFPGA TIME: " << hw.read_time();
+        cout << "\nALLOW Input trigger";
+        //cout << "\nFPGA TIME: " << hw.read_time();
+        //cout << "\nID: " <<  hw.getID();
 
-        modef.start_conversation();
+        //modef.start_conversation();
+        //modef.conversation();
 
-        hw.piezo_burst_out();
+        //hw.piezo_burst_out();
         //vTaskDelay(10000 / portTICK_PERIOD_MS);
 
       //hw.start_US_out();
-        printf("\ntime : %d", hw.US_start_time);//hw.read_trigger_time());
+        //printf("\ntime : %d", hw.US_start_time);//hw.read_trigger_time());
 
-        hw.allow_input_trigger(); //TODO ... do it via ros
-        for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
-          if(hw.rdy_to_read()){
+        //TODO ... do it via ros
+        //for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
+        //hw.allow_input_trigger();
+        //for(int time_out_cnt = 0; time_out_cnt <= 3000; time_out_cnt++){
+        //  cout << "\n" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
+          /*if(!hw.rdy_to_read()){
             cout << "\nready to read " << time_out_cnt;
             break;
-          }
+          }*/
+        //}
 
-        }
+        /*hw.allow_input_trigger();
+        //while(hw.rdy_to_read());
+        for(int time_out_cnt = 0; time_out_cnt <= 50000; time_out_cnt++){
+          if(!hw.rdy_to_read()){
+            cout << "\ncnt: " << (int)time_out_cnt << " time: " << +(unsigned int)hw.read_trigger_time();
+            break;
+          }
+        }*/
+
+        //cout << "\nIN:" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
+
+      //  for(int time_out_cnt = 0; time_out_cnt <= 1000; time_out_cnt++){
+
+      //    cout << "\nIN:" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
+          /*if(!hw.rdy_to_read()){
+            cout << "\nready to read " << time_out_cnt;
+            break;
+          }*/
+        //}
+
         //cout << "\nBREAK";
-        cout <<"\ntrigger time: " <<  hw.read_trigger_time();
-        vTaskDelay(500 / portTICK_PERIOD_MS);
+        //cout <<"\ntrigger time: " <<  hw.read_trigger_time();
+
+        //.............
+        //vTaskDelay(500 / portTICK_PERIOD_MS);
 
 
         //ESP_ERROR_CHECK(mySPI.readBytes(mySPI.device_fpga, 0x3B, 6, buffer));

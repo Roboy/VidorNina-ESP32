@@ -78,6 +78,7 @@ class hardware_interface{
     bool rdy_to_read();
     uint32_t read_time(void);
     uint32_t read_trigger_time(void);
+    uint32_t read_trigger_time2(void);
 
 
     //--BI--

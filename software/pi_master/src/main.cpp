@@ -4,6 +4,11 @@
 #include <string>
 #include <sstream>
 #include <mosquitto.h>
+ #include <unistd.h>
+ #include <cstdio>
+ #include <conio.h>
+
+//#include <thread>
 
 #include "common.hpp"
 
@@ -11,13 +16,66 @@ using namespace std;
 
 #define MAX_USERS 10
 
+#define TIME_TOPIC "/triangulation/+/time_data/"
+
+void sub_thread();
+void set_burst_cycles(struct mosquitto *mosq);
+void start_conver(struct mosquitto *mosq);
+
+unsigned int t_dat[30];
+unsigned int tag_dat[30];
+//std::vector<int> t_dat[30][2];
+
 void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
 {
+	int current_id = 0;
+	int current_master_id = 0;
+	int time_dat = 0;
+	char *payload_data;
+
+	std::stringstream ss_buffer;
+
+
 	if(message->payloadlen){
-		;//printf("%s %s\n", message->topic, message->payload);
+		//printf("%s %s\n", message->topic, message->payload);
+		for(int i=3; i<=30; i++)
+			if(message->topic[i] == '/'){
+				i++;
+				if((uint8_t)message->topic[i] > 57 || (uint8_t)message->topic[i] < 48)
+					break;
+				else{
+					//printf("\n%s %s", message->topic, message->payload);
+					current_id = (int)message->topic[i] - 48;
+					//cout << "\nCURRENT ID: " << +current_id;
+					//printf("\ncurrent ID: %u", current_id);
+					uint8_t* p = (uint8_t*)message->payload;
+					//payload_data = &message->payload;
+					//ss_buffer << message->payload;
+					//std::string str(p);
+					p++;
+					current_master_id = (unsigned int)*p++ - 48;
+					p++;
+					tag_dat[current_id] = current_master_id;
+
+					ss_buffer << p;
+					ss_buffer >> time_dat;
+
+					t_dat[current_id] = time_dat;
+					tag_dat[current_id] = current_master_id;
+					//printf("\ntime master %u: time %u \n%u\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
+					printf("\n%u",t_dat[tag_dat[current_id]] - t_dat[current_id]);
+					//printf("\nTime DATA: %x [%d,%d]", t_dat[current_id], current_id,tag_dat[current_id] );
+					//time_dat[current_id] = message->payload;
+				}
+
+				break;
+			}
+
 	}else{
 		printf("%s (null)\n", message->topic);
 	}
+
+
 	fflush(stdout);
 }
 
@@ -25,9 +83,6 @@ void my_connect_callback(struct mosquitto *mosq, void *userdata, int result)
 {
 	int i;
 	std::stringstream ss_buffer;
-
-
-
 
 
 	if(!result){
@@ -40,7 +95,7 @@ void my_connect_callback(struct mosquitto *mosq, void *userdata, int result)
 			mosquitto_subscribe(mosq, NULL, data_buffer, 2);
 			ss_buffer.str("");
 		}*/
-		mosquitto_subscribe(mosq, NULL, "/triangulation/#", 2);
+		;//mosquitto_subscribe(mosq, NULL, "#", 0);
 
 	}else{
 		fprintf(stderr, "Connect failed\n");
@@ -51,11 +106,11 @@ void my_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int 
 {
 	int i;
 
-	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
-	for(i=1; i<qos_count; i++){
-		printf(", %d", granted_qos[i]);
-	}
-	printf("\n");
+	//printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	//for(i=1; i<qos_count; i++){
+	//	printf(", %d", granted_qos[i]);
+	//}
+	printf("END_SUB\n");
 }
 
 void my_log_callback(struct mosquitto *mosq, void *userdata, int level, const char *str)
@@ -72,6 +127,8 @@ int main(int argc, char *argv[])
 	int keepalive = 60;
 	bool clean_session = true;
 	struct mosquitto *mosq = NULL;
+	struct mosquitto *mosq2 = NULL;
+	char input_key = 0;
 
 	mosquitto_lib_init();
 	mosq = mosquitto_new(NULL, clean_session, NULL);
@@ -79,6 +136,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Out of memory.\n");
 		return 1;
 	}
+
 
 	/*
 	transmit.push_pub("/topic/qos3", ss.str());
@@ -89,13 +147,14 @@ int main(int argc, char *argv[])
 	transmit.push_pub("/triangulation/master/burst_cycles/", ss.str());
 	*/
 
-	//mosquitto_subscribe(mosq, NULL, "/triangulation/master/masterlist/", 2);
+	//mosquitto_subscribe(mosq, NULL, "#", 2);
 
 
 	mosquitto_log_callback_set(mosq, my_log_callback);
 	mosquitto_connect_callback_set(mosq, my_connect_callback);
 	mosquitto_message_callback_set(mosq, my_message_callback);
 	mosquitto_subscribe_callback_set(mosq, my_subscribe_callback);
+
 
 	if(mosquitto_connect(mosq, host, port, keepalive)){
 		fprintf(stderr, "Unable to connect.\n");
@@ -116,31 +175,52 @@ int main(int argc, char *argv[])
 	string s_masterlist_data = ss_buffer.str();  //PS.: max list size 20
 	const char *masterlist_data = s_masterlist_data.c_str();
 	cout << "\n\n===============START==================\n" << s_masterlist_data <<  "\n";
-	cout << "all members connected?\n";
+	cout << "all members connected?(enter)\n";
+	cin >> input_key;
+
 	//for(uint8_t i = 0; i < 2; i++){
 
 	//mosquitto_loop_forever(mosq, -1, 1);
 
-	mosquitto_loop_start(	mosq);
+	//mosquitto_subscribe(mosq2,NULL,"triangulation/+/time_data/", 0);
+	//mosquitto_subscribe(mosq,NULL,"triangulation/1/time_data/", 0);
 
-	for(uint32_t i = 0; i<2; i++){
+	mosquitto_subscribe(mosq, NULL, TIME_TOPIC, 0);
+
+	mosquitto_loop_start(mosq);
+
+	//for(uint32_t i = 0; i<2; i++){
 		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,0,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,1,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,0,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
 		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
-	}
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
+
+
+		//mosquitto_loop_start(mosq2);
+		//thread t1(sub_thread);
+		//mosquitto_loop_forever(mosq2,1000,1);
+		//mosquitto_sub -h 192.168.1.1 -p 1883 -t
+
+
+	//}
 	//}
 
 
 
 
-	char input_key = 0;
+
 	bool t_burst = false;
 	bool t_ptp = false;
 	bool t_continiouse = false;
-	string amount_burst_cycles = "4";
+	bool t_conversation = false;
+
+	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",3,"200",1,false);
+
+
+
 
   while(input_key!=27){
 		//const char *num_cycl = "4";
@@ -151,15 +231,13 @@ int main(int argc, char *argv[])
 	  cout << "\n 3: start ptp time sync";
 	  cout << "\n 4: continouse burst";
 		cout << "\n 5: simple zero time";
+		cout << "\n 6: burst from ID0";
 
     cin >> input_key;
     cout << input_key;
     switch (input_key){
       case '1':
-				//cout <<"\nAmount of Cycles: ";
-				//cin >> amount_burst_cycles;
-				//const char *num_cycl = amount_burst_cycles.c_str();
-				mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",1,false);
+				set_burst_cycles(mosq);
         break;
       case '2':
         //activate burst
@@ -193,7 +271,11 @@ int main(int argc, char *argv[])
 			case '5':
 					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
 				break;
+			case '6':
+					start_conver(mosq);
+				break;
       default:
+				;
         break;
     }
 		//mosquitto_loop(mosq, -1, 1);
@@ -214,4 +296,46 @@ int main(int argc, char *argv[])
 	mosquitto_destroy(mosq);
 	mosquitto_lib_cleanup();
 	return 0;
+}
+
+void set_burst_cycles(struct mosquitto *mosq){
+
+	int amount_burst_cycles = 20;
+
+
+	cout <<"\nAmount of Cycles: ";
+	cin >> amount_burst_cycles;
+	string foo = std::to_string(amount_burst_cycles);
+	const char *num_cycl = foo.c_str();
+
+	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",2,num_cycl,1,false);
+
+}
+
+void start_conver(struct mosquitto *mosq){
+	cout<<"\nstart conversation..[enter ID]";
+	std::stringstream ss_buffer;
+	int id_input = 0;
+
+	cin >> id_input;
+	ss_buffer.str("");
+	ss_buffer << id_input;
+	string id_temp_string = ss_buffer.str();
+	const char *id_temp_char = id_temp_string.c_str();
+
+	char c;
+	for(uint32_t i = 0; i<=100; i++){
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",id_temp_string.size(),id_temp_char,2,false);
+		c = getch();
+	}
+
+
+	//mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
+
+
+
+}
+
+void sub_thread(){
+	cout <<"foo";
 }

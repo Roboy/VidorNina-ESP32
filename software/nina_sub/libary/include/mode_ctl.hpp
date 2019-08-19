@@ -77,6 +77,8 @@ class fpga_mode{
     void start_conversation();
     void conversation();
 
+    void start_conv_mqtt(string data_);
+
 
     //void transmission_init();
 
@@ -87,6 +89,9 @@ class fpga_mode{
 
   private:
     //hw *pctl;
+    bool enable_input = false;
+    uint8_t current_master = 0;
+
     uint32_t pub_cnt = 0;
     uint8_t mode_pub = 0;
 
@@ -94,7 +99,7 @@ class fpga_mode{
     msg_gen *trans;
 
     void (fpga_mode::*fp_start_conv)() = &fpga_mode::slave_init;
-    void (fpga_mode::*fp_conv)();
+    void (fpga_mode::*fp_conv)() = &fpga_mode::slave_conv;
 
     void slave_init();
     void master_init();

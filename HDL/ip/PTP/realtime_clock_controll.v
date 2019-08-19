@@ -23,6 +23,7 @@ module rtc (
    //reg def
 	reg [31:0] time_cnt;
 	reg [31:0] rtc_trigger_data;
+	reg [31:0] rtc_trigger_data2;
 	
 	reg [31:0] US_output_time;
 	reg US_out_trigger;
@@ -75,6 +76,7 @@ module rtc (
 					8'h02: returnvalue <= US_output_time[31:0];
 					8'h03: returnvalue <= waitflag_status;
 					8'h04: returnvalue <= burst_cycles_def;
+					8'h05: returnvalue <= rtc_trigger_data2[31:0];
 					//8'h04: returnvalue <= waitflag_status;
 					default: returnvalue <= 32'hDEADBEEF;
 				endcase
@@ -99,13 +101,16 @@ module rtc (
 			// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 			time_cnt <= time_cnt + 32'd1; 
 			burst_cycles_cnt <= 0;
-			write_delay_cnt <= write_delay_cnt + 2'd1;
-			if (time_cnt == 4294967295) begin
-				time_cnt <= 32'd0;
-			end
-			if (write_delay_cnt == 1) begin
+			//write_delay_cnt <= write_delay_cnt + 2'd1;
+			//if (time_cnt == 4294967295) begin
+			//	time_cnt <= 32'd0;
+			//end
+			/*if (write_delay_cnt == 1) begin
 				waitflag_trigger <= 0;
 				write_delay_cnt <= 0;
+			end*/
+			if(waitflag_trigger_clear == 1) begin
+				waitflag_trigger <= 0;
 			end
 			if (burst_enable == 1) begin
 				burst_cycles_cnt <= burst_cycles_cnt + 32'd1;
@@ -129,7 +134,7 @@ module rtc (
 
 	
 	// so wie das aktuell laueft hat man einen taktcyclus wo waitflag_status sich nicht aendert ... waitfalg_trigger muss  mit 2bit counter sein
-	always @(posedge clock, posedge event_trigger, posedge reset) begin: IO_time_trigger_in
+	/*always @(posedge clock, posedge event_trigger, posedge reset) begin: IO_time_trigger_in
 		if (reset == 1) begin
 			rtc_trigger_data <= 32'd0;
 			waitflag_status <= 1;
@@ -144,7 +149,115 @@ module rtc (
 				waitflag_status = 0;
 			end
 		end
+	end*/
+	
+	reg waitflag_trigger_recursive;
+	reg waitflag_trigger_clear;
+	reg start_input;
+	reg [31:0] filter_cnt;
+	reg [31:0] peak_cnt;
+	
+	reg first_trigger;
+	
+	always @(posedge clock, posedge reset) begin: IO_time_trigger_in
+		if (reset == 1) begin
+			rtc_trigger_data <= 32'd0;
+			waitflag_status <= 0;
+			waitflag_trigger_clear <= 0;
+			filter_cnt <= 32'd0;
+			peak_cnt <= 32'd0;
+			waitflag_trigger_recursive <= 0;
+			first_trigger <= 1;
+		end else begin
+			filter_cnt <= filter_cnt + 32'd1;
+			waitflag_trigger_clear <= 0;
+			if(waitflag_trigger == 1) begin
+				waitflag_status <= 1;
+				waitflag_trigger_clear <= 1;
+				peak_cnt <= 0;
+				filter_cnt <= 0;
+			end else begin
+				if(event_trigger == 1) begin
+					peak_cnt <= 0;
+					if(waitflag_status == 1) begin
+						peak_cnt <= peak_cnt + 32'd1;
+						if(first_trigger == 1) begin
+							first_trigger <=0;
+							rtc_trigger_data <= time_cnt[31:0];
+							rtc_trigger_data2 <= 32'd32;
+							filter_cnt <= 0;
+							peak_cnt <= 0;
+						end
+					end
+				end
+				if(filter_cnt >= 32'd7000) begin
+					first_trigger <=1;
+					filter_cnt <= 0;
+					if(peak_cnt >= 32'd4000)begin
+						//rtc_trigger_data <= peak_cnt [31:0];
+						rtc_trigger_data2 <= filter_cnt [31:0];
+						waitflag_status <= 0;
+					end 
+				end
+			end
+		end
 	end
+	
+	/*
+	always @(posedge clock, posedge reset) begin: IO_time_trigger_in
+		if (reset == 1) begin
+			rtc_trigger_data <= 32'd0;
+			waitflag_status <= 0;
+			waitflag_trigger_clear <= 0;
+			filter_cnt <= 32'd0;
+			peak_cnt <= 32'd0;
+			waitflag_trigger_recursive <= 0;
+		end else begin
+			filter_cnt <= 0;
+			waitflag_trigger_clear <= 0;
+			
+			if(waitflag_status == 1) begin
+				filter_cnt <= filter_cnt + 32'd1;
+				if(filter_cnt >= 32'd7000) begin
+					if(peak_cnt >= 32'd1250) begin
+						waitflag_status <= 0;
+						waitflag_trigger_recursive <= 0;
+						rtc_trigger_data <= peak_cnt [31:0];
+					end else begin
+						rtc_trigger_data <= 32'd0;
+						waitflag_status <= 1;
+						filter_cnt <= 32'd0;
+						peak_cnt <= 32'd0;
+						waitflag_trigger_recursive <= 1;
+					end
+				end
+			end
+			
+			if(event_trigger == 1) begin
+				waitflag_trigger_recursive <= 0;
+				waitflag_trigger_clear <=1;
+				if(waitflag_trigger == 1) begin
+					filter_cnt <= 32'd0;
+					rtc_trigger_data <= time_cnt[31:0];
+					waitflag_status <= 1;
+					peak_cnt <= 32'd0;
+				end
+				if(waitflag_trigger_recursive == 1) begin
+					filter_cnt <= 32'd0;
+					rtc_trigger_data <= time_cnt[31:0];
+					waitflag_status <= 1;
+					peak_cnt <= 32'd0;
+				end
+				if(waitflag_status == 1) begin
+					peak_cnt <= peak_cnt + 32'd1;
+				end else begin
+					peak_cnt <= 0;
+				end
+			end
+			
+			
+		end
+	end*/
 	
 endmodule
 

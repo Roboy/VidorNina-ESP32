@@ -29,7 +29,7 @@ module piezo_ctl2 #(
 			  counter_up <= 32'd1;
 		end else begin
 			out_clk_reg <=0;
-			if(enable_in == 1) begin
+			if(enable_in == 1) begin 
 				counter_up <= counter_up + 32'd1;
 				if(counter_up <= 50000000/PULS_FREQ/2) begin //625-1 tak cycle
 					//counter_up <= 32'd1;
@@ -41,9 +41,9 @@ module piezo_ctl2 #(
 					//out_clk_reg <= ~out_clk_reg;
 					counter_up<=0;
 				end
-			end else begin
-				out_clk_reg <= 1'bz;
-			end
+			end //else begin
+				//out_clk_reg <= 1'bz;
+			//end
 		end
 	assign gpio_out = out_clk_reg;
 

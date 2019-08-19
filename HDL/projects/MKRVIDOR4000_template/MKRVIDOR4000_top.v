@@ -171,7 +171,7 @@ assign bMKR_D[10] = oSpiMISO;
 //DEF
 wire	[3:0]	sw; 
 //PIN - MAP
-assign sw = bMKR_A[5:2];
+assign sw = bMKR_A[5:2];//{bMKR_A[2],bMKR_A[3],bMKR_A[4],bMKR_A[5]};
 //=================================================
 
 //=====PIEZO interface ============================
@@ -215,6 +215,8 @@ assign oPiezoOUT_enable[SIZE] = oPiezoOUT_enable[0] | oPiezoOUT_enable[1];
 assign bMKR_D[3] = ENABLE_PIEZO;
 assign bMKR_D[4] = ENABEL_PIEZO_IN;
 assign bMKR_D[1] = PIEZO;
+//TODO ENTFERNEN BEI RICHTIGER PLATINE
+assign bMKR_D[5]  = (ENABLE_PIEZO == 1) ? ~PIEZO : 1'b0;
 assign INPUT_SIGNAL = bMKR_D[6];//bMKR_D[1];
 
 //=================================================

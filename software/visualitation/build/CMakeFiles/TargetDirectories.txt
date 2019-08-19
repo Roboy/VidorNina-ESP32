@@ -1,0 +1,3 @@
+/home/sausy/Projects/VidorNina-ESP32/software/visualitation/build/CMakeFiles/rebuild_cache.dir
+/home/sausy/Projects/VidorNina-ESP32/software/visualitation/build/CMakeFiles/visualitation.dir
+/home/sausy/Projects/VidorNina-ESP32/software/visualitation/build/CMakeFiles/edit_cache.dir

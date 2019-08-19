@@ -71,6 +71,9 @@ uint32_t hardware_interface::read_time(void) {
 uint32_t hardware_interface::read_trigger_time(void) {
     return (IORD(addr->rtc_base_addr, (uint32_t)(1)));
 }
+uint32_t hardware_interface::read_trigger_time2(void) {
+    return (IORD(addr->rtc_base_addr, (uint32_t)(5)));
+}
 bool hardware_interface::rdy_to_read(void) {
     return (bool)(IORD(addr->rtc_base_addr, (uint32_t)(3)));
 }
