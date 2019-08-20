@@ -7,6 +7,9 @@
 			piezo_controller_piezo_enable_piezo_enable_in              : in    std_logic                      := 'X';             -- piezo_enable_in
 			piezo_controller_piezo_out_export                          : out   std_logic_vector(119 downto 0);                    -- export
 			piezo_controller_piezo_status_export                       : out   std_logic_vector(2 downto 0);                      -- export
+			piezo_ctl_gpio_out                                         : out   std_logic;                                         -- gpio_out
+			piezo_ctl_enable_in                                        : in    std_logic                      := 'X';             -- enable_in
+			piezo_ctl_enable_out                                       : out   std_logic;                                         -- enable_out
 			ptp_piezo_interface0_piezo_interface_in                    : in    std_logic                      := 'X';             -- piezo_interface_in
 			ptp_piezo_interface0_piezo_interface_out                   : out   std_logic;                                         -- piezo_interface_out
 			ptp_piezo_interface0_time_data_master                      : out   std_logic_vector(31 downto 0);                     -- time_data_master
@@ -19,9 +22,9 @@
 			spi_bridge_nss_to_the_spislave_inst_for_spichain           : in    std_logic                      := 'X';             -- nss_to_the_spislave_inst_for_spichain
 			spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic                      := 'X';             -- miso_to_and_from_the_spislave_inst_for_spichain
 			spi_bridge_sclk_to_the_spislave_inst_for_spichain          : in    std_logic                      := 'X';             -- sclk_to_the_spislave_inst_for_spichain
-			piezo_ctl_gpio_out                                         : out   std_logic;                                         -- gpio_out
-			piezo_ctl_enable_in                                        : in    std_logic                      := 'X';             -- enable_in
-			piezo_ctl_enable_out                                       : out   std_logic                                          -- enable_out
+			pll_c0_clk                                                 : out   std_logic;                                         -- clk
+			pll_areset_export                                          : in    std_logic                      := 'X';             -- export
+			pll_locked_export                                          : out   std_logic                                          -- export
 		);
 	end component vidor_sys;
 
@@ -34,6 +37,9 @@
 			piezo_controller_piezo_enable_piezo_enable_in              => CONNECTED_TO_piezo_controller_piezo_enable_piezo_enable_in,              --                              .piezo_enable_in
 			piezo_controller_piezo_out_export                          => CONNECTED_TO_piezo_controller_piezo_out_export,                          --    piezo_controller_piezo_out.export
 			piezo_controller_piezo_status_export                       => CONNECTED_TO_piezo_controller_piezo_status_export,                       -- piezo_controller_piezo_status.export
+			piezo_ctl_gpio_out                                         => CONNECTED_TO_piezo_ctl_gpio_out,                                         --                     piezo_ctl.gpio_out
+			piezo_ctl_enable_in                                        => CONNECTED_TO_piezo_ctl_enable_in,                                        --                              .enable_in
+			piezo_ctl_enable_out                                       => CONNECTED_TO_piezo_ctl_enable_out,                                       --                              .enable_out
 			ptp_piezo_interface0_piezo_interface_in                    => CONNECTED_TO_ptp_piezo_interface0_piezo_interface_in,                    --          ptp_piezo_interface0.piezo_interface_in
 			ptp_piezo_interface0_piezo_interface_out                   => CONNECTED_TO_ptp_piezo_interface0_piezo_interface_out,                   --                              .piezo_interface_out
 			ptp_piezo_interface0_time_data_master                      => CONNECTED_TO_ptp_piezo_interface0_time_data_master,                      --                              .time_data_master
@@ -46,8 +52,8 @@
 			spi_bridge_nss_to_the_spislave_inst_for_spichain           => CONNECTED_TO_spi_bridge_nss_to_the_spislave_inst_for_spichain,           --                              .nss_to_the_spislave_inst_for_spichain
 			spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain => CONNECTED_TO_spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain, --                              .miso_to_and_from_the_spislave_inst_for_spichain
 			spi_bridge_sclk_to_the_spislave_inst_for_spichain          => CONNECTED_TO_spi_bridge_sclk_to_the_spislave_inst_for_spichain,          --                              .sclk_to_the_spislave_inst_for_spichain
-			piezo_ctl_gpio_out                                         => CONNECTED_TO_piezo_ctl_gpio_out,                                         --                     piezo_ctl.gpio_out
-			piezo_ctl_enable_in                                        => CONNECTED_TO_piezo_ctl_enable_in,                                        --                              .enable_in
-			piezo_ctl_enable_out                                       => CONNECTED_TO_piezo_ctl_enable_out                                        --                              .enable_out
+			pll_c0_clk                                                 => CONNECTED_TO_pll_c0_clk,                                                 --                        pll_c0.clk
+			pll_areset_export                                          => CONNECTED_TO_pll_areset_export,                                          --                    pll_areset.export
+			pll_locked_export                                          => CONNECTED_TO_pll_locked_export                                           --                    pll_locked.export
 		);
 

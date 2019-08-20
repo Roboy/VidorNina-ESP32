@@ -10,6 +10,9 @@
 			piezo_ctl_gpio_out                                         : out   std_logic;                                         -- gpio_out
 			piezo_ctl_enable_in                                        : in    std_logic                      := 'X';             -- enable_in
 			piezo_ctl_enable_out                                       : out   std_logic;                                         -- enable_out
+			pll_areset_export                                          : in    std_logic                      := 'X';             -- export
+			pll_c0_clk                                                 : out   std_logic;                                         -- clk
+			pll_locked_export                                          : out   std_logic;                                         -- export
 			ptp_piezo_interface0_piezo_interface_in                    : in    std_logic                      := 'X';             -- piezo_interface_in
 			ptp_piezo_interface0_piezo_interface_out                   : out   std_logic;                                         -- piezo_interface_out
 			ptp_piezo_interface0_time_data_master                      : out   std_logic_vector(31 downto 0);                     -- time_data_master

@@ -3,12 +3,13 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="79" />
+   <connections preferredWidth="95" />
    <irq preferredWidth="34" />
    <name preferredWidth="238" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
+ <library
+   expandedCategories="Library/Basic Functions,Library,Library/Basic Functions/Clocks; PLLs and Resets,Library/University Program,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Project,Project/ipTronix" />
  <window width="1920" height="1061" x="0" y="0" />
  <hdlexample language="VERILOG" />
 </preferences>

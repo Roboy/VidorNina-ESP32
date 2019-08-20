@@ -192,6 +192,8 @@ wire ENABEL_PIEZO_IN;
 wire PIEZO;
 wire INPUT_SIGNAL;
 
+wire pll_c0;
+
 
 //LOGIC
 /*
@@ -268,14 +270,17 @@ end
         .ptp_piezo_interface0_time_data_slave                       (wSlave_time_ptp),                       //                              .time_data_slave
         .rtc_0_conduit_end_event_trigger                            (INPUT_SIGNAL),                            //             rtc_0_conduit_end.event_trigger
         .rtc_0_conduit_end_piezo_enable                             (oPiezoOUT_enable[1]),                             //                              .piezo_enable
-        .rtc_0_conduit_end_event_trigger2                           (1'b0),                           //                              .event_trigger2
+        .rtc_0_conduit_end_event_trigger2                           (pll_c0),                           //                              .event_trigger2
 		  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
 		  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
 	     .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
 	     .spi_bridge_sclk_to_the_spislave_inst_for_spichain 				(iSpiClk),  //         .sclk                                       //                     piezo_ctl.gpio_out
-		  .piezo_ctl_gpio_out                                         (PIEZO),                                         //                     piezo_ctl.gpio_out
-        .piezo_ctl_enable_in                                        (oPiezoOUT_enable[SIZE]),                                        //                              .enable_in
-        .piezo_ctl_enable_out    (ENABLE_PIEZO) 			
+		  .pll_c0_clk                                                 	(pll_c0),                                                 //                        pll_c0.clk
+        //.pll_areset_export                                          	(<connected-to-pll_areset_export>),                                          //                    pll_areset.export
+        //.pll_locked_export                                          	(<connected-to-pll_locked_export>),
+		  .piezo_ctl_gpio_out                                         	(PIEZO),                                         //                     piezo_ctl.gpio_out
+        .piezo_ctl_enable_in                                        	(oPiezoOUT_enable[SIZE]),                                        //                              .enable_in
+        .piezo_ctl_enable_out    											  	(ENABLE_PIEZO) 			
     );
  
 

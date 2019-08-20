@@ -70,7 +70,7 @@ void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mo
 					tag_dat[current_id] = current_master_id;
 					//printf("\ntime master %u: time %u \n%u\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
 					//if(current_master_id != current_id)
-						printf("\ntime %u: master time %u \n%d\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
+						printf("\nm:%d,c:%d,time %u: master time %u \n%d\n", tag_dat[current_id],current_id,t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
 						//printf("\n%u",t_dat[tag_dat[current_id]] - t_dat[current_id]);
 					//printf("\nTime DATA: %x [%d,%d]", t_dat[current_id], current_id,tag_dat[current_id] );
 					//time_dat[current_id] = message->payload;
@@ -203,8 +203,8 @@ int main(int argc, char *argv[])
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,2,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,2,false);
 		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",2,false);
-		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",2,false);
+		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
+		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
 
 
 		//mosquitto_loop_start(mosq2);
@@ -277,7 +277,7 @@ int main(int argc, char *argv[])
           //masterctl.tgl_continiouse_mode();
           break;
 			case '5':
-					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
+					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",0,false);
 				break;
 			case '6':
 					start_conver(mosq,0);

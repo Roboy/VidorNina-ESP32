@@ -5,21 +5,21 @@ preplace inst vidor_sys.realtime_clock_controll_0 -pg 1 -lvl 3 -y 290
 preplace inst vidor_sys.spi_avalon_bridge -pg 1 -lvl 2 -y 130
 preplace inst vidor_sys.ptp_simple_us_0 -pg 1 -lvl 3 -y 90
 preplace inst vidor_sys.piezo_controller_0 -pg 1 -lvl 3 -y 390
-preplace inst vidor_sys.clock_divider_0 -pg 1 -lvl 2 -y 30
+preplace inst vidor_sys.piezo_clk_div_0 -pg 1 -lvl 2 -y 30
 preplace inst vidor_sys.clk_0 -pg 1 -lvl 1 -y 170
 preplace inst vidor_sys -pg 1 -lvl 1 -y 40 -regy -20
-preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.clock_div,(SLAVE)clock_divider_0.conduit_end) 1 0 2 NJ 60 NJ
-preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)piezo_controller_0.piezo_enable,(SLAVE)vidor_sys.piezo_controller_piezo_enable) 1 0 3 NJ 420 NJ 420 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.rtc_0_conduit_end,(SLAVE)realtime_clock_controll_0.conduit_end) 1 0 3 NJ 340 NJ 340 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.reset,(SLAVE)clk_0.clk_in_reset) 1 0 1 NJ
-preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.clk,(SLAVE)clk_0.clk_in) 1 0 1 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.id_switch,(SLAVE)id_switch_0.conduit_end) 1 0 3 NJ 280 NJ 280 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)clk_0.clk_in,(SLAVE)vidor_sys.clk) 1 0 1 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.piezo_controller_piezo_status,(SLAVE)piezo_controller_0.piezo_status) 1 0 3 NJ 460 NJ 460 NJ
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)piezo_clk_div_0.conduit,(SLAVE)vidor_sys.piezo_ctl) 1 0 2 NJ 60 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.spi_bridge,(SLAVE)spi_avalon_bridge.export_0) 1 0 2 NJ 160 NJ
-preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)id_switch_0.conduit_end,(SLAVE)vidor_sys.id_switch) 1 0 3 NJ 280 NJ 280 NJ
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)id_switch_0.clock,(SLAVE)spi_avalon_bridge.clk,(SLAVE)piezo_controller_0.clk,(SLAVE)ptp_simple_us_0.clock,(SLAVE)piezo_clk_div_0.clock_sink,(SLAVE)realtime_clock_controll_0.clock_sink,(MASTER)clk_0.clk) 1 1 2 400 120 680
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.ptp_piezo_interface0,(SLAVE)ptp_simple_us_0.conduit_end) 1 0 3 NJ 260 NJ 260 NJ
-preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(MASTER)clk_0.clk,(SLAVE)id_switch_0.clock,(SLAVE)spi_avalon_bridge.clk,(SLAVE)clock_divider_0.clock_sink,(SLAVE)ptp_simple_us_0.clock,(SLAVE)realtime_clock_controll_0.clock_sink,(SLAVE)piezo_controller_0.clk) 1 1 2 400 120 680
-preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)piezo_controller_0.s1,(SLAVE)id_switch_0.avalon_slave,(SLAVE)realtime_clock_controll_0.avalon_slave,(MASTER)spi_avalon_bridge.avalon_master,(SLAVE)ptp_simple_us_0.avalon_slave) 1 2 1 700
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)spi_avalon_bridge.clk_reset,(SLAVE)ptp_simple_us_0.reset,(SLAVE)piezo_clk_div_0.reset,(SLAVE)id_switch_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)realtime_clock_controll_0.reset,(SLAVE)piezo_controller_0.reset) 1 1 2 440 480 720
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.piezo_controller_piezo_enable,(SLAVE)piezo_controller_0.piezo_enable) 1 0 3 NJ 420 NJ 420 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.piezo_controller_piezo_out,(SLAVE)piezo_controller_0.piezo_out) 1 0 3 NJ 440 NJ 440 NJ
-preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)ptp_simple_us_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)spi_avalon_bridge.clk_reset,(SLAVE)piezo_controller_0.reset,(SLAVE)id_switch_0.reset,(SLAVE)realtime_clock_controll_0.reset,(SLAVE)clock_divider_0.reset) 1 1 2 440 480 720
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)ptp_simple_us_0.avalon_slave,(SLAVE)piezo_controller_0.s1,(SLAVE)realtime_clock_controll_0.avalon_slave,(SLAVE)id_switch_0.avalon_slave,(MASTER)spi_avalon_bridge.avalon_master) 1 2 1 700
 levelinfo -pg 1 0 190 950
 levelinfo -hier vidor_sys 200 230 480 790 930

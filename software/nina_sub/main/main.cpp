@@ -189,6 +189,7 @@ static void mqtt_app_start(esp_mqtt_client_handle_t *client_)
 {
   //const esp_mqtt_client_config_t mqtt_cfg = {mqtt_event_handler ,NULL ,"mqtt://192.168.1.1", "mqtt://192.168.1.1"};
   const esp_mqtt_client_config_t mqtt_cfg = {NULL ,NULL ,"mqtt://192.168.1.1", "mqtt://192.168.1.1"};
+  ESP_LOGI(TAG, "MQTT!!!!!! ID: %s ", mqtt_cfg.client_id);
 
 
   //esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
@@ -284,13 +285,13 @@ extern "C" void app_main() {
 
 
     //transmit.push_pub("/init", "0");
-    (void)esp_mqtt_client_publish(mqtt_client, "/init", "1", 0, 0, 1);
+    (void)esp_mqtt_client_publish(mqtt_client, "/init", "1", 0, 1, 0);
     for(uint8_t i=0; i < 1000; i++){
-      if(esp_mqtt_client_subscribe(mqtt_client, "/init", 0) > 0)
+      if(esp_mqtt_client_subscribe(mqtt_client, "/init", 1) > 0)
         break;
     }
     (void)esp_mqtt_client_unsubscribe(mqtt_client, "/init");
-    (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 1) ;
+    (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 0) ;
 
     hw.allow_input_trigger();
     printf("\nID: %d", hw.getID());
@@ -452,8 +453,8 @@ extern "C" void app_main() {
         vTaskDelay(500 / portTICK_PERIOD_MS);
         */
 
-        std::stringstream ss;
-        ss << i*5;
+        //std::stringstream ss;
+        //ss << i*5;
 
         //push_pub("/topic/qos3", ss.str(), mqtt_client);
 

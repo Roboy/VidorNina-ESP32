@@ -23,7 +23,7 @@
 #define FPGA_MB_INT                       (31u)
 
 // FPGA to SAMD21 control signal (interrupt ?)
-#define FPGA_INT                          (33u) //B2 N2
+#define FPGA_INT                          (133u) //B2 N2
 
 // For MKR pinout assignments see : https://systemes-embarques.fr/wp/brochage-connecteur-mkr-vidor-4000/
 
