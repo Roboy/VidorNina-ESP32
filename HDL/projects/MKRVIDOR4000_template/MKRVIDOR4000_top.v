@@ -130,8 +130,8 @@ wire oRx_esp,oCts_esp,oDtr_esp;
 wire iRESET_button,iBOOT_button;
 
 //PIN - MAP
-assign {iRESET_button,iBOOT_button} = {bMKR_AREF,bMKR_A[0]};
-assign {iTx_esp,iRx_header,iCts_header,iDtr_header} = {iWM_TX,bMKR_D[13:11]};
+assign {iRESET_button,iBOOT_button} = {bMKR_A[5],bMKR_A[6]};
+assign {iTx_esp,iRx_header} = {iWM_TX,bMKR_D[13]};
 assign {bMKR_D[14],oWM_RX,bWM_PIO27,oWM_RESET} = {oTx_header,oRx_esp,oCts_esp,oDtr_esp};
 
 //LOGIC
@@ -183,17 +183,11 @@ assign sw = bMKR_A[5:2];
 	  .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
 	  .spi_bridge_sclk_to_the_spislave_inst_for_spichain 	(iSpiClk),  //         .sclk
 	  
-	  
-	  //.spi_MISO      (oSpiMISO),      //       spi.MISO
-	  //.spi_MOSI      (iSpiMOSI),      //          .MOSI
-	  //.spi_SCLK      (iSpiClk),      //          .SCLK
-	  //.spi_SS_n      (iSpiCS)       //          .SS_n
-
-	  .id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch_sw	(sw[3:0]),
-	  //.id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch1_sw	(sw[3:0])
-	  
+	  .myocontrol_0_conduit_end_miso(bMKR_D[0]),                 // myocontrol_0_conduit_end.miso
+	  .myocontrol_0_conduit_end_mosi(bMKR_D[1]),                 //                         .mosi
+	  .myocontrol_0_conduit_end_sck(bMKR_D[2]),                  //                         .sck
+	  .myocontrol_0_conduit_end_ss_n_o(bMKR_D[6:3]),                 //                         .ss_n
+	  .myocontrol_0_conduit_end_power_sense_n(1'b0),        //                         .power_sense_n
  );
  
  //=====debug test ============DELETE WHEN DONE====

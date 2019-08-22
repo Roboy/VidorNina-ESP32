@@ -1,2 +1,3 @@
-esp_rom.o: /home/sausy/esp/esp-idf/components/esp_rom/esp_rom.c
-/home/sausy/esp/esp-idf/components/esp_rom/./esp_rom.c:
+esp_rom.o: \
+ /home/letrend/workspace/m3/esp/esp-idf/components/esp_rom/esp_rom.c
+/home/letrend/workspace/m3/esp/esp-idf/components/esp_rom/./esp_rom.c:

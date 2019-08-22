@@ -8,7 +8,8 @@
    <name preferredWidth="238" />
   </columns>
  </systemtable>
- <library expandedCategories="Library,Project" />
+ <library expandedCategories="Project/ipTronix,Project,Library" />
  <window width="1920" height="1061" x="0" y="0" />
  <hdlexample language="VERILOG" />
+ <generation block_symbol_file="0" />
 </preferences>
