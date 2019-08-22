@@ -347,7 +347,7 @@ void fpga_mode::master_conv(){
   //...
   //hw->start_US_out();
   //usleep(10);
-  vTaskDelay(1 / portTICK_PERIOD_MS);
+  //vTaskDelay(1 / portTICK_PERIOD_MS);
   hw->piezo_burst_out();
   send_time_frame(hw->US_start_time);
 
@@ -365,8 +365,9 @@ void fpga_mode::master_conv(){
 //-------------------------------
 static bool xBIT_allow_in = false;
 void fpga_mode::slave_conv(){
+  ;
   //std::cout << "\nstart slave conversation: ";
-  while(xBIT_allow_in);
+  /*while(xBIT_allow_in);
   xBIT_allow_in = true;
   //printf("\n-==allow_input===\n");
   int time_out_cnt = 0;
@@ -383,11 +384,11 @@ void fpga_mode::slave_conv(){
     for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
       if(!hw->rdy_to_read()){
         //time_dat = hw->read_trigger_time();
-        time_dat = hw->read_trigger_time2();
+        time_dat = hw->read_trigger_time();
         //cout << "\nTIME:" <<  +time_dat ; //<< " clk count : " << hw->read_trigger_time2();
         break;
       }
-      vTaskDelay(1 / portTICK_PERIOD_MS);
+      //vTaskDelay(1 / portTICK_PERIOD_MS);
       //cout << "\nCNT:" <<  +time_out_cnt;
     }
     //for(time_out_cnt=0; time_out_cnt <= 4294967294; time_out_cnt++){
@@ -400,7 +401,7 @@ void fpga_mode::slave_conv(){
 
     enable_input = false;
   }
-  xBIT_allow_in = false;
+  xBIT_allow_in = false;*/
 
 
   //TODO: wait till slave allow;

@@ -185,11 +185,17 @@ static void mqtt_event_handler_(void *handler_args, esp_event_base_t base, int32
   printf("default handl");
 }
 
-static void mqtt_app_start(esp_mqtt_client_handle_t *client_)
+static void mqtt_app_start(esp_mqtt_client_handle_t *client_, int id)
 {
+  std::stringstream ss_buffer_;
+  ss_buffer_ << "sausi_esp" << +(int)id;
+  string s = ss_buffer_.str();
+  const char *c_id = s.c_str();
   //const esp_mqtt_client_config_t mqtt_cfg = {mqtt_event_handler ,NULL ,"mqtt://192.168.1.1", "mqtt://192.168.1.1"};
-  const esp_mqtt_client_config_t mqtt_cfg = {NULL ,NULL ,"mqtt://192.168.1.1", "mqtt://192.168.1.1"};
-  ESP_LOGI(TAG, "MQTT!!!!!! ID: %s ", mqtt_cfg.client_id);
+  const esp_mqtt_client_config_t mqtt_cfg = {NULL ,NULL ,"mqtt://192.168.1.1", "mqtt://192.168.1.1", 1883, c_id};
+
+  //const char *p = mqtt_cfg.client_id;
+  //ESP_LOGI(TAG, "MQTT!!!!!! ID: %s ", p);
 
 
   //esp_mqtt_client_handle_t client = esp_mqtt_client_init(&mqtt_cfg);
@@ -280,7 +286,7 @@ extern "C" void app_main() {
 
     nvs_flash_init();
     wifi_init();
-    mqtt_app_start(&mqtt_client);
+    mqtt_app_start(&mqtt_client, hw.getID());
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA, custom_handl, &modef);
 
 
@@ -326,7 +332,7 @@ extern "C" void app_main() {
 
 
     while (1) {
-        hw.piezo_set_burst_cycles(30);
+        //hw.piezo_set_burst_cycles(30);
         //cout << "\nALLOW Input trigger";
         /*
         hw.allow_input_trigger();
@@ -371,14 +377,15 @@ extern "C" void app_main() {
 
         //TODO ... do it via ros
         //for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
-        //hw.allow_input_trigger();
-        //for(int time_out_cnt = 0; time_out_cnt <= 3000; time_out_cnt++){
+        hw.allow_input_trigger();
+        for(int time_out_cnt = 0; time_out_cnt <= 3000; time_out_cnt++){
         //  cout << "\n" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
-          /*if(!hw.rdy_to_read()){
-            cout << "\nready to read " << time_out_cnt;
+          if(!hw.rdy_to_read()){
+            //cout << "\nready to read " << time_out_cnt;
+            modef.send_time_frame(hw.read_trigger_time());
             break;
-          }*/
-        //}
+          }
+        }
 
         /*hw.allow_input_trigger();
         //while(hw.rdy_to_read());

@@ -28,8 +28,9 @@ void spezific_conver(struct mosquitto *mosq);
 void start_conver(struct mosquitto *mosq,int id_input);
 
 
-unsigned int t_dat[30];
-unsigned int tag_dat[30];
+uint64_t t_dat[30];
+uint64_t tag_dat[30];
+static uint8_t count_data = 0;
 //std::vector<int> t_dat[30][2];
 
 void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
@@ -68,12 +69,26 @@ void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mo
 
 					t_dat[current_id] = time_dat;
 					tag_dat[current_id] = current_master_id;
+					count_data ++;
 					//printf("\ntime master %u: time %u \n%u\n", t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
 					//if(current_master_id != current_id)
-						printf("\nm:%d,c:%d,time %u: master time %u \n%d\n", tag_dat[current_id],current_id,t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
 						//printf("\n%u",t_dat[tag_dat[current_id]] - t_dat[current_id]);
 					//printf("\nTime DATA: %x [%d,%d]", t_dat[current_id], current_id,tag_dat[current_id] );
 					//time_dat[current_id] = message->payload;
+
+					if(count_data > 2){
+						//printf("count data");
+						for(uint8_t j=0; j < count_data; j++){
+							int64_t dif = t_dat[tag_dat[j]] - t_dat[j];
+							//printf("\nm:%d,c:%d,time %u: master time %u .... %d", tag_dat[current_id],current_id,t_dat[current_id],t_dat[tag_dat[current_id]],t_dat[tag_dat[current_id]] - t_dat[current_id]);
+							printf("\ni: %ld", dif);
+						}
+						printf("\ndiv 2: %ld", t_dat[2] - t_dat[1]);
+						count_data = 0;
+
+
+					}
+					break;
 				}
 
 				break;
@@ -82,6 +97,8 @@ void my_message_callback(struct mosquitto *mosq, void *userdata, const struct mo
 	}else{
 		printf("%s (null)\n", message->topic);
 	}
+
+
 
 
 	fflush(stdout);
@@ -225,7 +242,7 @@ int main(int argc, char *argv[])
 	bool t_continiouse = false;
 	bool t_conversation = false;
 
-	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",3,"200",1,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",3,"50",1,false);
 
 
 
@@ -327,6 +344,7 @@ void spezific_conver(struct mosquitto *mosq){
 	cout<<"\nstart conversation..[enter ID]";
 	int id_input = 0;
 	cin >> id_input;
+	cout << (int)id_input;
 
 	start_conver(mosq,id_input);
 }

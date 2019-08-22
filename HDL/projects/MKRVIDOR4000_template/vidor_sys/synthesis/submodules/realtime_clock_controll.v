@@ -52,7 +52,7 @@ module rtc (
 	
 	//ext moduls
 	//clock_divider cd1(clock, reset, clock_div);
-	IO_time_ctl tim1(clock, reset, piezo_output_enable, time_cnt2, time_stamp_US_out, piezo_enable);//detects trigger event starts output and matches it with the current time stamp 
+	IO_time_ctl tim1(clock, reset, piezo_output_enable, time_cnt, time_stamp_US_out, piezo_enable);//detects trigger event starts output and matches it with the current time stamp 
 	
 	always @(posedge piezo_enable) begin : start_US
 		US_output_time <= time_stamp_US_out[31:0]; 
@@ -60,7 +60,7 @@ module rtc (
 	
 	reg time_avalon_flag;
 	reg time_avalon_flag_clear;
-	always @(posedge event_trigger2, posedge reset) begin : pll_time
+	/*always @(posedge event_trigger2, posedge reset) begin : pll_time
 		if(reset == 1) begin
 			time_cnt2 <= 0;
 			time_avalon_flag_clear <= 0;
@@ -70,12 +70,12 @@ module rtc (
 			if(time_cnt2 >= 4294967294) begin
 				time_cnt2 <= 0;
 			end
-			if(time_avalon_flag == 1) begin //da event trigger 2 mit 1MHZ aggiert warte ich lieber 2*50 takete der hauptclock ab
+			if(time_cnt_avalon == 1) begin //da event trigger 2 mit 1MHZ aggiert warte ich lieber 2*50 takete der hauptclock ab
 				time_avalon_flag_clear <= 1;
 				time_cnt2 <= 0;
 			end
 		end
-	end
+	end*/
 	  
 	// the following iterface handles read requests via lightweight axi bridge
 	// the upper 8 bit of the read address define which value we want to read
@@ -121,7 +121,7 @@ module rtc (
 		end else begin
 			// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 			time_cnt <= time_cnt + 32'd1; 
-			time_cnt_avalon <= 32'd100;
+			//time_cnt_avalon <= 32'd100;
 			burst_cycles_cnt <= 0;
 			//write_delay_cnt <= write_delay_cnt + 2'd1;
 			//if (time_cnt == 4294967295) begin
@@ -131,12 +131,13 @@ module rtc (
 				waitflag_trigger <= 0;
 				write_delay_cnt <= 0;
 			end*/
-			if(time_avalon_flag_clear == 1) begin
-				time_avalon_flag <= 0;
-			end
-			if(time_cnt_avalon <= 32'd19) begin
+			//if(time_avalon_flag_clear == 1) begin
+			//	time_avalon_flag <= 0;
+			//end
+			/*if(time_cnt_avalon <= 32'd19) begin
 				time_avalon_flag <= 1;
-			end
+				time_cnt <= 0;
+			end*/
 			if(waitflag_trigger_clear == 1) begin
 				waitflag_trigger <= 0;
 			end
@@ -149,7 +150,7 @@ module rtc (
 			end
 			if(avalon_slave_write && ~avalon_slave_waitrequest) begin
 				case(avalon_slave_address>>8)
-					8'h00: time_cnt_avalon <= avalon_slave_writedata[31:0];
+					8'h00: time_cnt <= avalon_slave_writedata[31:0];
 					8'h02: waitflag_trigger <= (avalon_slave_writedata!=0);
 					8'h03: US_out_trigger <= (avalon_slave_writedata!=0);
 					8'h04: burst_cycles_def <= avalon_slave_writedata[31:0];
@@ -162,31 +163,37 @@ module rtc (
 
 	
 	// so wie das aktuell laueft hat man einen taktcyclus wo waitflag_status sich nicht aendert ... waitfalg_trigger muss  mit 2bit counter sein
-	/*always @(posedge clock, posedge event_trigger, posedge reset) begin: IO_time_trigger_in
+	always @(posedge clock, posedge event_trigger, posedge reset) begin: IO_time_trigger_in
 		if (reset == 1) begin
-			rtc_trigger_data <= 32'd0;
-			waitflag_status <= 1;
+			//rtc_trigger_data <= 32'd0;
+			waitflag_status <= 0;
+			waitflag_trigger_clear <= 0;
+			rtc_trigger_data <= 32'd10;
 		end else if(event_trigger == 1) begin
-			if(waitflag_status == 0) begin
+			if(waitflag_status == 1) begin
 				rtc_trigger_data <= time_cnt[31:0];
-				waitflag_status <= 1;
-				#3;
+				waitflag_status <= 0;
+				//#1;
 			end 
 		end else begin
+			waitflag_trigger_clear <= 0;
 			if(waitflag_trigger == 1)begin
-				waitflag_status = 0;
+				waitflag_status <= 1;
+				waitflag_trigger_clear <= 1;
+				//waitflag_trigger_clear <= 1;
 			end
 		end
-	end*/
+	end
 	
-	reg waitflag_trigger_recursive;
+	//reg waitflag_trigger_recursive;
 	reg waitflag_trigger_clear;
-	reg start_input;
-	reg [31:0] filter_cnt;
-	reg [31:0] peak_cnt;
+	//reg start_input;
+	//reg [31:0] filter_cnt;
+	//reg [31:0] peak_cnt;
 	
-	reg first_trigger;
+	//reg first_trigger;
 	
+	/*
 	always @(posedge clock, posedge reset) begin: IO_time_trigger_in
 		if (reset == 1) begin
 			rtc_trigger_data <= 32'd0;
@@ -227,6 +234,7 @@ module rtc (
 						waitflag_status <= 0;
 					end 
 				end*/
+				/*
 				if(filter_cnt >= 32'd4000) begin
 					//peak_cnt <= 0;
 					if(peak_cnt >= 32'd2500)begin
@@ -243,7 +251,7 @@ module rtc (
 		end
 	end
 	
-	/*
+	
 	always @(posedge clock, posedge reset) begin: IO_time_trigger_in
 		if (reset == 1) begin
 			rtc_trigger_data <= 32'd0;
@@ -297,8 +305,8 @@ module rtc (
 			
 			
 		end
-	end*/
-	
+	end
+	*/
 endmodule
 
 
