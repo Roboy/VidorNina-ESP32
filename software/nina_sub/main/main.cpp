@@ -18,6 +18,9 @@
 #include "lwip/sockets.h"
 #include "lwip/dns.h"
 #include "lwip/netdb.h"
+#include "lwip/err.h"
+#include "lwip/sys.h"
+#include <lwip/netdb.h>
 
 #include "esp_log.h"
 #include "mqtt_client.h"
@@ -57,6 +60,370 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 
 
 
+#define CONFIG_EXAMPLE_IPV4
+#define CONFIG_EXAMPLE_IPV4_ONLY
+#undef CONFIG_EXAMPLE_IPV6
+
+#define CONFIG_EXAMPLE_PORT 41823//1900//41823
+
+#define CONFIG_EXAMPLE_LOOPBACK false
+
+#define CONFIG_EXAMPLE_MULTICAST_TTL 20 //range from 1 to 255
+
+#define CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR "239.0.255.250"// "232.10.11.12"
+#define CONFIG_EXAMPLE_MULTICAST_IPV6_ADDR "FF02::FC"
+
+#define CONFIG_EXAMPLE_LISTEN_DEFAULT_IF false
+
+
+
+#define EXAMPLE_WIFI_SSID CONFIG_WIFI_SSID
+#define EXAMPLE_WIFI_PASS CONFIG_WIFI_PASSWORD
+
+#define UDP_PORT CONFIG_EXAMPLE_PORT
+
+#define MULTICAST_LOOPBACK CONFIG_EXAMPLE_LOOPBACK
+
+#define MULTICAST_TTL CONFIG_EXAMPLE_MULTICAST_TTL
+
+#define MULTICAST_IPV4_ADDR CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR
+#define MULTICAST_IPV6_ADDR CONFIG_EXAMPLE_MULTICAST_IPV6_ADDR
+
+#define LISTEN_DEFAULT_IF CONFIG_EXAMPLE_LISTEN_DEFAULT_IF
+
+#define USE_DEFAULT_IF true
+
+/* FreeRTOS event group to signal when we are connected & ready to make a request */
+//static EventGroupHandle_t wifi_event_group;
+
+/* The event group allows multiple bits for each event,
+   we use two - one for IPv4 "got ip", and
+   one for IPv6 "got ip". */
+const int IPV4_GOTIP_BIT = BIT0;
+const int IPV6_GOTIP_BIT = BIT1;
+
+static const char *TAG_M = "multicast";
+#ifdef CONFIG_EXAMPLE_IPV4
+static const char *V4TAG = "mcast-ipv4";
+#endif
+#ifdef CONFIG_EXAMPLE_IPV6
+static const char *V6TAG = "mcast-ipv6";
+#endif
+
+#ifdef CONFIG_EXAMPLE_IPV4
+/* Add a socket, either IPV4-only or IPV6 dual mode, to the IPV4
+   multicast group */
+static int socket_add_ipv4_multicast_group(int sock, bool assign_source_if)
+{
+    struct ip_mreq imreq = { 0 };
+    struct in_addr iaddr = { 0 };
+    int err = 0;
+    // Configure source interface
+#if USE_DEFAULT_IF
+    imreq.imr_interface.s_addr = IPADDR_ANY;
+#else
+    tcpip_adapter_ip_info_t ip_info = { 0 };
+    err = tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info);
+    if (err != ESP_OK) {
+        ESP_LOGE(V4TAG, "Failed to get IP address info. Error 0x%x", err);
+        return err;
+    }
+    inet_addr_from_ipaddr(&iaddr, &ip_info.ip);
+#endif
+    // Configure multicast address to listen to
+    err = inet_aton(MULTICAST_IPV4_ADDR, &imreq.imr_multiaddr.s_addr);
+    if (err != 1) {
+        ESP_LOGE(V4TAG, "Configured IPV4 multicast address '%s' is invalid.", MULTICAST_IPV4_ADDR);
+        return err;
+    }
+    ESP_LOGI(TAG_M, "Configured IPV4 Multicast address %s", inet_ntoa(imreq.imr_multiaddr.s_addr));
+    if (!IP_MULTICAST(ntohl(imreq.imr_multiaddr.s_addr))) {
+        ESP_LOGW(V4TAG, "Configured IPV4 multicast address '%s' is not a valid multicast address. This will probably not work.", MULTICAST_IPV4_ADDR);
+    }
+
+    if (assign_source_if) {
+        // Assign the IPv4 multicast source interface, via its IP
+        // (only necessary if this socket is IPV4 only)
+        err = setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, &iaddr,
+                         sizeof(struct in_addr));
+        if (err < 0) {
+            ESP_LOGE(V4TAG, "Failed to set IP_MULTICAST_IF. Error %d", errno);
+            return err;
+        }
+    }
+
+    err = setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+                         &imreq, sizeof(struct ip_mreq));
+    if (err < 0) {
+        ESP_LOGE(V4TAG, "Failed to set IP_ADD_MEMBERSHIP. Error %d", errno);
+        return err;
+    }
+
+ //err:
+    return err;
+}
+#endif /* CONFIG_EXAMPLE_IPV4 */
+
+#ifdef CONFIG_EXAMPLE_IPV4_ONLY
+static int create_multicast_ipv4_socket()
+{
+    struct sockaddr_in saddr = { 0 };
+    int sock = -1;
+    int err = 0;
+
+    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
+    if (sock < 0) {
+        ESP_LOGE(V4TAG, "Failed to create socket. Error %d", errno);
+        return -1;
+    }
+
+    // Bind the socket to any address
+    saddr.sin_family = PF_INET;
+    saddr.sin_port = htons(UDP_PORT);
+    saddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    err = bind(sock, (struct sockaddr *)&saddr, sizeof(struct sockaddr_in));
+    if (err < 0) {
+        ESP_LOGE(V4TAG, "Failed to bind socket. Error %d", errno);
+        return err;
+    }
+
+
+    // Assign multicast TTL (set separately from normal interface TTL)
+    uint8_t ttl = MULTICAST_TTL;
+    setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(uint8_t));
+    if (err < 0) {
+        ESP_LOGE(V4TAG, "Failed to set IP_MULTICAST_TTL. Error %d", errno);
+        return err;
+    }
+
+
+    // this is also a listening socket, so add it to the multicast
+    // group for listening...
+    err = socket_add_ipv4_multicast_group(sock, true);
+    if (err < 0) {
+        return err;
+    }
+
+    // All set, socket is configured for sending and receiving
+    return sock;
+
+//err:
+    close(sock);
+    return -1;
+}
+#endif /* CONFIG_EXAMPLE_IPV4_ONLY */
+
+
+static void mcast_example_task(void *pvParameters){
+    hardware_interface *hw = (hardware_interface *)pvParameters;
+    //static struct addrinfo res_;
+    //static struct sockaddr ai_addr_;
+
+/*    struct addrinfo {
+    int               ai_flags;
+    int               ai_family;
+    int               ai_socktype;
+    int               ai_protocol;
+    socklen_t         ai_addrlen;
+    struct sockaddr  *ai_addr;
+    char             *ai_canonname;
+    struct addrinfo  *ai_next;
+};
+*/
+
+
+    static int err = 0;
+
+    while (1) {
+        /* Wait for all the IPs we care about to be set
+        */
+        uint32_t bits = 0;
+        bits |= IPV4_GOTIP_BIT;
+
+
+        ESP_LOGI(TAG_M, "Waiting for AP connection...");
+        xEventGroupWaitBits(wifi_event_group, bits, false, true, portMAX_DELAY);
+        ESP_LOGI(TAG_M, "Connected to AP");
+
+        int sock;
+
+        sock = create_multicast_ipv4_socket();
+        if (sock < 0) {
+            ESP_LOGE(TAG_M, "Failed to create IPv4 multicast socket");
+        }
+
+        if (sock < 0) {
+            // Nothing to do!
+            vTaskDelay(5 / portTICK_PERIOD_MS);
+            continue;
+        }
+
+#ifdef CONFIG_EXAMPLE_IPV4
+        // set destination multicast addresses for sending from these sockets
+        /*
+        struct sockaddr_in {
+          u8_t            sin_len;
+          sa_family_t     sin_family;
+          in_port_t       sin_port;
+          struct in_addr  sin_addr;
+        #define SIN_ZERO_LEN 8
+          char            sin_zero[SIN_ZERO_LEN];
+        };
+
+
+        */
+        struct sockaddr_in sdestv4 = {NULL,PF_INET,htons(UDP_PORT)};
+        //    .sin_family = PF_INET,
+        //    .sin_port = htons(UDP_PORT),
+        //};
+        // We know this inet_aton will pass because we did it above already
+        inet_aton(MULTICAST_IPV4_ADDR, &sdestv4.sin_addr.s_addr);
+#endif
+
+
+        // Loop waiting for UDP received, and sending UDP packets if we don't
+        // see any.
+        //int err = 1;
+        struct timeval tv = {
+            .tv_sec = 2,
+            .tv_usec = 0,
+        };
+        fd_set rfds;
+        FD_ZERO(&rfds);
+        FD_SET(sock, &rfds);
+
+        int s = lwip_select(sock + 1, &rfds, NULL, NULL, &tv);
+        if (s < 0) {
+            ESP_LOGE(TAG_M, "Select failed: errno %d", errno);
+            err = -1;
+            break;
+        }
+
+        struct addrinfo hints = {AI_PASSIVE,NULL,SOCK_DGRAM};
+        struct addrinfo *res; //= &res_;
+        hints.ai_family = AF_INET; // For an IPv4 socket
+
+
+        err = getaddrinfo(CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR,
+                              NULL,
+                              &hints,
+                              &res);
+        if (err < 0) {
+            ESP_LOGE(TAG_M, "getaddrinfo() failed for IPV4 destination address. error: %d", err);
+            break;
+        }
+
+
+        while (err >= 0) {
+          //int err  = 0;
+            /*
+            else if (s > 0) {
+                if (FD_ISSET(sock, &rfds)) {
+                    // Incoming datagram received
+                    char recvbuf[48];
+                    char raddr_name[32] = { 0 };
+
+                    struct sockaddr_in6 raddr; // Large enough for both IPv4 or IPv6
+                    socklen_t socklen = sizeof(raddr);
+                    int len = recvfrom(sock, recvbuf, sizeof(recvbuf)-1, 0,
+                                       (struct sockaddr *)&raddr, &socklen);
+                    if (len < 0) {
+                        ESP_LOGE(TAG_M, "multicast recvfrom failed: errno %d", errno);
+                        err = -1;
+                        break;
+                    }
+
+                    // Get the sender's address as a string
+#ifdef CONFIG_EXAMPLE_IPV4
+                    if (raddr.sin6_family == PF_INET) {
+                        inet_ntoa_r(((struct sockaddr_in *)&raddr)->sin_addr.s_addr,
+                                    raddr_name, sizeof(raddr_name)-1);
+                    }
+#endif
+                    ESP_LOGI(TAG_M, "received %d bytes from %s:", len, raddr_name);
+
+                    recvbuf[len] = 0; // Null-terminate whatever we received and treat like a string...
+                    ESP_LOGI(TAG_M, "%s", recvbuf);
+                }
+            }*/
+            // s == 0
+                // Timeout passed with no incoming data, so send something!
+                //vTaskDelay(500 / portTICK_PERIOD_MS);
+
+                /*
+                struct addrinfo {
+                    int               ai_flags;
+                    int               ai_family;
+                    int               ai_socktype;
+                    int               ai_protocol;
+                    socklen_t         ai_addrlen;
+                    struct sockaddr  *ai_addr;
+                    char             *ai_canonname;
+                    struct addrinfo  *ai_next;
+                };
+                */
+
+
+                  //    .ai_flags = AI_PASSIVE,
+                  //    .ai_socktype = SOCK_DGRAM,
+                  //};
+
+                  //(*res).ai_addr = &ai_addr_;
+                static int send_count;
+                const char sendfmt[] = "%u/%u\n";
+                char sendbuf[48];
+                char addrbuf[32] = { 0 };
+                int len = 0;
+
+                hw->allow_input_trigger();
+                for(int time_out_cnt = 0; time_out_cnt < 4294967295; time_out_cnt++){
+                //  cout << "\n" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
+                  if(!hw->rdy_to_read()){
+                    len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,hw->device_id, hw->read_trigger_time());
+                    //cout << "\nready to read " << time_out_cnt;
+                    //modef.send_time_frame(hw.read_trigger_time());
+                    break;
+                  }
+                }
+
+
+
+
+              if (len > sizeof(sendbuf)) {
+                  ESP_LOGE(TAG_M, "Overflowed multicast sendfmt buffer!!");
+                  send_count = 0;
+                  err = -1;
+                  break;
+              }
+
+
+
+              ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(UDP_PORT);
+              inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
+              //ESP_LOGI(TAG_M, "Sending to IPV4 multicast address %s...",  addrbuf);
+              //printf("\nSending to IPV4 multicast address %s...",  addrbuf);
+              //printf("\nsin: %d ....%d...%d", (int)((struct sockaddr_in *)res->ai_addr)->sin_addr, (int)res->ai_addrlen);
+              //printf("\nsock: %d ....%d...%d", (int)&res, (int)&res->ai_addr, (int)res->ai_addr->sa_data);
+              //printf("\naddr: %d ....%d ", (int)&addrbuf, (int)&sendbuf);
+
+              err = sendto(sock, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
+              if (err < 0) {
+                  ESP_LOGE(TAG_M, "IPV4 sendto failed. errno: %d", errno);
+                  break;
+              }
+            }
+
+
+
+        ESP_LOGE(TAG_M, "Shutting down socket and restarting...");
+        shutdown(sock, 0);
+        close(sock);
+    }
+
+}
+
+
+
 static esp_err_t wifi_event_handler(void *ctx, system_event_t *event)
 {
     switch (event->event_id) {
@@ -91,9 +458,9 @@ static void wifi_init(void)
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
-    ESP_LOGI(TAG, "start the WIFI SSID:[%s] password:[%s]", CONFIG_WIFI_SSID, "******");
+    ESP_LOGI(TAG_M, "start the WIFI SSID:[%s] password:[%s]", CONFIG_WIFI_SSID, "******");
     ESP_ERROR_CHECK(esp_wifi_start());
-    ESP_LOGI(TAG, "Waiting for wifi");
+    ESP_LOGI(TAG_M, "Waiting for wifi");
     xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, false, true, portMAX_DELAY);
 }
 
@@ -104,33 +471,33 @@ static esp_err_t mqtt_event_handler(esp_mqtt_event_handle_t event)
     // your_context_t *context = event->context;
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
-            ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
+            ESP_LOGI(TAG_M, "MQTT_EVENT_CONNECTED");
             //msg_id = esp_mqtt_client_subscribe(client, "/topic/qos3", 0);
             //ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
 
             break;
         case MQTT_EVENT_DISCONNECTED:
-            ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
+            ESP_LOGI(TAG_M, "MQTT_EVENT_DISCONNECTED");
             break;
 
         case MQTT_EVENT_SUBSCRIBED:
-            ESP_LOGI(TAG, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
+            ESP_LOGI(TAG_M, "MQTT_EVENT_SUBSCRIBED, msg_id=%d", event->msg_id);
             //msg_id = esp_mqtt_client_publish(client, CONFIG_EMITTER_CHANNEL_KEY"/topic/", "data", 0, 0, 0);
             //ESP_LOGI(TAG, "sent publish successful, msg_id=%d", msg_id);
             break;
         case MQTT_EVENT_UNSUBSCRIBED:
-            ESP_LOGI(TAG, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
+            ESP_LOGI(TAG_M, "MQTT_EVENT_UNSUBSCRIBED, msg_id=%d", event->msg_id);
             break;
         case MQTT_EVENT_PUBLISHED:
-            ESP_LOGI(TAG, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
+            ESP_LOGI(TAG_M, "MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
             break;
         case MQTT_EVENT_DATA:
-            ESP_LOGI(TAG, "MQTT_EVENT_DATA");
+            ESP_LOGI(TAG_M, "MQTT_EVENT_DATA");
             //printf("TOPIC=%.*s\r\n", event->topic_len, event->topic);
             //printf("DATA=%.*s\r\n", event->data_len, event->data);
             break;
         case MQTT_EVENT_ERROR:
-            ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
+            ESP_LOGI(TAG_M, "MQTT_EVENT_ERROR");
             break;
         default:
             ;
@@ -286,6 +653,9 @@ extern "C" void app_main() {
 
     nvs_flash_init();
     wifi_init();
+
+    xTaskCreate(&mcast_example_task, "mcast_task", 4096, &hw, 6, NULL);
+
     mqtt_app_start(&mqtt_client, hw.getID());
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA, custom_handl, &modef);
 
@@ -299,8 +669,9 @@ extern "C" void app_main() {
     (void)esp_mqtt_client_unsubscribe(mqtt_client, "/init");
     (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 0) ;
 
-    hw.allow_input_trigger();
-    printf("\nID: %d", hw.getID());
+    //hw.allow_input_trigger();
+    hw.device_id = hw.getID();
+    printf("\nID: %d", hw.device_id);
 
     hw.stop_US_out();
     //hw.piezo_set_burst_cycles(3);
@@ -377,15 +748,16 @@ extern "C" void app_main() {
 
         //TODO ... do it via ros
         //for(int time_out_cnt = 0; time_out_cnt <= 4294967294; time_out_cnt++){
-        hw.allow_input_trigger();
+        /*hw.allow_input_trigger();
         for(int time_out_cnt = 0; time_out_cnt <= 3000; time_out_cnt++){
         //  cout << "\n" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
           if(!hw.rdy_to_read()){
+            ;
             //cout << "\nready to read " << time_out_cnt;
-            modef.send_time_frame(hw.read_trigger_time());
+            //modef.send_time_frame(hw.read_trigger_time());
             break;
           }
-        }
+        }*/
 
         /*hw.allow_input_trigger();
         //while(hw.rdy_to_read());

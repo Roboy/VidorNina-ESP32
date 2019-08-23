@@ -5,3 +5,5 @@ CMakeFiles/triangulation_master.dir/src/main.cpp.o
  /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/main.cpp
 CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o
  /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/master_gen.cpp
+CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o
+ /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data.cpp

@@ -8,12 +8,25 @@
 #include <cstdio>
 #include <curses.h>
 
+#include "common.hpp"
+
 #include <chrono>
 #include <thread>
 
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <time.h>
+#include <atomic>
+#include <thread>
+#include <chrono>
+
+#include "udp_data.hpp"
+
 //#include <thread>
 
-#include "common.hpp"
+
 
 using namespace std;
 
@@ -203,6 +216,13 @@ int main(int argc, char *argv[])
 	cout << "all members connected?(enter)\n";
 	cin >> input_key;
 
+	udp_conv udp;
+	(void)udp.udp_init();
+	std::atomic<bool> running { true } ;
+	std::thread update_thread( udp.loop, std::ref(running)) ;
+
+
+
 	//for(uint8_t i = 0; i < 2; i++){
 
 	//mosquitto_loop_forever(mosq, -1, 1);
@@ -323,6 +343,10 @@ int main(int argc, char *argv[])
 	mosquitto_loop_stop(mosq,true);
 	mosquitto_destroy(mosq);
 	mosquitto_lib_cleanup();
+
+	running = false ;
+	update_thread.join() ;
+
 	return 0;
 }
 

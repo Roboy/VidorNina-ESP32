@@ -114,6 +114,7 @@ main.o: \
  /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/errno.h \
  /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/dns.h \
  /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/netdb.h \
+ /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/sys.h \
  /home/sausy/esp/esp-idf/components/log/include/esp_log.h \
  /home/sausy/esp/esp-idf/components/log/include/esp_log_internal.h \
  /home/sausy/esp/esp-idf/components/mqtt/esp-mqtt/include/mqtt_client.h \
@@ -364,6 +365,8 @@ main.o: \
 /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/dns.h:
 
 /home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/netdb.h:
+
+/home/sausy/esp/esp-idf/components/lwip/lwip/src/include/lwip/sys.h:
 
 /home/sausy/esp/esp-idf/components/log/include/esp_log.h:
 

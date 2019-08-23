@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/main.cpp" "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/triangulation_master.dir/src/main.cpp.o"
   "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/master_gen.cpp" "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o"
+  "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data.cpp" "/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

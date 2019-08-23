@@ -50,6 +50,7 @@ class addr_base{
 //------ AVALON BRIDGE ----
 class hardware_interface{
   public:
+    uint8_t device_id = 0;
     hardware_interface(SPI *spi_,msg_gen *transmit_);
     SPI *spi;
     msg_gen *transmit;

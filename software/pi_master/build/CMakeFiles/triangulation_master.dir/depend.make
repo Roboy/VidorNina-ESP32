@@ -5,3 +5,5 @@ CMakeFiles/triangulation_master.dir/src/main.cpp.o: ../src/main.cpp
 
 CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o: ../src/master_gen.cpp
 
+CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o: ../src/udp_data.cpp
+

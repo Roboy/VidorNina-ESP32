@@ -177,6 +177,33 @@ src/master_gen.cpp.s:
 	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/master_gen.cpp.s
 .PHONY : src/master_gen.cpp.s
 
+src/udp_data.o: src/udp_data.cpp.o
+
+.PHONY : src/udp_data.o
+
+# target to build an object file
+src/udp_data.cpp.o:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o
+.PHONY : src/udp_data.cpp.o
+
+src/udp_data.i: src/udp_data.cpp.i
+
+.PHONY : src/udp_data.i
+
+# target to preprocess a source file
+src/udp_data.cpp.i:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.i
+.PHONY : src/udp_data.cpp.i
+
+src/udp_data.s: src/udp_data.cpp.s
+
+.PHONY : src/udp_data.s
+
+# target to generate assembly for a file
+src/udp_data.cpp.s:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.s
+.PHONY : src/udp_data.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/master_gen.o"
 	@echo "... src/master_gen.i"
 	@echo "... src/master_gen.s"
+	@echo "... src/udp_data.o"
+	@echo "... src/udp_data.i"
+	@echo "... src/udp_data.s"
 .PHONY : help
 
 
