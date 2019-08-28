@@ -286,7 +286,7 @@ void fpga_mode::send_time_frame(uint32_t time_){
 
   //cout << ss_buffer.str();
 
-  trans->push_pub(time_frame_topic,ss_buffer.str());
+  /*trans->push_pub(time_frame_topic,ss_buffer.str());*/
 }
 
 

@@ -83,34 +83,49 @@ CMakeFiles/triangulation_master.dir/src/master_gen.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triangulation_master.dir/src/master_gen.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/master_gen.cpp -o CMakeFiles/triangulation_master.dir/src/master_gen.cpp.s
 
-CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o: CMakeFiles/triangulation_master.dir/flags.make
-CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o: ../src/udp_data.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o -c /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data.cpp
+CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o: CMakeFiles/triangulation_master.dir/flags.make
+CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o: ../src/udp_data_rx.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o -c /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_rx.cpp
 
-CMakeFiles/triangulation_master.dir/src/udp_data.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/triangulation_master.dir/src/udp_data.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data.cpp > CMakeFiles/triangulation_master.dir/src/udp_data.cpp.i
+CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_rx.cpp > CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.i
 
-CMakeFiles/triangulation_master.dir/src/udp_data.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triangulation_master.dir/src/udp_data.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data.cpp -o CMakeFiles/triangulation_master.dir/src/udp_data.cpp.s
+CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_rx.cpp -o CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.s
+
+CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o: CMakeFiles/triangulation_master.dir/flags.make
+CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o: ../src/udp_data_tx.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o -c /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_tx.cpp
+
+CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_tx.cpp > CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.i
+
+CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sausy/Projects/VidorNina-ESP32/software/pi_master/src/udp_data_tx.cpp -o CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.s
 
 # Object files for target triangulation_master
 triangulation_master_OBJECTS = \
 "CMakeFiles/triangulation_master.dir/src/main.cpp.o" \
 "CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o" \
-"CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o"
+"CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o" \
+"CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o"
 
 # External object files for target triangulation_master
 triangulation_master_EXTERNAL_OBJECTS =
 
 triangulation_master: CMakeFiles/triangulation_master.dir/src/main.cpp.o
 triangulation_master: CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o
-triangulation_master: CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o
+triangulation_master: CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o
+triangulation_master: CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o
 triangulation_master: CMakeFiles/triangulation_master.dir/build.make
 triangulation_master: CMakeFiles/triangulation_master.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable triangulation_master"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sausy/Projects/VidorNina-ESP32/software/pi_master/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable triangulation_master"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/triangulation_master.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

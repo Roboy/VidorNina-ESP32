@@ -177,32 +177,59 @@ src/master_gen.cpp.s:
 	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/master_gen.cpp.s
 .PHONY : src/master_gen.cpp.s
 
-src/udp_data.o: src/udp_data.cpp.o
+src/udp_data_rx.o: src/udp_data_rx.cpp.o
 
-.PHONY : src/udp_data.o
+.PHONY : src/udp_data_rx.o
 
 # target to build an object file
-src/udp_data.cpp.o:
-	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o
-.PHONY : src/udp_data.cpp.o
+src/udp_data_rx.cpp.o:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o
+.PHONY : src/udp_data_rx.cpp.o
 
-src/udp_data.i: src/udp_data.cpp.i
+src/udp_data_rx.i: src/udp_data_rx.cpp.i
 
-.PHONY : src/udp_data.i
+.PHONY : src/udp_data_rx.i
 
 # target to preprocess a source file
-src/udp_data.cpp.i:
-	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.i
-.PHONY : src/udp_data.cpp.i
+src/udp_data_rx.cpp.i:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.i
+.PHONY : src/udp_data_rx.cpp.i
 
-src/udp_data.s: src/udp_data.cpp.s
+src/udp_data_rx.s: src/udp_data_rx.cpp.s
 
-.PHONY : src/udp_data.s
+.PHONY : src/udp_data_rx.s
 
 # target to generate assembly for a file
-src/udp_data.cpp.s:
-	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data.cpp.s
-.PHONY : src/udp_data.cpp.s
+src/udp_data_rx.cpp.s:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.s
+.PHONY : src/udp_data_rx.cpp.s
+
+src/udp_data_tx.o: src/udp_data_tx.cpp.o
+
+.PHONY : src/udp_data_tx.o
+
+# target to build an object file
+src/udp_data_tx.cpp.o:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o
+.PHONY : src/udp_data_tx.cpp.o
+
+src/udp_data_tx.i: src/udp_data_tx.cpp.i
+
+.PHONY : src/udp_data_tx.i
+
+# target to preprocess a source file
+src/udp_data_tx.cpp.i:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.i
+.PHONY : src/udp_data_tx.cpp.i
+
+src/udp_data_tx.s: src/udp_data_tx.cpp.s
+
+.PHONY : src/udp_data_tx.s
+
+# target to generate assembly for a file
+src/udp_data_tx.cpp.s:
+	$(MAKE) -f CMakeFiles/triangulation_master.dir/build.make CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.s
+.PHONY : src/udp_data_tx.cpp.s
 
 # Help Target
 help:
@@ -219,9 +246,12 @@ help:
 	@echo "... src/master_gen.o"
 	@echo "... src/master_gen.i"
 	@echo "... src/master_gen.s"
-	@echo "... src/udp_data.o"
-	@echo "... src/udp_data.i"
-	@echo "... src/udp_data.s"
+	@echo "... src/udp_data_rx.o"
+	@echo "... src/udp_data_rx.i"
+	@echo "... src/udp_data_rx.s"
+	@echo "... src/udp_data_tx.o"
+	@echo "... src/udp_data_tx.i"
+	@echo "... src/udp_data_tx.s"
 .PHONY : help
 
 

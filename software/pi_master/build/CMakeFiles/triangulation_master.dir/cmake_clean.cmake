@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/triangulation_master.dir/src/main.cpp.o"
   "CMakeFiles/triangulation_master.dir/src/master_gen.cpp.o"
-  "CMakeFiles/triangulation_master.dir/src/udp_data.cpp.o"
+  "CMakeFiles/triangulation_master.dir/src/udp_data_rx.cpp.o"
+  "CMakeFiles/triangulation_master.dir/src/udp_data_tx.cpp.o"
   "triangulation_master"
   "triangulation_master.pdb"
 )

@@ -8,7 +8,6 @@
 #define PIO_DIR_OUT 1
 
 
-
 // For High level functions such as pinMode or digitalWrite, you have to use FPGA_xxx
 // Low level functions (in jtag.c file) use other kind of #define (TDI,TDO,TCK,TMS) with different values
 #define FPGA_TDI                            (26u)

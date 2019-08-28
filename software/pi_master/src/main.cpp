@@ -22,7 +22,10 @@
 #include <thread>
 #include <chrono>
 
-#include "udp_data.hpp"
+#include <cstring>
+
+#include "udp_data_rx.hpp"
+#include "udp_data_tx.hpp"
 
 //#include <thread>
 
@@ -168,6 +171,12 @@ int main(int argc, char *argv[])
 	struct mosquitto *mosq2 = NULL;
 	char input_key = 0;
 
+
+
+
+
+
+
 	mosquitto_lib_init();
 	mosq = mosquitto_new(NULL, clean_session, NULL);
 	if(!mosq){
@@ -216,10 +225,17 @@ int main(int argc, char *argv[])
 	cout << "all members connected?(enter)\n";
 	cin >> input_key;
 
-	udp_conv udp;
-	(void)udp.udp_init();
 	std::atomic<bool> running { true } ;
+	std::atomic<bool> allow_tx { true };
+	std::atomic<int> id_tx { 0 };
+
+	udp_conv_rx udp;
+	(void)udp.udp_init();
 	std::thread update_thread( udp.loop, std::ref(running)) ;
+
+	udp_conv_tx udp_tx;
+	(void)udp_tx.udp_init();
+	std::thread update_thread2( udp_tx.loop, std::ref(running), std::ref(allow_tx), std::ref(id_tx)) ;
 
 
 
@@ -317,7 +333,9 @@ int main(int argc, char *argv[])
 					mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",0,false);
 				break;
 			case '6':
-					start_conver(mosq,0);
+					//start_conver(mosq,0);
+					id_tx = 0;
+					allow_tx = true;
 				break;
 			case '7':
 						spezific_conver(mosq);
@@ -346,6 +364,7 @@ int main(int argc, char *argv[])
 
 	running = false ;
 	update_thread.join() ;
+	update_thread2.join();
 
 	return 0;
 }
@@ -370,7 +389,9 @@ void spezific_conver(struct mosquitto *mosq){
 	cin >> id_input;
 	cout << (int)id_input;
 
-	start_conver(mosq,id_input);
+	//id_tx = id_input;
+	//allow_tx = true;
+	//start_conver(mosq,id_input);
 }
 void start_conver(struct mosquitto *mosq,int id_input){
 
