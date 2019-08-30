@@ -306,7 +306,7 @@ static void mcast_gather_data(void *pvParameters){
       }
       if (sock < 0) {
           // Nothing to do!
-          vTaskDelay(5 / portTICK_PERIOD_MS);
+          //vTaskDelay(5 / portTICK_PERIOD_MS);
           continue;
       }
 
@@ -361,6 +361,49 @@ static void mcast_gather_data(void *pvParameters){
                   ESP_LOGI(V4TAG, "%s", recvbuf);
               }
           }
+          else { // s == 0
+            // Timeout passed with no incoming data, so send something!
+            std::cout<<"\nUDP no packet received ... sending";
+            static int send_count;
+            const char sendfmt[] = "Multicast #%d sent by ESP32\n";
+            char sendbuf[48];
+            char addrbuf[32] = { 0 };
+            int len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, send_count++);
+            if (len > sizeof(sendbuf)) {
+                ESP_LOGE(TAG, "Overflowed multicast sendfmt buffer!!");
+                send_count = 0;
+                err = -1;
+                break;
+            }
+
+            struct addrinfo hints = {AI_PASSIVE,NULL,SOCK_DGRAM};
+            struct addrinfo *res;
+
+            hints.ai_family = AF_INET; // For an IPv4 socket
+
+            int err = getaddrinfo(CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR,
+                                  NULL,
+                                  &hints,
+                                  &res);
+            if (err < 0) {
+                ESP_LOGE(TAG, "getaddrinfo() failed for IPV4 destination address. error: %d", err);
+                break;
+            }
+            if (res == 0) {
+                ESP_LOGE(TAG, "getaddrinfo() did not return any addresses");
+                break;
+            }
+            ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(UDP_PORT);
+            inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
+            ESP_LOGI(TAG, "Sending to IPV4 multicast address %s:%d...",  addrbuf, UDP_PORT);
+            err = sendto(sock, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
+            freeaddrinfo(res);
+            if (err < 0) {
+                ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
+                break;
+            }
+
+        }
       }
 
       ESP_LOGE(V4TAG, "Shutting down socket and restarting...");
