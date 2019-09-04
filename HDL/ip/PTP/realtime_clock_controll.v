@@ -3,6 +3,7 @@ module rtc (
 	input reset,
 	input event_trigger,
 	input event_trigger2,
+	output flag_allow_read,
 	// this is for the avalon interface
 	input [15:0] avalon_slave_address,
 	input avalon_slave_write,
@@ -160,28 +161,59 @@ module rtc (
 		end 
 	end
 	
-
+	always @(posedge clock) begin : sync_avalon_read
+		flag_allow_read <= 0;//waitflag_status;
+	end
 	
+	
+	reg [31:0] waitflag_cnt;
+	reg waitflag_status_delay;
+	//assign flag_allow_read = waitflag_status;
 	// so wie das aktuell laueft hat man einen taktcyclus wo waitflag_status sich nicht aendert ... waitfalg_trigger muss  mit 2bit counter sein
 	always @(posedge clock, posedge event_trigger, posedge reset) begin: IO_time_trigger_in
 		if (reset == 1) begin
 			//rtc_trigger_data <= 32'd0;
-			waitflag_status <= 0;
+			waitflag_status <= 1;
 			waitflag_trigger_clear <= 0;
 			rtc_trigger_data <= 32'd10;
+			waitflag_cnt <= 32'd0;
+			waitflag_status_delay <= 1;
+			//flag_delayed_allow_out <= 0;
 		end else if(event_trigger == 1) begin
 			if(waitflag_status == 1) begin
-				rtc_trigger_data <= time_cnt[31:0];
-				waitflag_status <= 0;
-				//#1;
+				//if(flag_delayed_allow_out == 1) begin
+				if(waitflag_status_delay == 1) begin
+					rtc_trigger_data <= time_cnt[31:0];
+					waitflag_status_delay <= 0;
+					waitflag_cnt <= 32'd0;
+				end
+				//end
+				#1;//150000
 			end 
 		end else begin
 			waitflag_trigger_clear <= 0;
 			if(waitflag_trigger == 1)begin
 				waitflag_status <= 1;
 				waitflag_trigger_clear <= 1;
-				//waitflag_trigger_clear <= 1;
 			end
+			if(waitflag_status_delay == 0) begin
+				waitflag_cnt <= waitflag_cnt + 32'd1;
+				if(waitflag_cnt >= 32'd150000) begin
+					waitflag_status <= 0;
+					waitflag_status_delay <= 1;
+					waitflag_cnt <= 32'd0;
+				end
+			end
+			/*if (waitflag_status == 0) begin
+				//waitflag_cnt <= waitflag_cnt + 32'd1;
+				//if(waitflag_cnt >= 32'd150000) begin
+				//	waitflag_cnt <= 32'd150000;
+				//	flag_delayed_allow_out <= 1;
+				//end
+			end else begin
+				flag_delayed_allow_out <= 0;
+				waitflag_cnt <= 0;
+			end*/
 		end
 	end
 	

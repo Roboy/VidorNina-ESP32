@@ -194,6 +194,8 @@ wire INPUT_SIGNAL;
 
 wire pll_c0;
 
+//wire read_en_flag;
+
 
 //LOGIC
 /*
@@ -220,6 +222,8 @@ assign bMKR_D[1] = PIEZO;
 //TODO ENTFERNEN BEI RICHTIGER PLATINE
 assign bMKR_D[5]  = (ENABLE_PIEZO == 1) ? ~PIEZO : 1'b0;
 assign INPUT_SIGNAL = bMKR_D[6];//bMKR_D[1];
+//assign bWM_PIO18 = read_en_flag;
+//assign bWM_PIO7 = read_en_flag;
 
 //=================================================
 
@@ -271,6 +275,7 @@ end
         .rtc_0_conduit_end_event_trigger                            (INPUT_SIGNAL),                            //             rtc_0_conduit_end.event_trigger
         .rtc_0_conduit_end_piezo_enable                             (oPiezoOUT_enable[1]),                             //                              .piezo_enable
         .rtc_0_conduit_end_event_trigger2                           (pll_c0),                           //                              .event_trigger2
+		  .rtc_0_conduit_end_flag_allow_read 									(bWM_PIO7),
 		  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
 		  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
 	     .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso

@@ -116,7 +116,7 @@
       }
       datum baseAddress
       {
-         value = "262144";
+         value = "524288";
          type = "String";
       }
    }
@@ -126,6 +126,14 @@
       {
          value = "1";
          type = "int";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
       }
    }
    element vidor_sys
@@ -486,12 +494,12 @@
    kind="clock"
    version="18.1"
    start="clk_0.clk"
-   end="realtime_clock_controll_0.clock_sink" />
+   end="piezo_clk_div_0.clock_sink" />
  <connection
    kind="clock"
    version="18.1"
    start="clk_0.clk"
-   end="piezo_clk_div_0.clock_sink" />
+   end="realtime_clock_controll_0.clock_sink" />
  <connection
    kind="clock"
    version="18.1"
@@ -526,12 +534,12 @@
    kind="reset"
    version="18.1"
    start="clk_0.clk_reset"
-   end="realtime_clock_controll_0.reset" />
+   end="piezo_clk_div_0.reset" />
  <connection
    kind="reset"
    version="18.1"
    start="clk_0.clk_reset"
-   end="piezo_clk_div_0.reset" />
+   end="realtime_clock_controll_0.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.enableEccProtection" value="FALSE" />
  <interconnectRequirement for="$system" name="qsys_mm.insertDefaultSlave" value="FALSE" />

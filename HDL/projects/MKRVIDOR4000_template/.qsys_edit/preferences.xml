@@ -8,8 +8,7 @@
    <name preferredWidth="238" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Basic Functions,Library,Library/Basic Functions/Clocks; PLLs and Resets,Library/University Program,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Project,Project/ipTronix" />
+ <library expandedCategories="Project,Library" />
  <window width="1920" height="1061" x="0" y="0" />
  <hdlexample language="VERILOG" />
 </preferences>

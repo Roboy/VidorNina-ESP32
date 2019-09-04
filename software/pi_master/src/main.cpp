@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <curses.h>
 
+#include <vector>
+
 #include "common.hpp"
 
 #include <chrono>
@@ -27,6 +29,9 @@
 #include "udp_data_rx.hpp"
 #include "udp_data_tx.hpp"
 
+#include <unistd.h>
+
+
 //#include <thread>
 
 
@@ -42,6 +47,7 @@ void set_burst_cycles(struct mosquitto *mosq);
 
 void spezific_conver(struct mosquitto *mosq);
 void start_conver(struct mosquitto *mosq,int id_input);
+void  send_master_id(std::atomic<int>& id_tx, std::atomic<bool>& allow_tx);
 
 
 uint64_t t_dat[30];
@@ -171,12 +177,6 @@ int main(int argc, char *argv[])
 	struct mosquitto *mosq2 = NULL;
 	char input_key = 0;
 
-
-
-
-
-
-
 	mosquitto_lib_init();
 	mosq = mosquitto_new(NULL, clean_session, NULL);
 	if(!mosq){
@@ -225,17 +225,38 @@ int main(int argc, char *argv[])
 	cout << "all members connected?(enter)\n";
 	cin >> input_key;
 
-	std::atomic<bool> running { true } ;
-	std::atomic<bool> allow_tx { true };
-	std::atomic<int> id_tx { 0 };
+	atomic<bool> running { true } ;
+	atomic<bool> allow_tx { true };
+	atomic<int> id_tx { 0 };
+
+	static struct sockaddr_in addr1;
+	static struct sockaddr_in addr2;
+	static int fd1;
+	static int fd2;
+
+	//static allocation
+	static string rx_master_buffer[1000];
+	static string rx_slaves_buffer[1000];
+
+	atomic<string> *rx_master;
+	std::vector<std::string> v { "a", "b", "c" };
+	//rx_master = &rx_master_buffer[0];
+	atomic<string> *rx_slaves;
+	//rx_slaves = &rx_slaves_buffer[0];
 
 	udp_conv_rx udp;
-	(void)udp.udp_init();
-	std::thread update_thread( udp.loop, std::ref(running)) ;
+	(void)udp.udp_init(41823,addr1,fd1);
+	std::thread update_thread( udp.loop, std::ref(v), std::ref(running), std::ref(addr1),std::ref(fd1));
+	udp_conv_rx udp2;
+	(void)udp2.udp_init(40000,addr2,fd2);
+	std::thread update_thread_rx2( udp2.loop, std::ref(v), std::ref(running), std::ref(addr2),std::ref(fd2));
 
 	udp_conv_tx udp_tx;
 	(void)udp_tx.udp_init();
 	std::thread update_thread2( udp_tx.loop, std::ref(running), std::ref(allow_tx), std::ref(id_tx)) ;
+
+	rviz_interface rviz();
+	std::thread update_rviz(rviz.loop, std::ref(running));
 
 
 
@@ -251,13 +272,13 @@ int main(int argc, char *argv[])
 	mosquitto_loop_start(mosq);
 
 	//for(uint32_t i = 0; i<2; i++){
-		mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,2,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",2,false);
-		mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
-		mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,2,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,2,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,2,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",2,false);
+	mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
+	mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
 
 
 		//mosquitto_loop_start(mosq2);
@@ -280,22 +301,22 @@ int main(int argc, char *argv[])
 
 	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",3,"50",1,false);
 
-
+	cout << "\n 1: burst cycle amount";
+	cout << "\n 2: start burst data";
+	cout << "\n 3: start ptp time sync";
+	cout << "\n 4: continouse burst";
+	cout << "\n 5: simple zero time";
+	cout << "\n 6: burst from ID0";
 
 
   while(input_key!=27){
 		//const char *num_cycl = "4";
     //menu.options_menu(menu.select());
     //input_key = getch();
-		cout << "\n 1: burst cycle amount";
-	  cout << "\n 2: start burst data";
-	  cout << "\n 3: start ptp time sync";
-	  cout << "\n 4: continouse burst";
-		cout << "\n 5: simple zero time";
-		cout << "\n 6: burst from ID0";
+
 
     cin >> input_key;
-    cout << input_key;
+    //cout << input_key;
     switch (input_key){
       case '1':
 				set_burst_cycles(mosq);
@@ -338,7 +359,8 @@ int main(int argc, char *argv[])
 					allow_tx = true;
 				break;
 			case '7':
-						spezific_conver(mosq);
+						send_master_id(std::ref(id_tx), std::ref(allow_tx));
+						//spezific_conver(mosq);
 					break;
       default:
 				;
@@ -368,6 +390,21 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+void  send_master_id(std::atomic<int>& id_tx, std::atomic<bool>& allow_tx){
+	cout<<"\nstart conversation..[enter ID]";
+	int id_input = 0;
+	cin >> id_input;
+	cout << id_input;
+
+	for(uint8_t i = 0; i < 1000; i++){
+		id_tx = id_input;
+		allow_tx = true;
+		while(allow_tx);
+		usleep(500000);
+	}
+
+}
+
 
 void set_burst_cycles(struct mosquitto *mosq){
 

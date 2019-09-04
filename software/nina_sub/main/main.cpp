@@ -30,6 +30,16 @@
 #include "mode_ctl.hpp"
 #include "msg.hpp"
 
+//#include "hGPIO.h"
+
+//extern "C" {
+//#include "driver/gpio.h"
+//}
+
+#define GPIO_INPUT_IO_0 4
+#define GPIO_INPUT_PIN_SEL  (1ULL<<GPIO_INPUT_IO_0) //| (1ULL<<GPIO_INPUT_IO_1))
+#define ESP_INTR_FLAG_DEFAULT 0
+
 //#include "esp_sntp.h"
 
 static const char *TAG = "MQTTS_SAMPLE";
@@ -59,7 +69,12 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 #define SPI_CLOCK 1000000//SPI_MASTER_FREQ_16M   // 1 MHz
 
 
-
+static volatile bool xBit_block_spi = false;
+static volatile bool xBit_wait_till_rx = false;
+static volatile uint8_t xBit_master_id0 = 0;
+static volatile uint8_t xBit_master_id1 = 0;
+static volatile uint8_t xBit_master_id2 = 0;
+static TaskHandle_t xUDPHandle = NULL;
 #define CONFIG_EXAMPLE_IPV4
 #define CONFIG_EXAMPLE_IPV4_ONLY
 #undef CONFIG_EXAMPLE_IPV6
@@ -167,7 +182,7 @@ static int socket_add_ipv4_multicast_group(int sock, bool assign_source_if)
 #endif /* CONFIG_EXAMPLE_IPV4 */
 
 #ifdef CONFIG_EXAMPLE_IPV4_ONLY
-static int create_multicast_ipv4_socket_rx(){
+static int create_multicast_ipv4_socket(uint16_t udp_port_){
   struct sockaddr_in saddr = { 0 };
   int sock = -1;
   int err = 0;
@@ -180,7 +195,7 @@ static int create_multicast_ipv4_socket_rx(){
 
   // Bind the socket to any address
   saddr.sin_family = PF_INET;
-  saddr.sin_port = htons(UDP_PORT_RX);
+  saddr.sin_port = htons(udp_port_);
   saddr.sin_addr.s_addr = htonl(INADDR_ANY);
   err = bind(sock, (struct sockaddr *)&saddr, sizeof(struct sockaddr_in));
   if (err < 0) {
@@ -211,52 +226,6 @@ static int create_multicast_ipv4_socket_rx(){
 //err:
   close(sock);
   return -1;
-}
-static int create_multicast_ipv4_socket()
-{
-    struct sockaddr_in saddr = { 0 };
-    int sock = -1;
-    int err = 0;
-
-    sock = socket(PF_INET, SOCK_DGRAM, IPPROTO_IP);
-    if (sock < 0) {
-        ESP_LOGE(V4TAG, "Failed to create socket. Error %d", errno);
-        return -1;
-    }
-
-    // Bind the socket to any address
-    saddr.sin_family = PF_INET;
-    saddr.sin_port = htons(UDP_PORT);
-    saddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    err = bind(sock, (struct sockaddr *)&saddr, sizeof(struct sockaddr_in));
-    if (err < 0) {
-        ESP_LOGE(V4TAG, "Failed to bind socket. Error %d", errno);
-        return err;
-    }
-
-
-    // Assign multicast TTL (set separately from normal interface TTL)
-    uint8_t ttl = MULTICAST_TTL;
-    setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(uint8_t));
-    if (err < 0) {
-        ESP_LOGE(V4TAG, "Failed to set IP_MULTICAST_TTL. Error %d", errno);
-        return err;
-    }
-
-
-    // this is also a listening socket, so add it to the multicast
-    // group for listening...
-    err = socket_add_ipv4_multicast_group(sock, true);
-    if (err < 0) {
-        return err;
-    }
-
-    // All set, socket is configured for sending and receiving
-    return sock;
-
-//err:
-    close(sock);
-    return -1;
 }
 #endif /* CONFIG_EXAMPLE_IPV4_ONLY */
 
@@ -300,11 +269,15 @@ static void mcast_gather_data(void *pvParameters){
       xEventGroupWaitBits(wifi_event_group, bits, false, true, portMAX_DELAY);
       ESP_LOGI(TAG_M, "Connected to AP");
 
-      int sock;
-      sock = create_multicast_ipv4_socket_rx();
+      int sock, sock_ret;
+      sock = create_multicast_ipv4_socket(UDP_PORT_RX);
+      sock_ret = create_multicast_ipv4_socket(UDP_PORT_RX - 1);
       //ESP_LOGE(V4TAG, "+++SOCK CREATED++");
       if (sock < 0) {
           ESP_LOGE(V4TAG, "Failed to create IPv4 multicast socket");
+      }
+      if (sock_ret < 0) {
+          ESP_LOGE(V4TAG, "Failed to create IPv4 multicast socket -- ret");
       }
       if (sock < 0) {
           // Nothing to do!
@@ -313,8 +286,10 @@ static void mcast_gather_data(void *pvParameters){
       }
 
       struct sockaddr_in sdestv4 = {NULL,PF_INET,htons(UDP_PORT_RX)};
+      struct sockaddr_in sdestv4_ret = {NULL,PF_INET,htons(UDP_PORT_RX-1)};
 
       inet_aton(MULTICAST_IPV4_RX, &sdestv4.sin_addr.s_addr);
+      inet_aton(MULTICAST_IPV4_RX, &sdestv4_ret.sin_addr.s_addr);
 
       //ESP_LOGE(V4TAG, "+++STARTED LOOP++");
       int err = 1;
@@ -327,6 +302,7 @@ static void mcast_gather_data(void *pvParameters){
           FD_ZERO(&rfds);
           FD_SET(sock, &rfds);
 
+
           //int s = select(sock + 1, &rfds, NULL, NULL, &tv);
           int s = lwip_select(sock + 1, &rfds, NULL, NULL, &tv);
           //ESP_LOGE(V4TAG, "+++S: %d ++",s);
@@ -336,8 +312,10 @@ static void mcast_gather_data(void *pvParameters){
               break;
           }
           else if (s > 0) {
-              printf("\ns > 0");
+              //printf("\ns > 0");
               if (FD_ISSET(sock, &rfds)) {
+                  //printf("\n rx");
+                  //vTaskSuspend( &xUDPHandle );
                   // Incoming datagram received
                   char recvbuf[48];
                   char raddr_name[32] = { 0 };
@@ -357,52 +335,134 @@ static void mcast_gather_data(void *pvParameters){
                       inet_ntoa_r(((struct sockaddr_in *)&raddr)->sin_addr.s_addr,
                                   raddr_name, sizeof(raddr_name)-1);
                   }
-                  ESP_LOGI(V4TAG, "received %d bytes from %s:", len, raddr_name);
+                  //ESP_LOGI(V4TAG, "received %d bytes from %s:", len, raddr_name);
 
                   recvbuf[len] = 0; // Null-terminate whatever we received and treat like a string...
-                  ESP_LOGI(V4TAG, "%s", recvbuf);
+                  //ESP_LOGI(V4TAG, "%s ..", recvbuf);
+                  char recbuf_to_id[3][48];
+                  //char recbuf_to_id1[48];
+                  //char recbuf_to_id2[48];
+                  uint8_t buf_id = 0;
+                  uint8_t j = 0;
 
-                  hw->piezo_burst_out();
-                  //send_time_frame(hw->US_start_time);
+                  for(uint8_t i = 0; i < len; i++){
+                    if(recvbuf[i] == '/'){
+                      recbuf_to_id[buf_id][i-j] = 0;
+                      buf_id ++;
+                      i++;
+                      j = i;
+                      if(buf_id > 2)
+                        break;
+                    }
+
+                    recbuf_to_id[buf_id][i-j] = recvbuf[i];
+                    //printf("\n[%d] %c\n",i, recbuf_to_id[buf_id][i-j]);
+                  }//xBit_master_id0
+                  //recbuf_to_id[0][len] = 0;
+                  //recbuf_to_id[1][len] = 0;
+                  //recbuf_to_id[2][len] = 0;
+
+                  //printf("\nTRANSDATA0 %s", recbuf_to_id[0]);
+                  //printf("\nTRANSDATA1 %s", recbuf_to_id[1]);
+                  //printf("\nTRANSDATA2 %s", recbuf_to_id[2]);
 
 
-                  static int send_count;
-                  const char sendfmt[] = "Multicast #%d sent by ESP32\n";
-                  char sendbuf[48];
-                  char addrbuf[32] = { 0 };
-                  len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, send_count++);
-                  if (len > sizeof(sendbuf)) {
-                      ESP_LOGE(TAG, "Overflowed multicast sendfmt buffer!!");
-                      send_count = 0;
-                      err = -1;
-                      break;
-                  }
+                  //xBit_block_spi = true;
+                  xBit_block_spi = false;
+                  //uint32_t* p = (uint32_t*)recvbuf;
 
-                  struct addrinfo hints = {AI_PASSIVE,NULL,SOCK_DGRAM};
-                  struct addrinfo *res;
+                  //std::stringstream ss_buf;
+                  //std::string s_;
 
-                  hints.ai_family = AF_INET; // For an IPv4 socket
+                  //string ret_string;
+                  unsigned int tmp_master[3];
 
-                  int err = getaddrinfo(MULTICAST_IPV4_RX,//CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR,
-                                        NULL,
-                                        &hints,
-                                        &res);
-                  if (err < 0) {
-                      ESP_LOGE(TAG, "getaddrinfo() failed for IPV4 destination address. error: %d", err);
-                      break;
-                  }
-                  if (res == 0) {
-                      ESP_LOGE(TAG, "getaddrinfo() did not return any addresses");
-                      break;
-                  }
-                  ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(40000);
-                  inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
-                  ESP_LOGI(TAG, "Sending to IPV4 multicast address %s:%d...",  addrbuf, 40000);
-                  err = sendto(sock, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
-                  freeaddrinfo(res);
-                  if (err < 0) {
-                      ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
-                      break;
+                  //ss_buf << recbuf_to_id[0];//p;//(unsigned int) recvbuf;
+                  //ss_buf >> tmp_master[0];
+                  tmp_master[0] = atoi(recbuf_to_id[0]);
+                  tmp_master[1] = atoi(recbuf_to_id[1]);
+                  tmp_master[2] = atoi(recbuf_to_id[2]);
+
+
+                  //std::cout << "\nCURRENT MASTER: " << ss_buf.str();
+                  //printf("\nCURRENT MASTER: %u", &tmp_master);
+                  //ret_string = ss_buf.str();
+                  xBit_master_id0 = tmp_master[0];
+
+                  if(tmp_master[0] == hw->device_id || tmp_master[1] == hw->device_id) {
+                    //printf("\n FIRST MASTER");
+                    if(tmp_master[1] == hw->device_id){
+                      //printf("\n SEC MASTER");
+                      xBit_block_spi = false;
+                      xBit_wait_till_rx = true;
+                      //printf("\n SEC MASTER");
+                      while(xBit_wait_till_rx){
+                        printf("\n.");
+                      }
+                      xBit_block_spi = true;
+                    }//else{
+                    //  vTaskDelay(20 / portTICK_PERIOD_MS);
+                   //}
+                    //ESP_LOGE(TAG, "master ID: %d", foo);
+
+                    FD_SET(sock_ret, &rfds);
+                    int s_ret = lwip_select(sock_ret + 1, &rfds, NULL, NULL, &tv);
+
+
+                    static int send_count;
+                    const char sendfmt[] = "%u/%u\n";
+                    char sendbuf[48];
+                    char addrbuf[32] = { 0 };
+                    //len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, send_count++);
+
+
+                    //vTaskResume (&xUDPHandle);
+                    hw->piezo_burst_out();
+                    len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, (unsigned int)hw->device_id, (unsigned int)hw->US_start_time);
+                    //xBit_block_spi = false;
+                    //xBit_block_spi = false;
+                    //send_time_frame(hw->US_start_time);
+                    //vTaskDelay(5 / portTICK_PERIOD_MS);
+                    //hw->piezo_burst_out();
+
+
+
+                    if (len > sizeof(sendbuf)) {
+                        ESP_LOGE(TAG, "Overflowed multicast sendfmt buffer!!");
+                        send_count = 0;
+                        err = -1;
+                        break;
+                    }
+
+                    struct addrinfo hints = {AI_PASSIVE,NULL,SOCK_DGRAM};
+                    struct addrinfo *res;
+
+                    hints.ai_family = AF_INET; // For an IPv4 socket
+
+                    int err = getaddrinfo(MULTICAST_IPV4_RX,//CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR,
+                                          NULL,
+                                          &hints,
+                                          &res);
+                    if (err < 0) {
+                        ESP_LOGE(TAG, "getaddrinfo() failed for IPV4 destination address. error: %d", err);
+                        break;
+                    }
+                    if (res == 0) {
+                        ESP_LOGE(TAG, "getaddrinfo() did not return any addresses");
+                        break;
+                    }
+                    ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(40000);
+                    inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
+                    ESP_LOGI(TAG, "Sending to IPV4 multicast address %s:%d...",  addrbuf, 40000);
+                    xBit_block_spi = false;
+                    err = sendto(sock_ret, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
+                    freeaddrinfo(res);
+                    if (err < 0) {
+                        ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
+                        break;
+                    }
+                  }else{
+                    xBit_block_spi =false;
                   }
               }
 
@@ -410,12 +470,14 @@ static void mcast_gather_data(void *pvParameters){
           else { // s == 0
             // Timeout passed with no incoming data, so send something!
             //std::cout<<"\nUDP no packet received ... sending";
-
+            //printf("\n ES IST ELSE\n" );
+            ;
 
         }
       }
 
       ESP_LOGE(V4TAG, "Shutting down socket and restarting...");
+      shutdown(sock_ret,0);
       shutdown(sock, 0);
       close(sock);
     }
@@ -425,6 +487,14 @@ static void mcast_gather_data(void *pvParameters){
 
 static void mcast_example_task(void *pvParameters){
     hardware_interface *hw = (hardware_interface *)pvParameters;
+
+    /*gpio_config_t io_conf;
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.pin_bit_mask = GPIO_TRIGGER_FLAG;
+    //set as input mode
+    io_conf.mode = GPIO_MODE_INPUT;
+    //enable pull-up mode    ---- io_conf.pull_up_en = 1;
+    gpio_config(&io_conf);*/
     //static struct addrinfo res_;
     //static struct sockaddr ai_addr_;
 
@@ -456,7 +526,7 @@ static void mcast_example_task(void *pvParameters){
 
         int sock;
 
-        sock = create_multicast_ipv4_socket();
+        sock = create_multicast_ipv4_socket(UDP_PORT);
         if (sock < 0) {
             ESP_LOGE(TAG_M, "Failed to create IPv4 multicast socket");
         }
@@ -576,22 +646,58 @@ static void mcast_example_task(void *pvParameters){
                   //};
 
                   //(*res).ai_addr = &ai_addr_;
-                static int send_count;
-                const char sendfmt[] = "%u/%u\n";
+                static int send_count = 0;
+                const char sendfmt[] = "%u/%u/%u+%u/%u/%u\n";
                 char sendbuf[48];
+                uint8_t send_cnt = 0;
                 char addrbuf[32] = { 0 };
                 int len = 0;
 
+                int time_list[2];
+
+                while(xBit_block_spi);
                 hw->allow_input_trigger();
+
                 for(int time_out_cnt = 0; time_out_cnt < 4294967295; time_out_cnt++){
-                //  cout << "\n" << +(int)hw.rdy_to_read() << " : " << +(int)time_out_cnt << " : " <<  (int)hw.read_trigger_time();
+                  //if(!xBit_block_spi){
+                  while(xBit_block_spi);
                   if(!hw->rdy_to_read()){
-                    len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,hw->device_id, hw->read_trigger_time());
+
+                    if(hw->device_id == xBit_master_id0){
+                      time_list[send_cnt] = 1337;
+                    }else{
+                      time_list[send_cnt] = hw->read_trigger_time();
+                      xBit_master_id0 ++;
+                    }
+
+                    //ESP_LOGE(TAG_M, "\n[%d] PIN: %d\n",time_out_cnt, gpio_get_level(GPIO_TRIGGER_FLAG));
                     //cout << "\nready to read " << time_out_cnt;
                     //modef.send_time_frame(hw.read_trigger_time());
+                    xBit_wait_till_rx = false;
+
+                    send_cnt++;
+                    if(send_cnt > 1){
+                      send_cnt--;
+                      break;
+                    }
+
+
+
+                    time_out_cnt = 0;
+                    hw->allow_input_trigger();
+                    //break;
+                  }
+                  if(time_out_cnt >= 4294967200){
+                    printf("\nHW _READY\n");
+                    time_list[1] = 1337;
                     break;
                   }
                 }
+
+                ///printf("\n%u/%u/%u",xBit_master_id0, master_list[0],time_list[0]);
+                //printf("\n%u/%u/%u",xBit_master_id0, master_list[1],time_list[1]);
+
+                len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,xBit_master_id0 - 1,  hw->device_id,time_list[0],xBit_master_id0,  hw->device_id,time_list[1]);
 
 
 
@@ -828,6 +934,8 @@ extern "C" void app_main() {
     fflush(stdout);
 
 
+
+
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
@@ -838,6 +946,8 @@ extern "C" void app_main() {
     esp_log_level_set("TRANSPORT_SSL", ESP_LOG_VERBOSE);
     esp_log_level_set("TRANSPORT", ESP_LOG_VERBOSE);
     esp_log_level_set("OUTBOX", ESP_LOG_VERBOSE);
+
+
 
 
     SPI_t &mySPI = vspi;  // vspi and hspi are the default objects
@@ -854,17 +964,14 @@ extern "C" void app_main() {
 
     uint8_t buffer[6];
 
-    printf("\n\n=====================================");
-    printf("\n\n  start loopy");
-    printf("\n\n=====================================");
 
     nvs_flash_init();
     wifi_init();
 
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
 
-    xTaskCreate(&mcast_example_task, "mcast_task", 4096, &hw, 6, NULL);
-    xTaskCreate(&mcast_gather_data, "mcast_rx", 4096, &hw, 5, NULL);
+    xTaskCreate(&mcast_example_task, "mcast_task", 4096, &hw, 6, &xUDPHandle);
+    xTaskCreate(&mcast_gather_data, "mcast_rx", 4096, &hw, 8, NULL);
 
 
 
@@ -912,6 +1019,50 @@ extern "C" void app_main() {
     std::stringstream ss_buffer_;
     unsigned int t_;
     int time_out_cnt = 0;
+
+
+
+    //gpio_config_t io_conf;
+    /*io_conf.intr_type = GPIO_INTR_DISABLE;
+    io_conf.pin_bit_mask = GPIO_SEL_7;
+    //set as input mode
+    io_conf.mode = GPIO_MODE_INPUT;
+    //enable pull-up mode    ----
+    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;//GPIO_PULLUP_DISABLE;
+    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;//GPIO_PULLDOWN_ENABLE;//GPIO_PULLDOWN_DISABLE;
+    gpio_config(&io_conf);*/
+    /*io_conf.intr_type = GPIO_INTR_DISABLE;
+    //bit mask of the pins, use GPIO4/5 here
+    io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
+    //set as input mode
+    io_conf.mode = GPIO_MODE_INPUT;
+    //enable pull-up mode
+    io_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+    gpio_config(&io_conf);*/
+
+/*
+    gpio_config_t io_conf;
+
+    io_conf.intr_type = (gpio_int_type_t)GPIO_PIN_INTR_DISABLE;
+    io_conf.mode = GPIO_MODE_INPUT;
+    io_conf.pin_bit_mask = 1<<18;
+
+    io_conf.pull_down_en = (gpio_pulldown_t)0;
+    io_conf.pull_up_en = (gpio_pullup_t)0;
+
+    gpio_config(&io_conf);
+*/
+
+
+
+
+
+    printf("\n\n=====================================");
+    printf("\n\n  start loopy");
+    printf("\n\n=====================================");
+
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+
 
 
     while (1) {
@@ -1072,6 +1223,7 @@ extern "C" void app_main() {
         //if(msg_id==0){
         //  printf("\n[ERROR] NOT SUBED");
         //}
+        //ESP_LOGE(TAG_M, "\nPIN: %d\n", gpio_get_level((gpio_num_t)18));
 
         //vTaskDelay(1000 / portTICK_PERIOD_MS);
         i++;

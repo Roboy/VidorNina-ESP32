@@ -21,6 +21,7 @@
 			rtc_0_conduit_end_event_trigger                            : in    std_logic                      := 'X';             -- event_trigger
 			rtc_0_conduit_end_piezo_enable                             : out   std_logic;                                         -- piezo_enable
 			rtc_0_conduit_end_event_trigger2                           : in    std_logic                      := 'X';             -- event_trigger2
+			rtc_0_conduit_end_flag_allow_read                          : out   std_logic;                                         -- flag_allow_read
 			spi_bridge_mosi_to_the_spislave_inst_for_spichain          : in    std_logic                      := 'X';             -- mosi_to_the_spislave_inst_for_spichain
 			spi_bridge_nss_to_the_spislave_inst_for_spichain           : in    std_logic                      := 'X';             -- nss_to_the_spislave_inst_for_spichain
 			spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain : inout std_logic                      := 'X';             -- miso_to_and_from_the_spislave_inst_for_spichain

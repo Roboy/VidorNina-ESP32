@@ -1,15 +1,16 @@
 #include "udp_data_rx.hpp"
 
 
-static int fd;
-static struct sockaddr_in addr;
-static struct ip_mreq mreq;
+//static int fd;
+//static struct sockaddr_in addr;
+
+//static struct ip_mreq mreq;
 
 udp_conv_rx::udp_conv_rx(){
 
 }
 
-int udp_conv_rx::udp_init(){
+int udp_conv_rx::udp_init(int udp_port,struct sockaddr_in &addr,int &fd){
   //https://gist.github.com/hostilefork/f7cae3dc33e7416f2dd25a402857b6c6
   fd = socket(AF_INET, SOCK_DGRAM, 0);
 
@@ -29,6 +30,7 @@ int udp_conv_rx::udp_init(){
      return 1;
   }
 
+  const int multicast_port = udp_port;
       // set up destination address
   //
 
@@ -59,7 +61,7 @@ int udp_conv_rx::udp_init(){
   }
 }
 
-void udp_conv_rx::loop(std::atomic<bool>& program_is_running){
+void udp_conv_rx::loop(std::vector<std::string> rx_data, std::atomic<bool>& program_is_running, struct sockaddr_in &addr,int &fd){
   while( program_is_running ) {
       char msgbuf[MSGBUFSIZE];
       socklen_t addrlen = sizeof(addr);
@@ -77,7 +79,10 @@ void udp_conv_rx::loop(std::atomic<bool>& program_is_running){
       }
       msgbuf[nbytes] = '\0';
       //puts(msgbuf);
-      printf("\n=DATA=:%s", msgbuf);
+      rx_data.push_back(msgbuf);
+      //*rx_data = msgbuf;
+      //rx_data++;
+      printf("=DATA=:%s", msgbuf);
 
   }
 }

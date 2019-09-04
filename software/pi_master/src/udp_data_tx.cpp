@@ -46,13 +46,16 @@ int udp_conv_tx::udp_init(){
 void udp_conv_tx::loop(std::atomic<bool>& program_is_running,std::atomic<bool>& allow_tx, std::atomic<int>& id_tx){
   while( program_is_running ) {
     const int delay_secs = 1;
-    std::string s = std::to_string(id_tx);
+    std::stringstream ss;
+    ss << std::to_string(id_tx) << "/" << std::to_string(id_tx+1) << "/" << std::to_string(id_tx+2);
+
+    std::string s = ss.str();//std::to_string(id_tx);
     const char *message = s.c_str(); //id_tx
     char ch = 0;
 
     //while(!allow_tx);
     if(allow_tx){
-      std::cout << "\nout " << (bool)allow_tx;
+      //std::cout << "\nout " << (bool)allow_tx;
       int nbytes = sendto(
           fd_tx,
           message,

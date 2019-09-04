@@ -25,6 +25,7 @@ module vidor_sys (
 		input  wire         rtc_0_conduit_end_event_trigger,                            //             rtc_0_conduit_end.event_trigger
 		output wire         rtc_0_conduit_end_piezo_enable,                             //                              .piezo_enable
 		input  wire         rtc_0_conduit_end_event_trigger2,                           //                              .event_trigger2
+		output wire         rtc_0_conduit_end_flag_allow_read,                          //                              .flag_allow_read
 		input  wire         spi_bridge_mosi_to_the_spislave_inst_for_spichain,          //                    spi_bridge.mosi_to_the_spislave_inst_for_spichain
 		input  wire         spi_bridge_nss_to_the_spislave_inst_for_spichain,           //                              .nss_to_the_spislave_inst_for_spichain
 		inout  wire         spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain, //                              .miso_to_and_from_the_spislave_inst_for_spichain
@@ -154,6 +155,7 @@ module vidor_sys (
 		.event_trigger            (rtc_0_conduit_end_event_trigger),                                      //  conduit_end.event_trigger
 		.piezo_enable             (rtc_0_conduit_end_piezo_enable),                                       //             .piezo_enable
 		.event_trigger2           (rtc_0_conduit_end_event_trigger2),                                     //             .event_trigger2
+		.flag_allow_read          (rtc_0_conduit_end_flag_allow_read),                                    //             .flag_allow_read
 		.reset                    (rst_controller_reset_out_reset),                                       //        reset.reset
 		.avalon_slave_address     (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_address),     // avalon_slave.address
 		.avalon_slave_read        (mm_interconnect_0_realtime_clock_controll_0_avalon_slave_read),        //             .read
