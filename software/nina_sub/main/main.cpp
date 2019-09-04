@@ -400,7 +400,11 @@ static void mcast_gather_data(void *pvParameters){
                         printf("\n.");
                       }
                       xBit_block_spi = true;
-                    }//else{
+                    }else{
+                      vTaskDelay(25 / portTICK_PERIOD_MS);
+                    }
+                      printf("\nBurst_out");
+                    //else{
                     //  vTaskDelay(20 / portTICK_PERIOD_MS);
                    //}
                     //ESP_LOGE(TAG, "master ID: %d", foo);

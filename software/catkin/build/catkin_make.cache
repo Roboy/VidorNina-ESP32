@@ -1,0 +1,2 @@
+triang_master
+-DCATKIN_DEVEL_PREFIX=/home/sausy/Projects/VidorNina-ESP32/software/catkin/devel -DCMAKE_INSTALL_PREFIX=/home/sausy/Projects/VidorNina-ESP32/software/catkin/install -G Unix Makefiles

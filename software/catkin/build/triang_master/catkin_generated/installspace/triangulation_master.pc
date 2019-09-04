@@ -1,0 +1,8 @@
+prefix=/home/sausy/Projects/VidorNina-ESP32/software/catkin/install
+
+Name: triangulation_master
+Description: Description of triangulation_master
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/sausy/Projects/VidorNina-ESP32/software/catkin/install/lib 
+Requires: roscpp visualization_msgs
