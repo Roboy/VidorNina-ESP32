@@ -43,19 +43,29 @@ int udp_conv_tx::udp_init(){
     return 0;
 }
 
-void udp_conv_tx::loop(std::atomic<bool>& program_is_running,std::atomic<bool>& allow_tx, std::atomic<int>& id_tx){
+void udp_conv_tx::loop(std::atomic<bool>& program_is_running,std::atomic<bool>& allow_tx, std::atomic<int>& id_tx, std::atomic<bool> & udp_waitForData_Flag){
+  static bool waitflag_tx = true;
   while( program_is_running ) {
     const int delay_secs = 1;
     std::stringstream ss;
-    ss << std::to_string(id_tx) << "/" << std::to_string(id_tx+1) << "/" << std::to_string(id_tx+2);
 
-    std::string s = ss.str();//std::to_string(id_tx);
-    const char *message = s.c_str(); //id_tx
-    char ch = 0;
 
     //while(!allow_tx);
-    if(allow_tx){
+    if(allow_tx && waitflag_tx){//&& !udp_waitForData_Flag){
+      waitflag_tx = false;
+      if(id_tx < 200)
+        ss << std::to_string(id_tx) << "/" << std::to_string(id_tx+1) << "/" << std::to_string(id_tx+2);
+      else{
+        ss << std::to_string(id_tx-100) << "/" << std::to_string(id_tx-100+2) << "/" << std::to_string(id_tx-100+3);
+      }
+
+      std::string s = ss.str();//std::to_string(id_tx);
+      const char *message = s.c_str(); //id_tx
+      char ch = 0;
+
+
       //std::cout << "\nout " << (bool)allow_tx;
+      //std::cout << "\nOUTDATA= " << ss.str();
       int nbytes = sendto(
           fd_tx,
           message,
@@ -70,7 +80,10 @@ void udp_conv_tx::loop(std::atomic<bool>& program_is_running,std::atomic<bool>& 
           return;
       }
 
+      waitflag_tx = true;
       allow_tx = false;
+
+      //udp_waitForData_Flag = true;
     }
     //sleep(delay_secs); // Unix sleep is seconds
 

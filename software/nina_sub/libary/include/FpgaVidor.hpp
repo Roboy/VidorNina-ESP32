@@ -74,13 +74,12 @@ class hardware_interface{
 
     //--GET--
     uint32_t getID();
-    uint32_t time_sync_data();
+    uint32_t time_sync_data(bool is_master_mode_);
     bool waitFlag_timeSync();
     bool rdy_to_read();
     uint32_t read_time(void);
     uint32_t read_trigger_time(void);
     uint32_t read_trigger_time2(void);
-
 
     //--BI--
 

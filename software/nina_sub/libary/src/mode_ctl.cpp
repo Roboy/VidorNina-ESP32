@@ -52,13 +52,14 @@ void fpga_mode::transmission_init(esp_mqtt_client_handle_t *mqttclient_){
 
 
   */
-  register_sub(mqttclient_,"/triangulation/master/masterlist/", &fpga_mode::get_masterlist);
+  /*register_sub(mqttclient_,"/triangulation/master/masterlist/", &fpga_mode::get_masterlist);
   register_sub(mqttclient_,"/triangulation/master/allow_input/", &fpga_mode::allow_input);
   register_sub(mqttclient_,"/triangulation/master/start_continiouse/", &fpga_mode::start_continiouse);
   register_sub(mqttclient_,"/triangulation/master/start_ptp_sync/", &fpga_mode::start_ptp_sync);
   register_sub(mqttclient_,"/triangulation/master/burst_cycles/", &fpga_mode::burst_cycles);
   register_sub(mqttclient_,"/triangulation/master/start_burst/", &fpga_mode::start_burst);
   register_sub(mqttclient_,"/triangulation/master/start_conv/", &fpga_mode::start_conv_mqtt);
+  */
   ss_buffer.str("");
 }
 
@@ -110,7 +111,7 @@ void fpga_mode::start_conv_mqtt(string data_){
 void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
   //while(get_masterlist_xBIT != 0);
   //get_masterlist_xBIT = 1;
-  printf("\n-==MASTERLIST===\n");
+  printf("\n-==MASTERLIST===");
   //cout << "original data: " << data_ << "\n";
   const char *data_buffer = data_.c_str();
   uint16_t digit_buffer = 0;
@@ -178,12 +179,12 @@ void fpga_mode::get_masterlist(string data_){ // Format "0,1,2,3,4;"
 //get_masterlist_xBIT = 0;
 }
 void fpga_mode::start_burst(string data_){
-  printf("\n-==start_burst===\n");
-  hw->piezo_burst_out();
+  printf("\n-==start_burst===");
+  //hw->piezo_burst_out();
 
 }
 void fpga_mode::start_continiouse(string data_){
-  printf("\n-==start_continiouse===\n");
+  printf("\n-==start_continiouse===");
   uint32_t i;
   istringstream(data_) >> i;
 
@@ -199,15 +200,41 @@ void fpga_mode::start_continiouse(string data_){
 }
 void fpga_mode::start_ptp_sync(string data_){
   printf("\n-==start_ptp_sync===\n");
+  /*std::stringstream ss_;
+  std::string s;
 
-  //send_time_frame(0.2);
+  if(hw->device_id == 0)
+    hw->start_time_sync(true);
+  else if(hw->device_id == 1){
+    hw->start_time_sync(false);
+  }else{
+    return;
+  }
+
+
+  for(uint8_t i = 0; i < 4000000; i++){
+    if(hw->waitFlag_timeSync()){
+        printf("\nWaitflag: %d", hw->waitFlag_timeSync());
+        break;
+    }
+  }
+
+  uint32_t t_buff = hw->time_sync_data();
+  ss_ << (unsigned int)t_buff;
+  s = ss_.str();
+
+  printf("\nTRAVEL: %u [%d]", t_buff,t_buff);
+
+  trans->push_pub("/ptp/data/",s.c_str());
+
+  //send_time_frame(0.2);*/
 }
 void fpga_mode::burst_cycles(string data_){
   printf("\n-==burst_cycles===\n");
   uint32_t i;
   istringstream(data_) >> i;
   printf("burst cycles %d\n", i);
-  hw->piezo_set_burst_cycles(i);
+  //hw->piezo_set_burst_cycles(i);
 
 }
 
@@ -295,7 +322,7 @@ void fpga_mode::send_time_frame(uint32_t time_){
 //Interface
 //==============================
 void fpga_mode::start_conversation(){
-  enable_input = false;
+  /*enable_input = false;
   if(mode_pub != mode){
       mode = mode_pub;
     if(mode == MODE_MASTER){
@@ -305,10 +332,10 @@ void fpga_mode::start_conversation(){
     }
 
     ((*this).*(fp_start_conv))();
-  }
+  }*/
 }
 void fpga_mode::conversation(){
-  ((*this).*(fp_conv))();
+  ;//((*this).*(fp_conv))();
 }
 
 //==============================

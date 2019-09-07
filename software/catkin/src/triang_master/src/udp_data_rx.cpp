@@ -85,7 +85,7 @@ void udp_conv_rx::loop(std::vector<std::string> &rx_data, std::atomic<bool>& pro
 
       //*rx_data = msgbuf;
       //rx_data++;
-      //printf("=DATA=:%s", msgbuf);
+      printf("=DATA=:%s", msgbuf);
 
   }
 }

@@ -31,7 +31,7 @@ class udp_conv_tx{
 public:
   udp_conv_tx();
   int udp_init();
-  static void loop(std::atomic<bool>& program_is_running, std::atomic<bool>& allow_tx, std::atomic<int>& id_tx);
+  static void loop(std::atomic<bool>& program_is_running, std::atomic<bool>& allow_tx, std::atomic<int>& id_tx, std::atomic<bool> & udp_waitForData_Flag);
 
 private:
   const char* multi_ip = "239.0.255.250";

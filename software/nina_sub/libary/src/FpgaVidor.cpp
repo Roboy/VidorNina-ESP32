@@ -131,10 +131,12 @@ void hardware_interface::start_time_sync(bool is_master_mode_){
 bool hardware_interface::waitFlag_timeSync(){
   return(IORD(addr->ptp_base, (uint32_t)(2)));
 }
-uint32_t hardware_interface::time_sync_data(){
-  uint32_t ret = 0;
-  ret = IORD(addr->ptp_base, (uint32_t)(0));
-  ret = IORD(addr->ptp_base, (uint32_t)(1));
+uint32_t hardware_interface::time_sync_data(bool is_master_mode_){
+  uint32_t ret = 420;
+  if(is_master_mode_)
+    ret = IORD(addr->ptp_base, (uint32_t)(0));
+  else
+    ret = IORD(addr->ptp_base, (uint32_t)(1));
   return ret;
 }
 

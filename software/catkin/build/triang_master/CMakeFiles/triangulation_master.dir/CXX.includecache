@@ -23,7 +23,13 @@ vector
 /home/sausy/Projects/VidorNina-ESP32/software/catkin/src/triang_master/lib/rviz_interface.hpp
 stdio.h
 -
+stdint.h
+-
+stddef.h
+-
 stdlib.h
+-
+iostream
 -
 vector
 -
@@ -40,6 +46,8 @@ geometry_msgs/Point.h
 custom_type.hpp
 /home/sausy/Projects/VidorNina-ESP32/software/catkin/src/triang_master/lib/custom_type.hpp
 atomic
+-
+cmath
 -
 
 /home/sausy/Projects/VidorNina-ESP32/software/catkin/src/triang_master/src/rviz_interface.cpp

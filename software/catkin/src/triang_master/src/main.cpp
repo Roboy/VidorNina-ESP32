@@ -268,7 +268,7 @@ int main(int argc, char *argv[])
 
 	udp_conv_tx udp_tx;
 	(void)udp_tx.udp_init();
-	std::thread update_thread2( udp_tx.loop, std::ref(running), std::ref(allow_tx), std::ref(id_tx)) ;
+	std::thread update_thread2( udp_tx.loop, std::ref(running), std::ref(allow_tx), std::ref(id_tx), std::ref(udp_waitForData_Flag)) ;
 
 	std::thread update_rviz( ros_interface_thread , std::ref(running), std::ref(rx_master), std::ref(rx_slaves), std::ref(udp_waitForData_Flag), std::ref(allow_tx));
 
@@ -287,13 +287,14 @@ int main(int argc, char *argv[])
 	mosquitto_loop_start(mosq);
 
 	//for(uint32_t i = 0; i<2; i++){
-	mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
+	/*mosquitto_publish(mosq,NULL,"/triangulation/master/masterlist/",s_masterlist_data.size(),masterlist_data,1,false);
 	mosquitto_publish(mosq,NULL,"/triangulation/master/start_burst/",1,FALSE_S,2,false);
 	mosquitto_publish(mosq,NULL,"/triangulation/master/start_continiouse/",1,FALSE_S,2,false);
 	mosquitto_publish(mosq,NULL,"/triangulation/master/start_ptp_sync/",1,FALSE_S,2,false);
 	mosquitto_publish(mosq,NULL,"/triangulation/master/burst_cycles/",1,"4",2,false);
 	mosquitto_publish(mosq,NULL,"/time/set_zero",1,"0",1,false);
 	mosquitto_publish(mosq,NULL,"/triangulation/master/start_conv/",1,"0",1,false);
+	*/
 
 
 		//mosquitto_loop_start(mosq2);
@@ -322,6 +323,8 @@ int main(int argc, char *argv[])
 	cout << "\n 4: continouse burst";
 	cout << "\n 5: simple zero time";
 	cout << "\n 6: burst from ID0";
+
+	udp_waitForData_Flag = false;
 
 
   while(input_key!=27){
@@ -373,13 +376,47 @@ int main(int argc, char *argv[])
 				break;
 			case '6':
 					//start_conver(mosq,0);
-					id_tx = 0;
+					//rx_master.clear();
+          //rx_slaves.clear();
+					//usleep(100);
+					//udp_waitForData_Flag = false;
+
+					while(false);
+					while(id_tx != 100){
+						id_tx = 100;
+					}
+
 					allow_tx = true;
+					while(allow_tx);
+
+					//udp_waitForData_Flag = false;
 				break;
 			case '7':
 						send_master_id(std::ref(id_tx), std::ref(allow_tx), std::ref(udp_waitForData_Flag));
 						//spezific_conver(mosq);
 					break;
+			case '8':
+					while(false);
+					while(id_tx != 101){
+						id_tx = 101;
+					}
+					//id_tx = 101;
+					while(false);
+					allow_tx = true;
+					while(allow_tx);
+						//spezific_conver(mosq);
+					break;
+			case '9':
+					while(false);
+					while(id_tx != 200){
+						id_tx = 200;
+					}
+					//id_tx = 101;
+					while(false);
+					allow_tx = true;
+					while(allow_tx);
+						//spezific_conver(mosq);
+				break;
       default:
 				;
         break;
@@ -414,13 +451,47 @@ void  send_master_id(std::atomic<int>& id_tx, std::atomic<bool>& allow_tx, std::
 	cin >> id_input;
 	cout << id_input;
 
-	for(uint8_t i = 0; i < 1000; i++){
+	uint8_t delay_cnt = 0;
+
+	for(uint8_t i = 0; i < 100; i++){
+		while(false);
 		id_tx = id_input;
 		allow_tx = true;
 		//udp_waitForData_Flag = true;
+		//usleep(500);
 		while(allow_tx);
-		//usleep(500000);
+		//usleep(500);
 		while(udp_waitForData_Flag);
+		usleep(6000);
+
+
+		while(false);
+		id_tx = id_input + 1;
+		//printf("\n NEXT MASTER");
+		allow_tx = true;
+		//udp_waitForData_Flag = true;
+		//usleep(500);
+		while(allow_tx);
+		//usleep(500);
+		while(udp_waitForData_Flag);
+		usleep(6000);
+
+
+		while(false);
+		id_tx = id_input + 100;
+		//printf("\n NEXT MASTER");
+		allow_tx = true;
+		//udp_waitForData_Flag = true;
+		//usleep(500);
+		while(allow_tx);
+		//usleep(500);
+		while(udp_waitForData_Flag);
+		usleep(6000);
+		//delay_cnt ++;
+		//if(delay_cnt > 100){
+		//	usleep(1000);
+		//	delay_cnt = 0;
+		//}
 	}
 
 }

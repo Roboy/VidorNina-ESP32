@@ -1,7 +1,10 @@
+`define  OUTPUT_UP_DELAY 700000
+
 `define MAX_WAIT_CYCLES 50000000 //50Mhz clk -> 50M cycles for one sec
-`define  INIT_WAIT_DELAY 5000
-`define  WAIT_DELAY 7000
+`define  INIT_WAIT_DELAY 12000+`OUTPUT_UP_DELAY
+`define  WAIT_DELAY 700000+`OUTPUT_UP_DELAY
 `define  CONV_CYCLES 2
+
 module ptp_sync(
 		input 	clock,
 		input 	reset,
@@ -16,7 +19,7 @@ module ptp_sync(
 		
 		//piezo interface
 		output  	piezo_interface_out,
-		input 		piezo_interface_in,
+		input 	piezo_interface_in,
 		
 		output [31:0]time_data_master,
 		output [31:0]time_data_slave
@@ -186,6 +189,7 @@ module PTP_ctl(
 	assign conv_finished = conv_finished_reg;
 	
 	reg [31:0] delay_cnt;
+	reg [31:0] out_delay_cnt;
 	
 	reg FLAG_is_master;
 	
@@ -203,17 +207,20 @@ module PTP_ctl(
 			FLAG_first_impuls			<= 0;
 			conv_finished_reg			<= 0;
 			output_interface_reg 	<= 0;
+			out_delay_cnt				<= 32'd0;
 		end else begin
 			output_interface_reg 	<= 0;
 			delay_cnt 								<= delay_cnt + 32'd1;
-			if(FLAG_is_master == 0) begin
+			if(FLAG_is_master == 0) begin // 0 is master
 					FLAG_is_master <= 0;
 					if(FLAG_first_impuls==0)begin	//start counting at first impuls
 						FLAG_first_impuls		<=1;
 						delay_cnt 							<= 32'd0;
 					end
 					if(delay_cnt <= `INIT_WAIT_DELAY) begin
-						output_interface_reg 	<= 1;
+						if(delay_cnt >= `OUTPUT_UP_DELAY) begin
+							output_interface_reg 	<= 1;
+						end
 					end
 					if(delay_cnt >= `WAIT_DELAY) begin
 						FLAG_is_master				<= 1;

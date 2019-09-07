@@ -30,6 +30,7 @@
 #include "mode_ctl.hpp"
 #include "msg.hpp"
 
+#define NUM_BURST_CYLCES 99
 //#include "hGPIO.h"
 
 //extern "C" {
@@ -68,7 +69,8 @@ static esp_mqtt_client_handle_t mqtt_client = NULL;
 #define CS_PIN    5
 #define SPI_CLOCK 1000000//SPI_MASTER_FREQ_16M   // 1 MHz
 
-
+static volatile bool xBit_init_rdy;
+static volatile bool xBit_reset_input = false;
 static volatile bool xBit_block_spi = false;
 static volatile bool xBit_wait_till_rx = false;
 static volatile uint8_t xBit_master_id0 = 0;
@@ -235,7 +237,32 @@ static void mcast_gather_data(void *pvParameters){
 
   hardware_interface *hw = (hardware_interface *)pvParameters;
 
+
+  //std::cout << "\n !!!!!!!!MMMMMMMM!!!!!!!" << (int)hw->device_id ;
+
+    //return;
+    //std::cout << "\n !!!!!!!!MMMMMMMM!!!!!!!" << (int)hw->device_id ;
+    /*
+    if(hw->device_id > 1){
+      std::cout << "\n I'm a slave!";
+      while (1) {
+        xBit_block_spi = false;
+        xBit_master_id0 = 0;
+
+        vTaskDelay(5 / portTICK_PERIOD_MS);
+      }
+    }*/
+
   while (1) {
+
+      //while(!xBit_init_rdy){
+        //std::cout << "\n !!!!!!!!MMMMMMMM!!!!!!!" << (int)hw->device_id ;
+      //  vTaskDelay(20 / portTICK_PERIOD_MS);
+      //}
+
+
+
+
       /*int sock;
 
       sock = create_multicast_ipv4_socket();
@@ -291,11 +318,11 @@ static void mcast_gather_data(void *pvParameters){
       inet_aton(MULTICAST_IPV4_RX, &sdestv4.sin_addr.s_addr);
       inet_aton(MULTICAST_IPV4_RX, &sdestv4_ret.sin_addr.s_addr);
 
-      //ESP_LOGE(V4TAG, "+++STARTED LOOP++");
+      ESP_LOGE(V4TAG, "+++TRANSMISSION++");
       int err = 1;
       while (err > 0) {
           struct timeval tv = {
-              .tv_sec = 2,
+              .tv_sec = 1,
               .tv_usec = 0,
           };
           fd_set rfds;
@@ -305,7 +332,7 @@ static void mcast_gather_data(void *pvParameters){
 
           //int s = select(sock + 1, &rfds, NULL, NULL, &tv);
           int s = lwip_select(sock + 1, &rfds, NULL, NULL, &tv);
-          //ESP_LOGE(V4TAG, "+++S: %d ++",s);
+          ESP_LOGE(V4TAG, "S: %d ++",s);
           if (s < 0) {
               ESP_LOGE(V4TAG, "Select failed: errno %d", errno);
               err = -1;
@@ -338,7 +365,7 @@ static void mcast_gather_data(void *pvParameters){
                   //ESP_LOGI(V4TAG, "received %d bytes from %s:", len, raddr_name);
 
                   recvbuf[len] = 0; // Null-terminate whatever we received and treat like a string...
-                  //ESP_LOGI(V4TAG, "%s ..", recvbuf);
+                  ESP_LOGI(V4TAG, "DATA: %s ..", recvbuf);
                   char recbuf_to_id[3][48];
                   //char recbuf_to_id1[48];
                   //char recbuf_to_id2[48];
@@ -368,7 +395,7 @@ static void mcast_gather_data(void *pvParameters){
 
 
                   //xBit_block_spi = true;
-                  xBit_block_spi = false;
+                  //xBit_block_spi = true;
                   //uint32_t* p = (uint32_t*)recvbuf;
 
                   //std::stringstream ss_buf;
@@ -383,27 +410,37 @@ static void mcast_gather_data(void *pvParameters){
                   tmp_master[1] = atoi(recbuf_to_id[1]);
                   tmp_master[2] = atoi(recbuf_to_id[2]);
 
+                  //printf("\n[%d,%d,%d]", tmp_master[0],tmp_master[1],tmp_master[2]);
 
-                  //std::cout << "\nCURRENT MASTER: " << ss_buf.str();
+
+                  std::cout << "\nTRIGGERD BY UDP";
                   //printf("\nCURRENT MASTER: %u", &tmp_master);
                   //ret_string = ss_buf.str();
                   xBit_master_id0 = tmp_master[0];
+
 
                   if(tmp_master[0] == hw->device_id || tmp_master[1] == hw->device_id) {
                     //printf("\n FIRST MASTER");
                     if(tmp_master[1] == hw->device_id){
                       //printf("\n SEC MASTER");
-                      xBit_block_spi = false;
+                      //xBit_block_spi = false;
                       xBit_wait_till_rx = true;
                       //printf("\n SEC MASTER");
-                      while(xBit_wait_till_rx){
-                        printf("\n.");
+                      while(xBit_wait_till_rx);//{
+                        //printf("a");
+                        //xBit_block_spi = false;
+                      //}
+                      ;
+
+                      }else{
+                        vTaskDelay(35 / portTICK_PERIOD_MS);
                       }
-                      xBit_block_spi = true;
-                    }else{
-                      vTaskDelay(25 / portTICK_PERIOD_MS);
-                    }
-                      printf("\nBurst_out");
+                    //xBit_block_spi = true;
+
+                    //vTaskDelay(35 / portTICK_PERIOD_MS);
+                    //xBit_block_spi = true;
+
+                    //printf("\nBurst_out");
                     //else{
                     //  vTaskDelay(20 / portTICK_PERIOD_MS);
                    //}
@@ -423,6 +460,8 @@ static void mcast_gather_data(void *pvParameters){
                     //vTaskResume (&xUDPHandle);
                     hw->piezo_burst_out();
                     len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, (unsigned int)hw->device_id, (unsigned int)hw->US_start_time);
+                    //vTaskDelay(1 / portTICK_PERIOD_MS);
+                    xBit_block_spi = false;
                     //xBit_block_spi = false;
                     //xBit_block_spi = false;
                     //send_time_frame(hw->US_start_time);
@@ -458,24 +497,139 @@ static void mcast_gather_data(void *pvParameters){
                     ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(40000);
                     inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
                     ESP_LOGI(TAG, "Sending to IPV4 multicast address %s:%d...",  addrbuf, 40000);
-                    xBit_block_spi = false;
+
                     err = sendto(sock_ret, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
                     freeaddrinfo(res);
                     if (err < 0) {
                         ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
                         break;
                     }
+                  }else if(tmp_master[0] >= 100){
+                    bool ismaster_mode = false;
+                    xBit_block_spi = true;
+                    //std::cout << "\nID = " << (int)hw->device_id ;
+                    ///////////////////////////////////////////////////////
+                    //std::stringstream ss_;
+                    //std::string s_;
+                    if(hw->device_id == (tmp_master[0] - 100) || hw->device_id == (tmp_master[1] - 100)){
+
+                        if(hw->device_id == (tmp_master[0] - 100)){
+                          std::cout << "\nI'm MASTER";
+                          ismaster_mode = true;
+                          //hw->piezo_burst_out();
+                          //vTaskDelay(10 / portTICK_PERIOD_MS);
+                          vTaskDelay(40 / portTICK_PERIOD_MS);
+                          hw->start_time_sync(ismaster_mode);
+                        }
+                        else if(hw->device_id == (tmp_master[1] - 100)){
+                          std::cout << "\nI'm SLAVE";
+                          hw->start_time_sync(false);
+                        }
+
+                        uint32_t t_buff = 420;
+                        for(uint32_t i = 0; i < 3500; i++){//7017544 //
+                          //vTaskDelay(1 / portTICK_PERIOD_MS);
+                          if(hw->waitFlag_timeSync()){
+                              //printf("\nWaitflag: %d", hw->waitFlag_timeSync());
+                              printf("\ncnt; %d", i);
+                              t_buff = 0;
+                              //break;
+                              break;
+                          }
+
+                        }
+                        if(t_buff == 420){
+                          printf("\nTIMEOUT");
+                        }else{
+                          //vTaskDelay(2 / portTICK_PERIOD_MS);
+                          t_buff = hw->time_sync_data(ismaster_mode);
+                        }
+
+                        //ss_ << (unsigned int)t_buff;
+                        //s_ = ss_.str();
+
+                        printf("\nTRAVEL: %u [%d]", t_buff,t_buff);
+
+                        ///////////////////////////////////////////////////////
+
+
+                        //recvbuf =
+                        //xBit_wait_till_rx = false;
+
+
+                        FD_SET(sock_ret, &rfds);
+                        int s_ret = lwip_select(sock_ret + 1, &rfds, NULL, NULL, &tv);
+
+
+                        static int send_count;
+                        const char sendfmt[] = "=%u/%d/%u\n";
+                        char sendbuf[48];
+                        char addrbuf[32] = { 0 };
+                        //len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, send_count++);
+                        len = snprintf(sendbuf, sizeof(sendbuf), sendfmt, (unsigned int)hw->device_id,ismaster_mode, (unsigned int)t_buff);
+
+
+                        //vTaskResume (&xUDPHandle);
+                        //xBit_block_spi = false;
+                        //xBit_block_spi = false;
+                        //send_time_frame(hw->US_start_time);
+                        //vTaskDelay(5 / portTICK_PERIOD_MS);
+                        //hw->piezo_burst_out();
+
+
+
+
+                        if (len > sizeof(sendbuf)) {
+                            ESP_LOGE(TAG, "Overflowed multicast sendfmt buffer!!");
+                            send_count = 0;
+                            err = -1;
+                            break;
+                        }
+
+                        struct addrinfo hints = {AI_PASSIVE,NULL,SOCK_DGRAM};
+                        struct addrinfo *res;
+
+                        hints.ai_family = AF_INET; // For an IPv4 socket
+
+                        int err = getaddrinfo(MULTICAST_IPV4_RX,//CONFIG_EXAMPLE_MULTICAST_IPV4_ADDR,
+                                              NULL,
+                                              &hints,
+                                              &res);
+                        if (err < 0) {
+                            ESP_LOGE(TAG, "getaddrinfo() failed for IPV4 destination address. error: %d", err);
+                            break;
+                        }
+                        if (res == 0) {
+                            ESP_LOGE(TAG, "getaddrinfo() did not return any addresses");
+                            break;
+                        }
+                        ((struct sockaddr_in *)res->ai_addr)->sin_port = htons(40000);
+                        inet_ntoa_r(((struct sockaddr_in *)res->ai_addr)->sin_addr, addrbuf, sizeof(addrbuf)-1);
+                        ESP_LOGI(TAG, "Sending to IPV4 multicast address %s:%d...",  addrbuf, 40000);
+
+                        err = sendto(sock_ret, sendbuf, len, 0, res->ai_addr, res->ai_addrlen);
+
+                        freeaddrinfo(res);
+                        if (err < 0) {
+                            ESP_LOGE(TAG, "IPV4 sendto failed. errno: %d", errno);
+                            break;
+                        }
+
+                        printf("\n=====END=====");
+                        //xBit_block_spi = false;
+                    }
                   }else{
-                    xBit_block_spi =false;
+                    //xBit_block_spi = false;
                   }
               }
 
           }
           else { // s == 0
             // Timeout passed with no incoming data, so send something!
-            //std::cout<<"\nUDP no packet received ... sending";
+            std::cout<<"\nUDP no packet received ... sending";
             //printf("\n ES IST ELSE\n" );
             ;
+            vTaskDelay(1 / portTICK_PERIOD_MS);
 
         }
       }
@@ -514,10 +668,17 @@ static void mcast_example_task(void *pvParameters){
 };
 */
 
+    //while(!xBit_init_rdy){
+    //  vTaskDelay(5 / portTICK_PERIOD_MS);
+    //}
+
 
     static int err = 0;
 
     while (1) {
+        //while(!xBit_init_rdy){
+        //  vTaskDelay(5 / portTICK_PERIOD_MS);
+       //}
         /* Wait for all the IPs we care about to be set
         */
         uint32_t bits = 0;
@@ -650,8 +811,9 @@ static void mcast_example_task(void *pvParameters){
                   //};
 
                   //(*res).ai_addr = &ai_addr_;
+
                 static int send_count = 0;
-                const char sendfmt[] = "%u/%u/%u+%u/%u/%u\n";
+                const char sendfmt[] = "%u/%u/%u";//+%u/%u/%u";
                 char sendbuf[48];
                 uint8_t send_cnt = 0;
                 char addrbuf[32] = { 0 };
@@ -660,19 +822,41 @@ static void mcast_example_task(void *pvParameters){
                 int time_list[2];
 
                 while(xBit_block_spi);
-                hw->allow_input_trigger();
+                //hw->allow_input_trigger();
 
-                for(int time_out_cnt = 0; time_out_cnt < 4294967295; time_out_cnt++){
+                for(uint32_t time_out_cnt = 0; time_out_cnt < 4294967295; time_out_cnt++){
                   //if(!xBit_block_spi){
+                  //printf("l");
                   while(xBit_block_spi);
+                  hw->allow_input_trigger();
+                  if(!hw->rdy_to_read()){
+                    time_list[0] = hw->read_trigger_time();
+                    xBit_wait_till_rx = false;
+
+                    printf("\nTIME: %u",time_list[0]);
+                    break;//hw->allow_input_trigger();
+
+                  }
+                  vTaskDelay(1 / portTICK_PERIOD_MS);
+
+                  /*if(hw->device_id == 1 && send_cnt == 1){
+                    time_list[1] = 1338;
+                    //send_cnt = 1;
+                    break;
+                  }
+                  if(hw->device_id == 0 && send_cnt == 0){
+                    time_list[0] = 1337;
+                    hw->allow_input_trigger();
+                    send_cnt++;
+                  }
+
                   if(!hw->rdy_to_read()){
 
-                    if(hw->device_id == xBit_master_id0){
-                      time_list[send_cnt] = 1337;
-                    }else{
-                      time_list[send_cnt] = hw->read_trigger_time();
-                      xBit_master_id0 ++;
-                    }
+
+                    time_list[send_cnt] = hw->read_trigger_time();
+                    //xBit_master_id0 ++;
+
+
 
                     //ESP_LOGE(TAG_M, "\n[%d] PIN: %d\n",time_out_cnt, gpio_get_level(GPIO_TRIGGER_FLAG));
                     //cout << "\nready to read " << time_out_cnt;
@@ -681,7 +865,9 @@ static void mcast_example_task(void *pvParameters){
 
                     send_cnt++;
                     if(send_cnt > 1){
-                      send_cnt--;
+                      send_cnt = 0;
+                      //xBit_master_id0 --;
+                      //hw->allow_input_trigger();
                       break;
                     }
 
@@ -693,15 +879,21 @@ static void mcast_example_task(void *pvParameters){
                   }
                   if(time_out_cnt >= 4294967200){
                     printf("\nHW _READY\n");
-                    time_list[1] = 1337;
+                    time_list[send_cnt] = 420;
                     break;
                   }
+                  */
                 }
+                //vTaskDelay(1 / portTICK_PERIOD_MS);
+
+
 
                 ///printf("\n%u/%u/%u",xBit_master_id0, master_list[0],time_list[0]);
                 //printf("\n%u/%u/%u",xBit_master_id0, master_list[1],time_list[1]);
 
-                len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,xBit_master_id0 - 1,  hw->device_id,time_list[0],xBit_master_id0,  hw->device_id,time_list[1]);
+                //len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,0,  hw->device_id,time_list[0],1,  hw->device_id,time_list[1]);
+
+                len = snprintf(sendbuf, sizeof(sendbuf), sendfmt,0,  hw->device_id, time_list[0]);
 
 
 
@@ -938,8 +1130,6 @@ extern "C" void app_main() {
     fflush(stdout);
 
 
-
-
     ESP_LOGI(TAG, "[APP] Startup..");
     ESP_LOGI(TAG, "[APP] Free memory: %d bytes", esp_get_free_heap_size());
     ESP_LOGI(TAG, "[APP] IDF version: %s", esp_get_idf_version());
@@ -972,12 +1162,19 @@ extern "C" void app_main() {
     nvs_flash_init();
     wifi_init();
 
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
-
-    xTaskCreate(&mcast_example_task, "mcast_task", 4096, &hw, 6, &xUDPHandle);
-    xTaskCreate(&mcast_gather_data, "mcast_rx", 4096, &hw, 8, NULL);
+    vTaskDelay(200 / portTICK_PERIOD_MS);
 
 
+    xBit_init_rdy = false;
+
+    hw.device_id = hw.getID();
+    printf("\nID: %d", hw.device_id);
+
+
+    //b xTaskCreate(&mcast_example_task, "mcast_task", 4096, &hw, 6, &xUDPHandle);
+    xTaskCreate(&mcast_gather_data, "mcast_rx", 4096, &hw, 9, NULL);
+
+    xBit_init_rdy = true;
 
     mqtt_app_start(&mqtt_client, hw.getID());
     esp_mqtt_client_register_event(mqtt_client, MQTT_EVENT_DATA, custom_handl, &modef);
@@ -993,11 +1190,10 @@ extern "C" void app_main() {
     (void)esp_mqtt_client_subscribe(mqtt_client, "/time/set_zero", 0) ;
 
     //hw.allow_input_trigger();
-    hw.device_id = hw.getID();
-    printf("\nID: %d", hw.device_id);
+
 
     hw.stop_US_out();
-    //hw.piezo_set_burst_cycles(3);
+    hw.piezo_set_burst_cycles(NUM_BURST_CYLCES);
     //hw.piezo_burst_out();
 
 
@@ -1011,10 +1207,10 @@ extern "C" void app_main() {
     //sntp_set_sync_mode(SNTP_SYNC_MODE_IMMED);
     //while (sntp_get_sync_status() == SNTP_SYNC_STATUS_IN_PROGRESS);
 
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
+    vTaskDelay(100 / portTICK_PERIOD_MS);
     //initialize_sntp();
 
-    int i = 0;
+    uint32_t i = 0;
     int wait_for_user_input = 0;
 
     //int8_t cRxedChar, cInputIndex = 0;
@@ -1065,14 +1261,18 @@ extern "C" void app_main() {
     printf("\n\n  start loopy");
     printf("\n\n=====================================");
 
-    vTaskDelay(1000 / portTICK_PERIOD_MS);
+    //vTaskDelay(1000 / portTICK_PERIOD_MS);
 
+    //xBit_init_rdy = true;
+
+    hw.piezo_set_burst_cycles(NUM_BURST_CYLCES);
 
 
     while (1) {
         //hw.piezo_set_burst_cycles(30);
         //cout << "\nALLOW Input trigger";
         /*
+
         hw.allow_input_trigger();
         //hw.allow_input_trigger();
         //while(hw.rdy_to_read());
@@ -1230,9 +1430,12 @@ extern "C" void app_main() {
         //ESP_LOGE(TAG_M, "\nPIN: %d\n", gpio_get_level((gpio_num_t)18));
 
         //vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         i++;
-        if(i >= 10000){
+        if(i >= 4294967293){
+            //hw.piezo_set_burst_cycles(NUM_BURST_CYLCES);
           //modef.id = hw.getID();
+          //printf("\nmainloop");
           i=0;
         }
     }
