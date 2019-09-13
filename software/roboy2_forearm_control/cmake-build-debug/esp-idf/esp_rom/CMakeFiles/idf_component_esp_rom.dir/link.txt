@@ -1,0 +1,2 @@
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libesp_rom.a  CMakeFiles/idf_component_esp_rom.dir/esp_rom.c.obj
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libesp_rom.a

@@ -1,0 +1,13 @@
+# Target labels
+ mconf-idf
+# Source files and their labels
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/CMakeFiles/mconf-idf
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/CMakeFiles/mconf-idf.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/CMakeFiles/mconf-idf-complete.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-install.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-mkdir.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-download.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-update.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-patch.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-configure.rule
+/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/cmake-build-debug/mconf-idf-prefix/src/mconf-idf-stamp/mconf-idf-build.rule

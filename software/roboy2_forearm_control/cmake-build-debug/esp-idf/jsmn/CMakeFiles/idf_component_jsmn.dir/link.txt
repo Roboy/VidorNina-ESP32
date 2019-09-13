@@ -1,0 +1,2 @@
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libjsmn.a  CMakeFiles/idf_component_jsmn.dir/src/jsmn.c.obj
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libjsmn.a

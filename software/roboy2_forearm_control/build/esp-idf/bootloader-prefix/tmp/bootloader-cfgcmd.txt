@@ -1,0 +1,1 @@
+cmd='/usr/bin/cmake;-DSDKCONFIG=/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/sdkconfig;-DIDF_PATH=/home/letrend/workspace/m3/esp/esp-idf;-DIDF_TARGET=esp32;-DSECURE_BOOT_SIGNING_KEY=/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control;-GNinja;<SOURCE_DIR><SOURCE_SUBDIR>'

@@ -1,0 +1,2 @@
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libmdns.a  CMakeFiles/idf_component_mdns.dir/mdns.c.obj CMakeFiles/idf_component_mdns.dir/mdns_console.c.obj CMakeFiles/idf_component_mdns.dir/mdns_networking.c.obj
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libmdns.a

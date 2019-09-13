@@ -1,0 +1,2 @@
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libespcoredump.a  CMakeFiles/idf_component_espcoredump.dir/src/core_dump_common.c.obj CMakeFiles/idf_component_espcoredump.dir/src/core_dump_flash.c.obj CMakeFiles/idf_component_espcoredump.dir/src/core_dump_port.c.obj CMakeFiles/idf_component_espcoredump.dir/src/core_dump_uart.c.obj
+/home/letrend/workspace/m3/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libespcoredump.a

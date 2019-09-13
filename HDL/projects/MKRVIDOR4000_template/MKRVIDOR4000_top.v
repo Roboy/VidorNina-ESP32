@@ -143,13 +143,16 @@ assign oDtr_esp   = iRESET_button;//(iRESET_button == 1) ? iDtr_header : 1'b0;
 //assign bMKR_D[6] = 1'b1;
 //=================================================
 
-
+assign bPEX_PIN45 = bWM_PIO1; // servo_pwm // T15
+assign bPEX_PIN46 = bWM_PIO2; // dc_direction // R14
+assign bPEX_PIN44 = bWM_PIO3; // dc_enable // P14
+assign bPEX_PIN42 = bWM_PIO4; // thumb_lock // R13
 
 //=====nina esp32 spi avalon interface ============
 //DEF
 wire iSpiMOSI, iSpiClk, iSpiCS;
 wire oSpiMISO;
-
+ 
 //PIN - MAP
 assign {iSpiMOSI,iSpiClk,iSpiCS} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
 //assign {bMKR_D[8],bMKR_D[9],bMKR_D[7]} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
@@ -165,14 +168,7 @@ assign {iSpiMOSI,iSpiClk,iSpiCS} = {bMKR_D[8],bMKR_D[9],bMKR_D[7]};
 
 assign bMKR_D[10] = oSpiMISO;
 */
-//=================================================
-
-//=====ID SWITCH interface =======
-//DEF
-wire	[3:0]	sw; 
-//PIN - MAP
-assign sw = bMKR_A[5:2];
-//=================================================
+//=================================================//=================================================
 
  vidor_sys u0 (
 	  .clk_clk       	(iCLK),       //      clk.clk
@@ -183,18 +179,12 @@ assign sw = bMKR_A[5:2];
 	  .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
 	  .spi_bridge_sclk_to_the_spislave_inst_for_spichain 	(iSpiClk),  //         .sclk
 	  
-	  .myocontrol_0_conduit_end_miso(bMKR_D[0]),                 // myocontrol_0_conduit_end.miso
-	  .myocontrol_0_conduit_end_mosi(bMKR_D[1]),                 //                         .mosi
-	  .myocontrol_0_conduit_end_sck(bMKR_D[2]),                  //                         .sck
-	  .myocontrol_0_conduit_end_ss_n_o(bMKR_D[6:3]),                 //                         .ss_n
-	  .myocontrol_0_conduit_end_power_sense_n(1'b0),        //                         .power_sense_n
+//	  .myocontrol_0_conduit_end_miso(bMKR_D[0]),                 // myocontrol_0_conduit_end.miso
+//	  .myocontrol_0_conduit_end_mosi(bMKR_D[1]),                 //                         .mosi
+//	  .myocontrol_0_conduit_end_sck(bMKR_D[2]),                  //                         .sck
+//	  .myocontrol_0_conduit_end_ss_n_o(bMKR_D[6:3]),                 //                         .ss_n
+//	  .myocontrol_0_conduit_end_power_sense_n(1'b0),        //                         .power_sense_n
  );
- 
- //=====debug test ============DELETE WHEN DONE====
- 
- //=================================================
- 
-
 
 wire        wOSC_CLK;
 

@@ -1,0 +1,18 @@
+{
+    "project_name":       "bootloader",
+    "project_path":       "/home/letrend/workspace/m3/esp/esp-idf/components/bootloader/subproject",
+    "build_dir":          "/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/build/bootloader",
+    "config_file":        "/home/letrend/workspace/VidorNina-ESP32/software/roboy2_forearm_control/sdkconfig",
+    "config_defaults":    "",
+    "app_elf":            "bootloader.elf",
+    "app_bin":            "bootloader.bin",
+    "git_revision":       "v4.0-dev-489-gc2aef48a5",
+    "phy_data_partition": "",
+    "monitor_baud" : "115200",
+    "config_environment" : {
+        "COMPONENT_KCONFIGS" : " /home/letrend/workspace/m3/esp/esp-idf/components/efuse/Kconfig /home/letrend/workspace/m3/esp/esp-idf/components/esp32/Kconfig /home/letrend/workspace/m3/esp/esp-idf/components/log/Kconfig /home/letrend/workspace/m3/esp/esp-idf/components/spi_flash/Kconfig",
+        "COMPONENT_KCONFIGS_PROJBUILD" : " /home/letrend/workspace/m3/esp/esp-idf/components/bootloader/Kconfig.projbuild /home/letrend/workspace/m3/esp/esp-idf/components/esptool_py/Kconfig.projbuild /home/letrend/workspace/m3/esp/esp-idf/components/partition_table/Kconfig.projbuild"
+    },
+    "build_components" : [ "soc", "esp32", "xtensa", "esp_common", "esp_rom", "log", "bootloader", "spi_flash", "micro-ecc", "efuse", "bootloader_support", "main", "esptool_py", "partition_table" ],
+    "build_component_paths" : [ "/home/letrend/workspace/m3/esp/esp-idf/components/soc", "/home/letrend/workspace/m3/esp/esp-idf/components/esp32", "/home/letrend/workspace/m3/esp/esp-idf/components/xtensa", "/home/letrend/workspace/m3/esp/esp-idf/components/esp_common", "/home/letrend/workspace/m3/esp/esp-idf/components/esp_rom", "/home/letrend/workspace/m3/esp/esp-idf/components/log", "/home/letrend/workspace/m3/esp/esp-idf/components/bootloader", "/home/letrend/workspace/m3/esp/esp-idf/components/spi_flash", "/home/letrend/workspace/m3/esp/esp-idf/components/bootloader/subproject/components/micro-ecc", "/home/letrend/workspace/m3/esp/esp-idf/components/efuse", "/home/letrend/workspace/m3/esp/esp-idf/components/bootloader_support", "/home/letrend/workspace/m3/esp/esp-idf/components/bootloader/subproject/main", "/home/letrend/workspace/m3/esp/esp-idf/components/esptool_py", "/home/letrend/workspace/m3/esp/esp-idf/components/partition_table" ]
+}
