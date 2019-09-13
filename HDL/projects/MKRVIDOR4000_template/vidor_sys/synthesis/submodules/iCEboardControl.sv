@@ -35,22 +35,21 @@ module ICEboardControl (
 
 	// the following is stuff we receive from the motors via uart
 	// positions of the motors
-	reg signed [31:0] positions[NUMBER_OF_MOTORS-1:0];
+	reg signed [31:0] position[NUMBER_OF_MOTORS-1:0];
 	// velocitys of the motors
-	reg signed [31:0] velocitys[NUMBER_OF_MOTORS-1:0];
+	reg signed [31:0] velocity[NUMBER_OF_MOTORS-1:0];
 	// currents of the motors
-	reg signed [15:0] currents[NUMBER_OF_MOTORS-1:0];
+	reg signed [15:0] current[NUMBER_OF_MOTORS-1:0];
 	// displacements of the springs
-	reg signed [31:0] displacements[NUMBER_OF_MOTORS-1:0];
+	reg signed [31:0] displacement[NUMBER_OF_MOTORS-1:0];
 
 	assign readdata = returnvalue;
 	assign waitrequest = (waitFlag && read);
 	reg [31:0] returnvalue;
 	reg waitFlag;
 	
-	// the following iterface handles read requests via lightweight axi bridge
-	// the upper 8 bit of the read address define which value we want to read
-	// the lower 8 bit of the read address define for which motor
+	reg [7:0] motor;
+
 	always @(posedge clock, posedge reset) begin: AVALON_READ_INTERFACE
 		if (reset == 1) begin
 			waitFlag <= 1;
@@ -58,18 +57,19 @@ module ICEboardControl (
 			waitFlag <= 1;
 			if(read) begin
 				case(address)
-					8'h01: returnvalue <= 32'h11111111;
-					8'h02: returnvalue <= 32'h22222222;
-					8'h03: returnvalue <= 32'h33333333;
-					8'h04: returnvalue <= 32'h44444444;
-					8'h05: returnvalue <= 32'h55555555;
-					8'h06: returnvalue <= 32'h66666666;
-					8'h07: returnvalue <= 32'h77777777;
-					8'h08: returnvalue <= 32'h88888888;
-					8'h09: returnvalue <= 32'h99999999;
-					8'h0A: returnvalue <= 32'hAAAAAAAA;
-					8'h0B: returnvalue <= 32'hBBBBBBBB;
-					8'h0C: returnvalue <= 32'hCCCCCCCC;
+					8'h00: returnvalue <= motor;
+					8'h01: returnvalue <= Kp[motor];
+					8'h02: returnvalue <= Ki[motor];
+					8'h03: returnvalue <= Kd[motor];
+					8'h04: returnvalue <= position[motor];
+					8'h05: returnvalue <= velocity[motor];
+					8'h06: returnvalue <= displacement[motor];
+					8'h07: returnvalue <= current[motor];
+					8'h08: returnvalue <= PWMLimit[motor];
+					8'h09: returnvalue <= IntegralLimit[motor];
+					8'h0A: returnvalue <= deadBand[motor];
+					8'h0B: returnvalue <= control_mode[motor];
+					8'h0C: returnvalue <= sp[motor];
 					default: returnvalue <= 32'hDEADBEEF;
 				endcase
 				if(waitFlag==1) begin // next clock cycle the returnvalue should be ready
@@ -78,10 +78,6 @@ module ICEboardControl (
 			end
 		end
 	end
-		
-	reg [7:0] motor;
-	reg [7:0] pid_update;
-	reg [31:0] spi_enable_counter;
 		
 	always @(posedge clock, posedge reset) begin: MYO_CONTROL_LOGIC
 		integer i;
@@ -97,15 +93,16 @@ module ICEboardControl (
 		end else begin
 			// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 			if(write && ~waitrequest) begin
-				case(address>>8)
-					8'h00: Kp[address[7:0]][31:0] <= writedata[31:0];
-					8'h01: Ki[address[7:0]][31:0] <= writedata[31:0];
-					8'h02: Kd[address[7:0]][31:0] <= writedata[31:0];
-					8'h03: sp[address[7:0]][31:0] <= writedata[31:0];
-					8'h04: PWMLimit[address[7:0]][31:0] <= writedata[31:0];
-					8'h05: IntegralLimit[address[7:0]][31:0] <= writedata[31:0];
-					8'h06: deadBand[address[7:0]][31:0] <= writedata[31:0];
-					8'h07: control_mode[address[7:0]][2:0] <= writedata[2:0];
+				case(address)
+					8'h00: motor <= writedata[31:0];
+					8'h01: Kp[motor][31:0] <= writedata[31:0];
+					8'h02: Ki[motor][31:0] <= writedata[31:0];
+					8'h03: Kd[motor][31:0] <= writedata[31:0];
+					8'h08: PWMLimit[motor][31:0] <= writedata[31:0];
+					8'h09: IntegralLimit[motor][31:0] <= writedata[31:0];
+					8'h0A: deadBand[motor][31:0] <= writedata[31:0];
+					8'h0B: control_mode[motor][2:0] <= writedata[2:0];
+					8'h0C: sp[motor][31:0] <= writedata[31:0];
 				endcase
 			end
 		end 

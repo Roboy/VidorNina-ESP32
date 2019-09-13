@@ -87,13 +87,14 @@ void setup() {
   ice = new ICEboardVidor();
 }
 
+int base = 0;
+
 // the loop function runs over and over again forever
 void loop() {
   digitalWrite(LED_BUILTIN,toggle);
   toggle=!toggle;
   delay(1000);
-  for(int i=0;i<12;i++){
-    Serial.print(ice->readRegister(0,i,0),HEX);
-    Serial.print("\n");
+  for(int motor=0;motor<6;motor++){
+    ice->printStatus(base,motor);
   }
 }

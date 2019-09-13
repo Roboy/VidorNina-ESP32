@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.09.13.19:43:04"
+ date="2019.09.13.21:01:47"
  outputDirectory="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/">
  <perimeter>
   <parameter
@@ -103,13 +103,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1568396584,AUTO_UNIQUE_ID=(ICEboardControl:1.0:CLOCK_SPEED_HZ=50000000,NUMBER_OF_MOTORS=6)(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
+   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1568401306,AUTO_UNIQUE_ID=(ICEboardControl:1.0:CLOCK_SPEED_HZ=50000000,NUMBER_OF_MOTORS=6)(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="vidor_sys"
    kind="vidor_sys"
    version="1.0"
    name="vidor_sys">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1568396584" />
+  <parameter name="AUTO_GENERATION_ID" value="1568401306" />
   <parameter name="AUTO_DEVICE" value="10CL016YU256C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
