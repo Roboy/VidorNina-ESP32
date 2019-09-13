@@ -57,19 +57,19 @@ module ICEboardControl (
 		end else begin
 			waitFlag <= 1;
 			if(read) begin
-				case(address>>8)
-					8'h00: returnvalue <= Kp[address[7:0]][31:0];
-					8'h01: returnvalue <= Ki[address[7:0]][31:0];
-					8'h02: returnvalue <= Kd[address[7:0]][31:0];
-					8'h03: returnvalue <= sp[address[7:0]][31:0];
-					8'h05: returnvalue <= PWMLimit[address[7:0]][31:0];
-					8'h07: returnvalue <= IntegralLimit[address[7:0]][31:0];
-					8'h09: returnvalue <= deadBand[address[7:0]][31:0];
-					8'h0A: returnvalue <= control_mode[address[7:0]][2:0];
-					8'h0B: returnvalue <= positions[address[7:0]][31:0];
-					8'h0C: returnvalue <= velocitys[address[7:0]][15:0];
-					8'h0D: returnvalue <= currents[address[7:0]][15:0];
-					8'h0E: returnvalue <= displacements[address[7:0]][31:0];
+				case(address)
+					8'h01: returnvalue <= 32'h11111111;
+					8'h02: returnvalue <= 32'h22222222;
+					8'h03: returnvalue <= 32'h33333333;
+					8'h04: returnvalue <= 32'h44444444;
+					8'h05: returnvalue <= 32'h55555555;
+					8'h06: returnvalue <= 32'h66666666;
+					8'h07: returnvalue <= 32'h77777777;
+					8'h08: returnvalue <= 32'h88888888;
+					8'h09: returnvalue <= 32'h99999999;
+					8'h0A: returnvalue <= 32'hAAAAAAAA;
+					8'h0B: returnvalue <= 32'hBBBBBBBB;
+					8'h0C: returnvalue <= 32'hCCCCCCCC;
 					default: returnvalue <= 32'hDEADBEEF;
 				endcase
 				if(waitFlag==1) begin // next clock cycle the returnvalue should be ready
@@ -84,23 +84,29 @@ module ICEboardControl (
 	reg [31:0] spi_enable_counter;
 		
 	always @(posedge clock, posedge reset) begin: MYO_CONTROL_LOGIC
+		integer i;
 		if (reset == 1) begin
-
+			for(i=0;i<NUMBER_OF_MOTORS;i=i+1) begin
+				Kp[i] <= 8'hA+i;
+				Ki[i] <= 8'hB+i;
+				Kd[i] <= 8'hC+i;
+				sp[i] <= 8'hD+i;
+				PWMLimit[i] <= 8'hE+i;
+				IntegralLimit[i] <= 8'hF+i;
+			end
 		end else begin
 			// if we are writing via avalon bus and waitrequest is deasserted, write the respective register
 			if(write && ~waitrequest) begin
-				if((address>>8)<=8'h13 && address[7:0]<NUMBER_OF_MOTORS) begin
-					case(address>>8)
-						8'h00: Kp[address[7:0]][31:0] <= writedata[31:0];
-						8'h01: Ki[address[7:0]][31:0] <= writedata[31:0];
-						8'h02: Kd[address[7:0]][31:0] <= writedata[31:0];
-						8'h03: sp[address[7:0]][31:0] <= writedata[31:0];
-						8'h05: PWMLimit[address[7:0]][31:0] <= writedata[31:0];
-						8'h07: IntegralLimit[address[7:0]][31:0] <= writedata[31:0];
-						8'h09: deadBand[address[7:0]][31:0] <= writedata[31:0];
-						8'h0A: control_mode[address[7:0]][2:0] <= writedata[2:0];
-					endcase
-				end
+				case(address>>8)
+					8'h00: Kp[address[7:0]][31:0] <= writedata[31:0];
+					8'h01: Ki[address[7:0]][31:0] <= writedata[31:0];
+					8'h02: Kd[address[7:0]][31:0] <= writedata[31:0];
+					8'h03: sp[address[7:0]][31:0] <= writedata[31:0];
+					8'h04: PWMLimit[address[7:0]][31:0] <= writedata[31:0];
+					8'h05: IntegralLimit[address[7:0]][31:0] <= writedata[31:0];
+					8'h06: deadBand[address[7:0]][31:0] <= writedata[31:0];
+					8'h07: control_mode[address[7:0]][2:0] <= writedata[2:0];
+				endcase
 			end
 		end 
 	end

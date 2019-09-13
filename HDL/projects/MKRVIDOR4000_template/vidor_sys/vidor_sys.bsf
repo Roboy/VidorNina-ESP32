@@ -92,7 +92,7 @@ refer to the applicable agreement for further details.
 		(text "nss_to_the_spislave_inst_for_spichain" (rect 325 219 872 448)(font "Arial" (color 0 0 0)))
 		(text "miso_to_and_from_the_spislave_inst_for_spichain" (rect 325 235 932 480)(font "Arial" (color 0 0 0)))
 		(text "sclk_to_the_spislave_inst_for_spichain" (rect 325 251 878 512)(font "Arial" (color 0 0 0)))
-		(text " vidor_sys " (rect 833 272 1732 554)(font "Arial" ))
+		(text " system " (rect 845 272 1738 554)(font "Arial" ))
 		(line (pt 320 32)(pt 560 32)(line_width 1))
 		(line (pt 560 32)(pt 560 272)(line_width 1))
 		(line (pt 320 272)(pt 560 272)(line_width 1))

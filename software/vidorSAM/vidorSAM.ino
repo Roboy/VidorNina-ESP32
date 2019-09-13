@@ -37,9 +37,7 @@ const unsigned char bitstream[] = {
   #include "app.h"
 };
 
-#include <SPI.h>
-
-#include "AvalonMM.h"
+#include "ICEboardVidor.h"
 
 #define PIO_BASE (0x00800000)
 #define PIO_IO (0x00800000 + 0)
@@ -48,6 +46,7 @@ const unsigned char bitstream[] = {
 #define PIO_DIR_OUT 1
 
 bool toggle;
+ICEboardVidor *ice;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
@@ -85,30 +84,16 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  pinMode(7, OUTPUT); // SS   P12[5]
-  pinMode(8, OUTPUT); // MOSI P12[2]
-  pinMode(9, OUTPUT); // SCK  P12[4]
-  pinMode(10, INPUT); // MISO P12[3]
-
-  AvalonMM.begin();
-  
-  // wait until fpga comes up
-  do{
-    digitalWrite(LED_BUILTIN,toggle);
-    toggle=!toggle;
-    delay(200);
-    Serial.println("waiting for fpga avalon bridge");
-  }while (AvalonMM.read(0, 0x00000000) == 0xffff);
-  AvalonMM.write(0, 0,0xff);
-
-  
+  ice = new ICEboardVidor();
 }
-
 
 // the loop function runs over and over again forever
 void loop() {
   digitalWrite(LED_BUILTIN,toggle);
   toggle=!toggle;
   delay(1000);
-  Serial.println(AvalonMM.read(0, 0));          
+  for(int i=0;i<12;i++){
+    Serial.print(ice->readRegister(0,i,0),HEX);
+    Serial.print("\n");
+  }
 }

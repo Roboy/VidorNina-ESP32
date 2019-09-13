@@ -1,20 +1,3 @@
-Info: Starting: Create block symbol file (.bsf)
-Info: qsys-generate /home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --block-symbol-file --output-directory=/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys --family="Cyclone 10 LP" --part=10CL016YU256C8G
-Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
-Progress: Reading input file
-Progress: Adding ICEboardControl_0 [ICEboardControl 1.0]
-Progress: Parameterizing module ICEboardControl_0
-Progress: Adding clk_0 [clock_source 18.1]
-Progress: Parameterizing module clk_0
-Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
-Progress: Parameterizing module spi_avalon_bridge
-Progress: Building connections
-Progress: Parameterizing connections
-Progress: Validating
-Progress: Done reading input file
-Info: qsys-generate succeeded.
-Info: Finished: Create block symbol file (.bsf)
-Info: 
 Info: Starting: Create HDL design files for synthesis
 Info: qsys-generate /home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
 Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
