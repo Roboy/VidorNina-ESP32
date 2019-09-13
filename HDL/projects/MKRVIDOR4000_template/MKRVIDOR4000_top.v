@@ -119,32 +119,7 @@ module MKRVIDOR4000_top
 
 );
 
-// signal declaration
- 
-//=====nina esp32 programm interface===============
-//DEF
-wire iRx_header,iCts_header,iDtr_header;
-wire oTx_header;
-wire iTx_esp;
-wire oRx_esp,oCts_esp,oDtr_esp;
-wire iRESET_button,iBOOT_button;
-
-//PIN - MAP
-assign {iRESET_button,iBOOT_button} = {bMKR_AREF,bMKR_A[0]};
-assign {iTx_esp,iRx_header,iCts_header,iDtr_header} = {iWM_TX,bMKR_D[13:11]};
-assign {bMKR_D[14],oWM_RX,bWM_PIO27,oWM_RESET} = {oTx_header,oRx_esp,oCts_esp,oDtr_esp};
-
-//LOGIC
-assign oTx_header = iTx_esp;
-assign oRx_esp   = iRx_header;
-assign oCts_esp   = iBOOT_button;//(iBOOT_button == 1) ? iCts_header : 1'b0;
-assign oDtr_esp   = iRESET_button;//(iRESET_button == 1) ? iDtr_header : 1'b0;
-//=================================================
-//assign bMKR_D[6] = 1'b1;
-//=================================================
-
-
-
+/*
 //=====nina esp32 spi avalon interface ============
 //DEF
 wire iSpiMOSI, iSpiClk, iSpiCS;
@@ -156,7 +131,7 @@ assign {iSpiMOSI,iSpiClk,iSpiCS} = {bWM_PIO1,bWM_PIO29,bWM_PIO28};
 
 assign bWM_PIO21 = oSpiMISO;
 //assign bMKR_D[10] = oSpiMISO;
-/*
+*/
 //=====arduino spi avalon interface ==============
 wire iSpiMOSI, iSpiClk, iSpiCS;
 wire oSpiMISO;
@@ -164,134 +139,22 @@ wire oSpiMISO;
 assign {iSpiMOSI,iSpiClk,iSpiCS} = {bMKR_D[8],bMKR_D[9],bMKR_D[7]};
 
 assign bMKR_D[10] = oSpiMISO;
-*/
-//=================================================
-
-//=====ID SWITCH interface =======
-//DEF
-wire	[3:0]	sw; 
-//PIN - MAP
-assign sw = bMKR_A[5:2];//{bMKR_A[2],bMKR_A[3],bMKR_A[4],bMKR_A[5]};
-//=================================================
-
-//=====PIEZO interface ============================
-//DEF 
-parameter SIZE=2;
-wire oPiezoOUT_enable[SIZE:0];
-wire oPiezoIN_enable[SIZE:0];
-	
-wire [31:0] wMaster_time_ptp;
-wire [31:0] wSlave_time_ptp; 
-
-reg  [8:0] ENABEL_delay;
-reg  [8:0] ENABEL_IN_delay;
-
-wire enable;
-wire ENABLE_PIEZO;
-wire ENABEL_PIEZO_IN;
-wire PIEZO;
-wire INPUT_SIGNAL;
-
-wire pll_c0;
-
-//wire read_en_flag;
-
-
-//LOGIC
-/*
-genvar i;
-generate
-  assign buffer_outDef[0] = 0;
-  assign buffer_inDef[0] = 0;
-  for (i=0; i<=SIZE; i=i+1) begin : genv
-    assign buffer_outDef[i+1] = buffer_outDef[i] | oPiezoOUT_enable[i]; 
-	 assign buffer_inDef[i+1] = buffer_inDef[i] | oPiezoIN_enable[i]; 
-  end
-  //assign ENABLE_PIEZO = buffer_outDef[SIZE+1];
-  //assign ENABEL_PIEZO_IN = buffer_inDef[SIZE+1];
-endgenerate
-*/
-
-assign oPiezoOUT_enable[SIZE] = oPiezoOUT_enable[0] | oPiezoOUT_enable[1];
-
-
-//PIN - MAP
-assign bMKR_D[3] = ENABLE_PIEZO;
-assign bMKR_D[4] = ENABEL_PIEZO_IN;
-assign bMKR_D[1] = PIEZO;
-//TODO ENTFERNEN BEI RICHTIGER PLATINE
-assign bMKR_D[5]  = (ENABLE_PIEZO == 1) ? ~PIEZO : 1'b0;
-assign INPUT_SIGNAL = bMKR_D[6];//bMKR_D[1];
-//assign bWM_PIO18 = read_en_flag;
-//assign bWM_PIO7 = read_en_flag;
 
 //=================================================
 
-always @(posedge iCLK)
-begin
-  if (iRESETn)
-	ENABEL_delay <= 0;
-	ENABEL_IN_delay <= 0;
-	ENABEL_PIEZO_IN <= 0;
-  begin		
-   //if(ENABLE_PIEZO == 1) begin
-		ENABEL_PIEZO_IN <= !ENABLE_PIEZO;
-		/*ENABEL_IN_delay <= 0;
-		ENABEL_PIEZO_IN <= 0;
-		if (ENABEL_IN_delay >= 32'd3) begin
-			ENABLE_PIEZO <= 1;
-		end else begin
-			ENABLE_PIEZO <= 0;
-			ENABEL_delay <= ENABEL_delay + 32'd1;
-		end
-		*/
-	/*end else begin
-		ENABEL_delay <= 0;
-		if (ENABEL_IN_delay >= 32'd1) begin
-			ENABEL_PIEZO_IN <= 1;
-		end else begin
-			ENABEL_PIEZO_IN <= 0;
-			ENABEL_IN_delay <= ENABEL_IN_delay + 32'd1;
-		end
-	end
-	*/
-	
-  end
-end
+ vidor_sys u0 (
+	.clk_clk                                                    (iCLK),
+	.reset_reset_n                                              (iRESETn),    
+   .iceboardcontrol_0_conduit_end_rx									(bMKR_D[0]),                           
+	.iceboardcontrol_0_conduit_end_tx									(bMKR_D[1]),
+	.spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI),
+	.spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),
+	.spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO),
+	.spi_bridge_sclk_to_the_spislave_inst_for_spichain 				(iSpiClk)
+ );
 
-    vidor_sys u0 (
-        .clk_clk                                                    (iCLK),                                                    //                           clk.clk
-		  .reset_reset_n                                              (iRESETn),    
-        .id_switch_sw                                               (sw[3:0]),                                               //                     id_switch.sw
-       // .id_switch_debug_out1                                       (bMKR_D[6]),                                       //                              .debug_out1
-        // .piezo_controller_piezo_enable_export                       (ENABLE_PIEZO ),                       // piezo_controller_piezo_enable.export
-        .piezo_controller_piezo_enable_piezo_enable_in              (oPiezoOUT_enable[SIZE]),              //                              .piezo_enable_in
-        //.piezo_controller_piezo_out_export                          (PIEZO),                          //    piezo_controller_piezo_out.export
-        //.piezo_controller_piezo_status_export                       (<connected-to-piezo_controller_piezo_status_export>),                       // piezo_controller_piezo_status.export
-        .ptp_piezo_interface0_piezo_interface_in                    (INPUT_SIGNAL),                    //          ptp_piezo_interface0.piezo_interface_in
-        .ptp_piezo_interface0_piezo_interface_out                   (oPiezoOUT_enable[0]),                   //                              .piezo_interface_out
-        .ptp_piezo_interface0_time_data_master                      (wMaster_time_ptp),                      //                              .time_data_master
-        .ptp_piezo_interface0_time_data_slave                       (wSlave_time_ptp),                       //                              .time_data_slave
-        .rtc_0_conduit_end_event_trigger                            (INPUT_SIGNAL),                            //             rtc_0_conduit_end.event_trigger
-        .rtc_0_conduit_end_piezo_enable                             (oPiezoOUT_enable[1]),                             //                              .piezo_enable
-        .rtc_0_conduit_end_event_trigger2                           (pll_c0),                           //                              .event_trigger2
-		  .rtc_0_conduit_end_flag_allow_read 									(bWM_PIO7),
-		  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
-		  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
-	     .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
-	     .spi_bridge_sclk_to_the_spislave_inst_for_spichain 				(iSpiClk),  //         .sclk                                       //                     piezo_ctl.gpio_out
-		  .pll_c0_clk                                                 	(pll_c0),                                                 //                        pll_c0.clk
-        //.pll_areset_export                                          	(<connected-to-pll_areset_export>),                                          //                    pll_areset.export
-        //.pll_locked_export                                          	(<connected-to-pll_locked_export>),
-		  .piezo_ctl_gpio_out                                         	(PIEZO),                                         //                     piezo_ctl.gpio_out
-        .piezo_ctl_enable_in                                        	(oPiezoOUT_enable[SIZE]),                                        //                              .enable_in
-        .piezo_ctl_enable_out    											  	(ENABLE_PIEZO) 			
-    );
- 
-
-
+// signal declaration
 wire        wOSC_CLK;
-
 wire        wCLK8,wCLK24, wCLK64, wCLK120;
 
 wire [31:0] wJTAG_ADDRESS, wJTAG_READ_DATA, wJTAG_WRITE_DATA, wDPRAM_READ_DATA;
@@ -322,9 +185,7 @@ SYSTEM_PLL PLL_inst(
   .c0(wCLK24),
   .c1(wCLK120),
   .c2(wMEM_CLK),
-   .c3(oSDRAM_CLK),
-  .c4(wFLASH_CLK),
-   
+  .c3(oSDRAM_CLK),
   .locked());
 
 

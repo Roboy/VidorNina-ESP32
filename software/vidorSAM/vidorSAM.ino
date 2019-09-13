@@ -1,32 +1,13 @@
-#include <SPI.h>
+#include <wiring_private.h>
 #include "jtag.h"
 
-#define PIO_BASE (0x00000000)
-#define PIO_IO (0x00000000 + 0)
-#define PIO_DIR (0x00000000 + 4)
-#define PIO_DIR_IN 0
-#define PIO_DIR_OUT 1
-
-
-// For High level functions such as pinMode or digitalWrite, you have to use FPGA_xxx
-// Low level functions (in jtag.c file) use other kind of #define (TDI,TDO,TCK,TMS) with different values
-#define FPGA_TDI                            (26u)
-#define FPGA_TDO                            (29u)
-#define FPGA_TCK                            (27u)
-#define FPGA_TMS                            (28u)
-
-// Clock send by SAMD21 to the FPGAbWM_PIO1
-#define FPGA_CLOCK                        (30u)
-
-// SAMD21 to FPGA control signal (interrupt ?)
-#define FPGA_MB_INT                       (31u)
-
-// FPGA to SAMD21 control signal (interrupt ?)
-#define FPGA_INT                          (133u) //B2 N2
-
-// For MKR pinout assignments see : https://systemes-embarques.fr/wp/brochage-connecteur-mkr-vidor-4000/
-
-extern void enableFpgaClock(void);
+#define TDI                               12
+#define TDO                               15
+#define TCK                               13
+#define TMS                               14
+#define MB_INT                            28
+#define MB_INT_PIN                        31
+#define SIGNAL_IN 33 //B2 N2
 
 #define no_data    0xFF, 0xFF, 0xFF, 0xFF, \
           0xFF, 0xFF, 0xFF, 0xFF, \
@@ -46,7 +27,7 @@ const unsigned char signatures[4096] = {
   0x00, 0x00, 0x08, 0x00,
   0xA9, 0x6F, 0x1F, 0x00,   // Don't care.
   0x20, 0x77, 0x77, 0x77, 0x2e, 0x73, 0x79, 0x73, 0x74, 0x65, 0x6d, 0x65, 0x73, 0x2d, 0x65, 0x6d, 0x62, 0x61, 0x72, 0x71, 0x75, 0x65, 0x73, 0x2e, 0x66, 0x72, 0x20, 0x00, 0x00, 0xff, 0xf0, 0x0f,
-  0x01, 0x00, 0x00, 0x00,   
+  0x01, 0x00, 0x00, 0x00,
   0x01, 0x00, 0x00, 0x00,   // Force
 
   NO_USER_DATA,
@@ -56,15 +37,26 @@ const unsigned char bitstream[] = {
   #include "app.h"
 };
 
+#include <SPI.h>
+
+#include "AvalonMM.h"
+
+#define PIO_BASE (0x00800000)
+#define PIO_IO (0x00800000 + 0)
+#define PIO_DIR (0x00800000 + 4)
+#define PIO_DIR_IN 0
+#define PIO_DIR_OUT 1
+
+bool toggle;
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-
   int ret;
   uint32_t ptr[1];
 
-  enableFpgaClock();
-
+  pinPeripheral(30, PIO_AC_CLK);
+  clockout(0, 1);
+  delay(1000);  
   //Init Jtag Port
   ret = jtagInit();
   mbPinSet();
@@ -79,26 +71,44 @@ void setup() {
   // Configure onboard LED Pin as output
   pinMode(LED_BUILTIN, OUTPUT);
 
-  // Disable all JTAG Pins (usefull for USB BLASTER connection)
-  pinMode(FPGA_TDO, INPUT);
-  pinMode(FPGA_TMS, INPUT);
-  pinMode(FPGA_TDI, INPUT);
-  pinMode(FPGA_TCK, INPUT);
-
   // Configure other share pins as input too
-  pinMode(FPGA_INT, INPUT);
+  pinMode(SIGNAL_IN, INPUT);
+  pinMode(MB_INT, INPUT);
 
-    pinMode(7, INPUT); // SS   P12[5]
-    pinMode(8, INPUT); // MOSI P12[2]
-    pinMode(9, INPUT); // SCK  P12[4]
-    pinMode(10, INPUT); // MISO P12[3]
+  //Initialize serial and wait for port to open:
+  Serial.begin(115200);
+  
+  while (!Serial) {
+    digitalWrite(LED_BUILTIN,toggle);
+    toggle=!toggle;
+    delay(100);
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
 
-    pinMode(6, INPUT); // piezo out
+  pinMode(7, OUTPUT); // SS   P12[5]
+  pinMode(8, OUTPUT); // MOSI P12[2]
+  pinMode(9, OUTPUT); // SCK  P12[4]
+  pinMode(10, INPUT); // MISO P12[3]
+
+  AvalonMM.begin();
+  
+  // wait until fpga comes up
+  do{
+    digitalWrite(LED_BUILTIN,toggle);
+    toggle=!toggle;
+    delay(200);
+    Serial.println("waiting for fpga avalon bridge");
+  }while (AvalonMM.read(0, 0x00000000) == 0xffff);
+  AvalonMM.write(0, 0,0xff);
+
+  
 }
 
 
 // the loop function runs over and over again forever
 void loop() {
-
-                     
+  digitalWrite(LED_BUILTIN,toggle);
+  toggle=!toggle;
+  delay(1000);
+  Serial.println(AvalonMM.read(0, 0));          
 }

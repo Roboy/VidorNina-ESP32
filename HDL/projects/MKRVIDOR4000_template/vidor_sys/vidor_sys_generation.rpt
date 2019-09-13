@@ -1,48 +1,11 @@
-Info: Starting: Create block symbol file (.bsf)
-Info: qsys-generate /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --block-symbol-file --output-directory=/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys --family="Cyclone 10 LP" --part=10CL016YU256C8G
-Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
-Progress: Reading input file
-Progress: Adding altpll_0 [altpll 18.1]
-Progress: Parameterizing module altpll_0
-Progress: Adding clk_0 [clock_source 18.1]
-Progress: Parameterizing module clk_0
-Progress: Adding id_switch_0 [id_switch 1.0]
-Progress: Parameterizing module id_switch_0
-Progress: Adding piezo_clk_div_0 [piezo_clk_div 2.0]
-Progress: Parameterizing module piezo_clk_div_0
-Progress: Adding piezo_controller_0 [piezo_controller 1.0]
-Progress: Parameterizing module piezo_controller_0
-Progress: Adding ptp_simple_us_0 [ptp_simple_us 1.0]
-Progress: Parameterizing module ptp_simple_us_0
-Progress: Adding realtime_clock_controll_0 [realtime_clock_controll 1.0]
-Progress: Parameterizing module realtime_clock_controll_0
-Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
-Progress: Parameterizing module spi_avalon_bridge
-Progress: Building connections
-Progress: Parameterizing connections
-Progress: Validating
-Progress: Done reading input file
-Info: qsys-generate succeeded.
-Info: Finished: Create block symbol file (.bsf)
-Info: 
 Info: Starting: Create HDL design files for synthesis
-Info: qsys-generate /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
+Info: qsys-generate /home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys.qsys --synthesis=VERILOG --output-directory=/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis --family="Cyclone 10 LP" --part=10CL016YU256C8G
 Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
 Progress: Reading input file
-Progress: Adding altpll_0 [altpll 18.1]
-Progress: Parameterizing module altpll_0
+Progress: Adding ICEboardControl_0 [ICEboardControl 1.0]
+Progress: Parameterizing module ICEboardControl_0
 Progress: Adding clk_0 [clock_source 18.1]
 Progress: Parameterizing module clk_0
-Progress: Adding id_switch_0 [id_switch 1.0]
-Progress: Parameterizing module id_switch_0
-Progress: Adding piezo_clk_div_0 [piezo_clk_div 2.0]
-Progress: Parameterizing module piezo_clk_div_0
-Progress: Adding piezo_controller_0 [piezo_controller 1.0]
-Progress: Parameterizing module piezo_controller_0
-Progress: Adding ptp_simple_us_0 [ptp_simple_us 1.0]
-Progress: Parameterizing module ptp_simple_us_0
-Progress: Adding realtime_clock_controll_0 [realtime_clock_controll 1.0]
-Progress: Parameterizing module realtime_clock_controll_0
 Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
 Progress: Parameterizing module spi_avalon_bridge
 Progress: Building connections
@@ -50,44 +13,15 @@ Progress: Parameterizing connections
 Progress: Validating
 Progress: Done reading input file
 Info: vidor_sys: Generating vidor_sys "vidor_sys" for QUARTUS_SYNTH
-Info: altpll_0: "vidor_sys" instantiated altpll "altpll_0"
-Info: id_switch_0: "vidor_sys" instantiated id_switch "id_switch_0"
-Info: piezo_clk_div_0: "vidor_sys" instantiated piezo_clk_div "piezo_clk_div_0"
-Info: piezo_controller_0: "vidor_sys" instantiated piezo_controller "piezo_controller_0"
-Info: ptp_simple_us_0: "vidor_sys" instantiated ptp_simple_us "ptp_simple_us_0"
-Info: realtime_clock_controll_0: "vidor_sys" instantiated realtime_clock_controll "realtime_clock_controll_0"
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave ICEboardControl_0.avalon_slave_0 because the master has address signal 32 bit wide, but the slave is 16 bit wide.
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave ICEboardControl_0.avalon_slave_0 because the master has byteenable signal 4 bit wide, but the slave is 0 bit wide.
+Info: Interconnect is inserted between master spi_avalon_bridge.avalon_master and slave ICEboardControl_0.avalon_slave_0 because the master has readdatavalid signal 1 bit wide, but the slave is 0 bit wide.
+Info: ICEboardControl_0: "vidor_sys" instantiated ICEboardControl "ICEboardControl_0"
 Info: spi_avalon_bridge: "vidor_sys" instantiated spi_slave_to_avalon_mm_master_bridge "spi_avalon_bridge"
-Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
-Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "vidor_sys" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: rst_controller: "vidor_sys" instantiated altera_reset_controller "rst_controller"
 Info: spi_avalon_bridge_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "spi_avalon_bridge_avalon_master_translator"
-Info: id_switch_0_avalon_slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "id_switch_0_avalon_slave_translator"
-Info: spi_avalon_bridge_avalon_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "spi_avalon_bridge_avalon_master_agent"
-Info: id_switch_0_avalon_slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "id_switch_0_avalon_slave_agent"
-Info: id_switch_0_avalon_slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "id_switch_0_avalon_slave_agent_rsp_fifo"
-Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
-Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
-Info: router_005: "mm_interconnect_0" instantiated altera_merlin_router "router_005"
-Info: spi_avalon_bridge_avalon_master_limiter: "mm_interconnect_0" instantiated altera_merlin_traffic_limiter "spi_avalon_bridge_avalon_master_limiter"
-Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_sc_fifo.v
-Info: piezo_controller_0_s1_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "piezo_controller_0_s1_burst_adapter"
-Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_avalon_st_pipeline_base.v
-Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
-Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
-Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
-Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
-Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_arbitrator.sv
-Info: piezo_controller_0_s1_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "piezo_controller_0_s1_rsp_width_adapter"
-Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_address_alignment.sv
-Info: Reusing file /home/sausy/Projects/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/altera_merlin_burst_uncompressor.sv
-Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
-Info: avalon_st_adapter_004: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_004"
-Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
-Info: error_adapter_0: "avalon_st_adapter_004" instantiated error_adapter "error_adapter_0"
-Info: vidor_sys: Done "vidor_sys" with 29 modules, 55 files
+Info: ICEboardControl_0_avalon_slave_0_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "ICEboardControl_0_avalon_slave_0_translator"
+Info: vidor_sys: Done "vidor_sys" with 7 modules, 20 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

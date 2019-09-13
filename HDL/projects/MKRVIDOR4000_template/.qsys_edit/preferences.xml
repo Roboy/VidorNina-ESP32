@@ -3,12 +3,14 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="95" />
+   <connections preferredWidth="79" />
    <irq preferredWidth="34" />
    <name preferredWidth="238" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
+ <library
+   expandedCategories="Library/Basic Functions/Simulation; Debug and Verification,Library/Basic Functions,Project/ipTronix,Library/Interface Protocols,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Library,Project,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Basic Functions/Bridges and Adaptors,Library/Interface Protocols/Serial" />
  <window width="1920" height="1061" x="0" y="0" />
  <hdlexample language="VERILOG" />
+ <generation block_symbol_file="0" />
 </preferences>
