@@ -53,11 +53,13 @@ static bool xUserWaitflage_main_cpp = false;
 
 //Config
 #ifndef CONFIG_WIFI_SSID
-#define CONFIG_WIFI_SSID "roboy"
+//#define CONFIG_WIFI_SSID "roboy"
+#define CONFIG_WIFI_SSID "sausi"
 #endif
 
 #ifndef CONFIG_WIFI_PASSWORD
-#define CONFIG_WIFI_PASSWORD "wiihackroboy"
+//#define CONFIG_WIFI_PASSWORD "wiihackroboy"
+#define CONFIG_WIFI_PASSWORD "asdfwiihackroboy"
 #endif
 
 static esp_mqtt_client_handle_t mqtt_client = NULL;

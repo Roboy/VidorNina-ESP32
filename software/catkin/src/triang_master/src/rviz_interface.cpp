@@ -72,7 +72,7 @@ void rviz_loop(std::atomic<bool>& program_is_running, std::vector<std::string> &
 
     ros::Duration lifetime_;
 
-    marker.lifetime = lifetime_.fromSec(2);
+    marker.lifetime = lifetime_.fromSec(3);
     /*for (uint32_t i = 0; i < nods_num; i++) {
       geometry_msgs::Point point;
 
@@ -171,7 +171,7 @@ void rviz_loop(std::atomic<bool>& program_is_running, std::vector<std::string> &
           //mark_array.markers.push_back(marker);
           //mark_array.markers.insert(mark_array.markers.begin(),marker);
 
-          marker_pub_array.publish(mark_array);
+          //marker_pub_array.publish(mark_array);
           //marker_cnt++;
 /*
           if(marker_cnt > 10){
@@ -368,7 +368,7 @@ void data_pars::calc_kartes(){
   const double scale = 10.0;
 
   std_msgs::ColorRGBA c;
-
+  std::cout << "\nPrint to rviz";
   double calc_buffer[10];
   for(uint8_t i = 0; i < 3; i++){
     switch (i) {
