@@ -108,4 +108,16 @@ module ICEboardControl (
 		end 
 	end
 	
+	coms com(
+		.CLK(clock),
+		.reset(reset),
+		.tx_o(tx),
+		.rx_i(rx),
+		.position(position[0]),
+		.velocity(velocity[0]),
+		.displacement(displacement[0]),
+		.current(current[0]),
+		.setpoint(sp[0])
+	);
+	
 endmodule

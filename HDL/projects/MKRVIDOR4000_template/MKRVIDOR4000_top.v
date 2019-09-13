@@ -141,7 +141,7 @@ assign {iSpiMOSI,iSpiClk,iSpiCS} = {bMKR_D[8],bMKR_D[9],bMKR_D[7]};
 assign bMKR_D[10] = oSpiMISO;
 
 //=================================================
-
+ 
  vidor_sys u0 (
 	.clk_clk                                                    (iCLK),
 	.reset_reset_n                                              (rRESETCNT[5]),    
