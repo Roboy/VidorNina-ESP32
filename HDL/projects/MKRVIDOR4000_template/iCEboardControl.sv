@@ -13,7 +13,8 @@ module ICEboardControl (
 );
 	
 	parameter NUMBER_OF_MOTORS = 6;
-	parameter CLOCK_SPEED_HZ = 50_000_000;
+	parameter CLOCK_FREQ_HZ = 50_000_000;
+	parameter BAUDRATE = 115200;
 	
 	// gains and shit
 	// p gains
@@ -31,7 +32,7 @@ module ICEboardControl (
 	// deadband
 	reg signed [31:0] deadBand[NUMBER_OF_MOTORS-1:0];
 	// control mode
-	reg [2:0] control_mode[NUMBER_OF_MOTORS-1:0];
+	reg [7:0] control_mode[NUMBER_OF_MOTORS-1:0];
 
 	// the following is stuff we receive from the motors via uart
 	// positions of the motors
@@ -101,23 +102,24 @@ module ICEboardControl (
 					8'h08: PWMLimit[motor][31:0] <= writedata[31:0];
 					8'h09: IntegralLimit[motor][31:0] <= writedata[31:0];
 					8'h0A: deadBand[motor][31:0] <= writedata[31:0];
-					8'h0B: control_mode[motor][2:0] <= writedata[2:0];
+					8'h0B: control_mode[motor][7:0] <= writedata[7:0];
 					8'h0C: sp[motor][31:0] <= writedata[31:0];
 				endcase
 			end
 		end 
 	end
 	
-	coms com(
+	coms #(NUMBER_OF_MOTORS,CLOCK_FREQ_HZ,BAUDRATE)com(
 		.CLK(clock),
 		.reset(reset),
 		.tx_o(tx),
 		.rx_i(rx),
-		.position(position[0]),
-		.velocity(velocity[0]),
-		.displacement(displacement[0]),
-		.current(current[0]),
-		.setpoint(sp[0])
+		.position(position),
+		.velocity(velocity),
+		.displacement(displacement),
+		.current(current),
+		.setpoint(sp),
+		.control_mode(control_mode)
 	);
 	
 endmodule

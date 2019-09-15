@@ -67,6 +67,8 @@ void setup() {
   // Give it delay
   delay(1000);
 
+  jtagDeinit();
+  
   // Configure onboard LED Pin as output
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -94,6 +96,7 @@ void loop() {
   digitalWrite(LED_BUILTIN,toggle);
   toggle=!toggle;
   delay(1000);
+  Serial.println("------------------------------------------------------------------------------------------------------------------------");
   for(int motor=0;motor<6;motor++){
     ice->printStatus(base,motor);
   }

@@ -98,7 +98,7 @@
   <parameter name="CLOCK_SPEED_HZ" value="50000000" />
   <parameter name="NUMBER_OF_MOTORS" value="6" />
  </module>
- <module name="clk_0" kind="clock_source" version="18.1" enabled="1">
+ <module name="clk_0" kind="clock_source" version="18.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
@@ -107,7 +107,7 @@
  <module
    name="spi_avalon_bridge"
    kind="spi_slave_to_avalon_mm_master_bridge"
-   version="18.1"
+   version="18.0"
    enabled="1">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
@@ -115,7 +115,7 @@
  </module>
  <connection
    kind="avalon"
-   version="18.1"
+   version="18.0"
    start="spi_avalon_bridge.avalon_master"
    end="ICEboardControl_0.avalon_slave_0">
   <parameter name="arbitrationPriority" value="1" />
@@ -124,22 +124,22 @@
  </connection>
  <connection
    kind="clock"
-   version="18.1"
+   version="18.0"
    start="clk_0.clk"
    end="spi_avalon_bridge.clk" />
  <connection
    kind="clock"
-   version="18.1"
+   version="18.0"
    start="clk_0.clk"
    end="ICEboardControl_0.clock_sink" />
  <connection
    kind="reset"
-   version="18.1"
+   version="18.0"
    start="clk_0.clk_reset"
    end="spi_avalon_bridge.clk_reset" />
  <connection
    kind="reset"
-   version="18.1"
+   version="18.0"
    start="clk_0.clk_reset"
    end="ICEboardControl_0.reset" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />

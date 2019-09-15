@@ -11,7 +11,7 @@
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
 
-module uart_rx
+module uart_rx #(parameter CLK_FREQ_HZ = 50_000_000, parameter BAUDRATE = 115200)
   (
    input        i_Clock,
    input        i_Rx_Serial,
@@ -19,7 +19,7 @@ module uart_rx
    output [7:0] o_Rx_Byte
    );
 
-  localparam CLKS_PER_BIT   = 64; // 139 at 16MHz this is 115200 baudrate, 64 at 16MHz is 250000 
+  localparam CLKS_PER_BIT   = CLK_FREQ_HZ/BAUDRATE; // 139 at 16MHz this is 115200 baudrate, 64 at 16MHz is 250000 
   localparam s_IDLE         = 3'b000;
   localparam s_RX_START_BIT = 3'b001;
   localparam s_RX_DATA_BITS = 3'b010;

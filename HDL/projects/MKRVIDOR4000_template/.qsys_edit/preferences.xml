@@ -8,8 +8,7 @@
    <name preferredWidth="238" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Project,Library/Interface Protocols/Serial,Library/Basic Functions,Library/Basic Functions/Bridges and Adaptors/Memory Mapped,Library/Basic Functions/Bridges and Adaptors,Library/Basic Functions/Simulation; Debug and Verification/Debug and Performance,Library/Basic Functions/Simulation; Debug and Verification,Library,Project/ipTronix,Library/Interface Protocols" />
+ <library expandedCategories="Project,Library" />
  <window width="1920" height="1061" x="0" y="0" />
  <hdlexample language="VERILOG" />
  <generation block_symbol_file="0" />
