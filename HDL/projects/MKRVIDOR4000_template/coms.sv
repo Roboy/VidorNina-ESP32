@@ -101,7 +101,7 @@ endfunction
 	endgenerate
 
 
-	reg [13:0]delay_counter;
+	reg [31:0]delay_counter;
 	reg tx_active_prev;
 	always @(posedge CLK, posedge reset) begin: UART_TRANSMITTER
 		localparam IDLE=8'h0, PREPARE_CONTROL_MODE = 8'h1, SEND_CONTROL_MODE = 8'h2, PREPARE_SETPOINT  = 8'h3, SEND_SETPOINT = 8'h4,
@@ -131,7 +131,7 @@ endfunction
 					data_out[4] = motor; // motor id
 					data_out[5] = control_mode[motor]; // control_mode
 					tx_crc = 16'hFFFF;
-					for(i=0;i<CONTROL_MODE_FRAME_LENGTH-2;i++) begin
+					for(i=MAGIC_NUMBER_LENGTH;i<CONTROL_MODE_FRAME_LENGTH-2;i=i+1) begin
 						tx_crc = nextCRC16_D8(data_out[i],tx_crc);
 					end
 					data_out[CONTROL_MODE_FRAME_LENGTH-2] = tx_crc[15:8];
@@ -162,7 +162,7 @@ endfunction
 					data_out[7] = setpoint[0][15:8];
 					data_out[8] = setpoint[0][7:0];
 					tx_crc = 16'hFFFF;
-					for(i=0;i<SETPOINT_FRAME_LENGTH-2;i++) begin
+					for(i=MAGIC_NUMBER_LENGTH;i<SETPOINT_FRAME_LENGTH-2;i=i+1) begin
 						tx_crc = nextCRC16_D8(data_out[i],tx_crc);
 					end
 					data_out[SETPOINT_FRAME_LENGTH-2] = tx_crc[15:8];
@@ -189,13 +189,13 @@ endfunction
 					data_out[3] = STATUS_REQUEST_FRAME_MAGICNUMBER[7:0];
 					data_out[4] = motor; // motor id
 					tx_crc = 16'hFFFF;
-					for(i=0;i<STATUS_REQUEST_FRAME_LENGTH-2;i++) begin
+					for(i=MAGIC_NUMBER_LENGTH;i<STATUS_REQUEST_FRAME_LENGTH-2;i=i+1) begin
 						tx_crc = nextCRC16_D8(data_out[i],tx_crc);
 					end
 					data_out[STATUS_REQUEST_FRAME_LENGTH-2] = tx_crc[15:8];
 					data_out[STATUS_REQUEST_FRAME_LENGTH-1] = tx_crc[7:0];
 					byte_transmit_counter = 0;
-					delay_counter = CLK_FREQ_HZ/BAUDRATE*MAX_FRAME_LENGTH*8*8;
+					delay_counter = CLK_FREQ_HZ/BAUDRATE*MAX_FRAME_LENGTH*8;
 					state = SEND_STATUS_REQUEST;
 				end
 				SEND_STATUS_REQUEST: begin

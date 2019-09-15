@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="vidor_sys" kind="vidor_sys" version="1.0" fabric="QSYS">
  <!-- Format version 18.0 614 (Future versions may contain additional information.) -->
- <!-- 2019.09.15.16:30:17 -->
+ <!-- 2019.09.15.17:16:24 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1568557817</value>
+  <value>1568560584</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
