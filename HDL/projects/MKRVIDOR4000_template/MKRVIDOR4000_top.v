@@ -145,7 +145,7 @@ assign bMKR_D[10] = oSpiMISO;
  vidor_sys u0 (
 	.clk_clk                                                    (iCLK),
 	.reset_reset_n                                              (rRESETCNT[5]),    
-   .iceboardcontrol_0_conduit_end_rx									(bMKR_D[0]),                           
+    .iceboardcontrol_0_conduit_end_rx									(bMKR_D[0]),                           
 	.iceboardcontrol_0_conduit_end_tx									(bMKR_D[1]),
 	.spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI),
 	.spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),

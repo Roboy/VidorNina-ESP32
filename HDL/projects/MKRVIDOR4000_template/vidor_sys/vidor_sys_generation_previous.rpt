@@ -4,9 +4,9 @@ Progress: Loading MKRVIDOR4000_template/vidor_sys.qsys
 Progress: Reading input file
 Progress: Adding ICEboardControl_0 [ICEboardControl 1.0]
 Progress: Parameterizing module ICEboardControl_0
-Progress: Adding clk_0 [clock_source 18.0]
+Progress: Adding clk_0 [clock_source 18.1]
 Progress: Parameterizing module clk_0
-Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.0]
+Progress: Adding spi_avalon_bridge [spi_slave_to_avalon_mm_master_bridge 18.1]
 Progress: Parameterizing module spi_avalon_bridge
 Progress: Building connections
 Progress: Parameterizing connections

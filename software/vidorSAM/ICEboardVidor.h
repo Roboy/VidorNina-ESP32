@@ -23,13 +23,19 @@ public:
   };
   void printStatus(int base, int motor){
     writeRegister(base,0,motor);
-    int32_t val[12];
-    for(int i=0;i<12;i++){
+    int32_t val[0x14];
+    for(int i=0;i<0x14;i++){
       val[i] = readRegister(base, i);
     }
-    ardprintf("motor %d Kp: %d Ki: %d Kd: %d pos %d vel %d dis %d cur %d pwmlim %d intlim %d deadband %d control_mode %d setpoint\n",
-      val[REG::motor],val[REG::Kp],val[REG::Ki],val[REG::Kd],val[REG::pos],val[REG::vel],val[REG::dis],val[REG::cur],
-      val[REG::pwmlim],val[REG::intlim],val[REG::deadband],val[REG::control_mode],val[REG::setpoint]);
+    ardprintf("motor %d enc0_pos %d enc1_pos %d enc0_vel %d enc1_vel %d suf %d cm %d Kp: %d Ki: %d Kd: %d pwmlim %d intlim %d deadband %d setpoint %d error_code %d\n",
+      val[REG::motor],
+      val[REG::enc0_pos],val[REG::enc1_pos],
+      val[REG::enc0_vel],val[REG::enc1_vel],
+      //val[REG::cur_ph1],val[REG::cur_ph2],val[REG::cur_ph3],
+      val[REG::status_update_frequency],
+      val[REG::control_mode],
+      val[REG::Kp],val[REG::Ki],val[REG::Kd],
+      val[REG::pwmlim],val[REG::intlim],val[REG::deadband],val[REG::setpoint],val[REG::error_code]); //cur_ph1 %d cur_ph2 %d cur_ph3 
   };
   int32_t writeRegister(uint32_t base, uint8_t reg, int32_t data){
     for(int i=0;i<4;i++){
@@ -44,19 +50,24 @@ public:
     return (int32_t)(val[3]<<24|val[2]<<16|val[1]<<8|val[0]);
   };
   enum REG{
-    motor = 0,
-    Kp,
-    Ki,
-    Kd,
-    pos,
-    vel,
-    dis,
-    cur,
-    pwmlim,
-    intlim,
-    deadband,
-    control_mode,
-    setpoint
+    motor = 0x0,
+    Kp = 0x1,
+    Ki = 0x2,
+    Kd = 0x3,
+    enc0_pos = 0x4,
+    enc1_pos = 0x5,
+    enc0_vel = 0x6,
+    enc1_vel = 0x7,
+    pwmlim = 0x8,
+    intlim = 0x9,
+    deadband = 0xA,
+    control_mode = 0xB,
+    setpoint = 0xC,
+    error_code = 0xD,
+    status_update_frequency = 0x11,
+    cur_ph1 = 0x12,
+    cur_ph2 = 0x13,
+    cur_ph3 = 0x14
   };
 };
 
