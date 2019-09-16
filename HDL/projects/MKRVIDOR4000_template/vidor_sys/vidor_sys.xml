@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.09.16.19:06:33"
+ date="2019.09.17.00:27:26"
  outputDirectory="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/">
  <perimeter>
   <parameter
@@ -70,6 +70,16 @@
        direction="output"
        role="tx"
        width="1" />
+   <port
+       name="iceboardcontrol_0_conduit_end_rx_receive"
+       direction="bidir"
+       role="rx_receive"
+       width="1" />
+   <port
+       name="iceboardcontrol_0_conduit_end_clock24mhz"
+       direction="input"
+       role="clock24mhz"
+       width="1" />
   </interface>
   <interface name="reset" kind="reset" start="0">
    <property name="associatedClock" value="" />
@@ -103,13 +113,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1568653591,AUTO_UNIQUE_ID=(ICEboardControl:1.0:BAUDRATE=115200,CLOCK_FREQ_HZ=50000000,NUMBER_OF_MOTORS=6)(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
+   parameterizationKey="vidor_sys:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=10CL016YU256C8G,AUTO_DEVICE_FAMILY=Cyclone 10 LP,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1568672846,AUTO_UNIQUE_ID=(ICEboardControl:1.0:BAUDRATE=115200,CLOCK_FREQ_HZ=48000000,NUMBER_OF_MOTORS=6)(clock_source:18.1:clockFrequency=50000000,clockFrequencyKnown=true,inputClockFrequency=0,resetSynchronousEdges=NONE)(spi_slave_to_avalon_mm_master_bridge:18.1:AUTO_CLK_CLOCK_RATE=50000000,AUTO_DEVICE_FAMILY=Cyclone 10 LP,SYNC_DEPTH=5)(avalon:18.1:arbitrationPriority=1,baseAddress=0x0000,defaultConnection=false)(clock:18.1:)(clock:18.1:)(reset:18.1:)(reset:18.1:)"
    instancePathKey="vidor_sys"
    kind="vidor_sys"
    version="1.0"
    name="vidor_sys">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1568653591" />
+  <parameter name="AUTO_GENERATION_ID" value="1568672846" />
   <parameter name="AUTO_DEVICE" value="10CL016YU256C8G" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -129,6 +139,14 @@
    <file
        path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/coms.sv"
        type="SYSTEM_VERILOG"
+       attributes="" />
+   <file
+       path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/uart_rx.v"
+       type="VERILOG"
+       attributes="" />
+   <file
+       path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/uart_tx.v"
+       type="VERILOG"
        attributes="" />
    <file
        path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/spiphyslave.sdc"
@@ -306,15 +324,10 @@
    <message level="Info" culprit="ICEboardControl_0"><![CDATA["<b>vidor_sys</b>" instantiated <b>ICEboardControl</b> "<b>ICEboardControl_0</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0050_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0050_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0229_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0229_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
    <message level="Debug">Command took 0.567s</message>
-   <message level="Debug">Command took 0.890s</message>
-   <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0052_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0052_sopcqmap/ --set=HDL_INTERFACE_INSTANCE_NAME=inst --set=HDL_INTERFACE_INSTANCE_ENTITY=SPISlaveToAvalonMasterBridge --set=HDL_INTERFACE_INSTANCE_PARAMETERS=SYNC_DEPTH=D"5"; --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.618s</message>
-   <message level="Debug">Command took 1.093s</message>
+   <message level="Debug">Command took 0.901s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
    <message level="Debug" culprit="vidor_sys">queue size: 1 starting:altera_mm_interconnect "submodules/vidor_sys_mm_interconnect_0"</message>
    <message level="Progress" culprit="min"></message>
@@ -367,13 +380,13 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="ICEboardControl:1.0:BAUDRATE=115200,CLOCK_FREQ_HZ=50000000,NUMBER_OF_MOTORS=6"
+   parameterizationKey="ICEboardControl:1.0:BAUDRATE=115200,CLOCK_FREQ_HZ=48000000,NUMBER_OF_MOTORS=6"
    instancePathKey="vidor_sys:.:ICEboardControl_0"
    kind="ICEboardControl"
    version="1.0"
    name="ICEboardControl">
   <parameter name="NUMBER_OF_MOTORS" value="6" />
-  <parameter name="CLOCK_FREQ_HZ" value="50000000" />
+  <parameter name="CLOCK_FREQ_HZ" value="48000000" />
   <parameter name="BAUDRATE" value="115200" />
   <generatedFiles>
    <file
@@ -383,6 +396,14 @@
    <file
        path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/coms.sv"
        type="SYSTEM_VERILOG"
+       attributes="" />
+   <file
+       path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/uart_rx.v"
+       type="VERILOG"
+       attributes="" />
+   <file
+       path="/home/letrend/workspace/VidorNina-ESP32/HDL/projects/MKRVIDOR4000_template/vidor_sys/synthesis/submodules/uart_tx.v"
+       type="VERILOG"
        attributes="" />
   </generatedFiles>
   <childGeneratedFiles/>
@@ -478,15 +499,10 @@
   <messages>
    <message level="Debug" culprit="vidor_sys">queue size: 2 starting:spi_slave_to_avalon_mm_master_bridge "submodules/SPISlaveToAvalonMasterBridge"</message>
    <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0050_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0050_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
+   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0229_sopcqmap/not_a_project_setup.tcl</message>
+   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0229_sopcqmap/ --ini=disable_check_quartus_compatibility_qsys_only=on</message>
    <message level="Debug">Command took 0.567s</message>
-   <message level="Debug">Command took 0.890s</message>
-   <message level="Debug">set ALTERA_HW_TCL_KEEP_TEMP_FILES=1 to retain temp files</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_sh -t /tmp/alt8155_6553279512854436010.dir/0052_sopcqmap/not_a_project_setup.tcl</message>
-   <message level="Debug">Command: /home/letrend/intelFPGA/18.1/quartus/linux64/quartus_map not_a_project --generate_hdl_interface=/home/letrend/intelFPGA/18.1/ip/altera/sopc_builder_ip/altera_avalon_spislave_to_avalonmm_bridge/SPISlaveToAvalonMasterBridge.v --set=HDL_INTERFACE_OUTPUT_PATH=/tmp/alt8155_6553279512854436010.dir/0052_sopcqmap/ --set=HDL_INTERFACE_INSTANCE_NAME=inst --set=HDL_INTERFACE_INSTANCE_ENTITY=SPISlaveToAvalonMasterBridge --set=HDL_INTERFACE_INSTANCE_PARAMETERS=SYNC_DEPTH=D"5"; --ini=disable_check_quartus_compatibility_qsys_only=on</message>
-   <message level="Debug">Command took 0.618s</message>
-   <message level="Debug">Command took 1.093s</message>
+   <message level="Debug">Command took 0.901s</message>
    <message level="Info" culprit="spi_avalon_bridge"><![CDATA["<b>vidor_sys</b>" instantiated <b>spi_slave_to_avalon_mm_master_bridge</b> "<b>spi_avalon_bridge</b>"]]></message>
   </messages>
  </entity>

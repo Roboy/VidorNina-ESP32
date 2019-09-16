@@ -1,29 +1,31 @@
-module coms #(parameter NUMBER_OF_MOTORS = 6, parameter CLK_FREQ_HZ = 50_000_000, parameter BAUDRATE = 115200)(
-	input CLK,
+module coms #(parameter NUMBER_OF_MOTORS = 6, parameter CLK_FREQ_HZ = 48_000_000, parameter BAUDRATE = 115200)(
+	input clock48MHz,
+	input clock24MHz,
 	input reset,
 	output tx_o,
 	output tx_enable,
 	input rx_i,
-	input [31:0] status_update_frequency_Hz,
-	input trigger_control_mode_update,
-	input trigger_setpoint_update,
-	input [7:0] motor_to_update,
-	output signed [31:0] encoder0_position[NUMBER_OF_MOTORS-1:0],
-	output signed [31:0] encoder1_position[NUMBER_OF_MOTORS-1:0],
-	output signed [31:0] encoder0_velocity[NUMBER_OF_MOTORS-1:0],
-	output signed [31:0] encoder1_velocity[NUMBER_OF_MOTORS-1:0],
-	output [15:0] current_phase1[NUMBER_OF_MOTORS-1:0],
-	output [15:0] current_phase2[NUMBER_OF_MOTORS-1:0],
-	output [15:0] current_phase3[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] setpoint[NUMBER_OF_MOTORS-1:0],
-	input [7:0] control_mode[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] Kp[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] Ki[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] Kd[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] PWMLimit[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] IntegralLimit[NUMBER_OF_MOTORS-1:0],
-	input signed [31:0] deadband[NUMBER_OF_MOTORS-1:0],
-	output reg [7:0] error_code[NUMBER_OF_MOTORS-1:0]
+	input wire [31:0] status_update_frequency_Hz,
+	input wire trigger_control_mode_update,
+	input wire trigger_setpoint_update,
+	input wire [7:0] motor_to_update,
+	output wire signed [31:0] encoder0_position[NUMBER_OF_MOTORS-1:0],
+	output wire signed [31:0] encoder1_position[NUMBER_OF_MOTORS-1:0],
+	output wire signed [31:0] encoder0_velocity[NUMBER_OF_MOTORS-1:0],
+	output wire signed [31:0] encoder1_velocity[NUMBER_OF_MOTORS-1:0],
+	output wire [15:0] current_phase1[NUMBER_OF_MOTORS-1:0],
+	output wire [15:0] current_phase2[NUMBER_OF_MOTORS-1:0],
+	output wire [15:0] current_phase3[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] setpoint[NUMBER_OF_MOTORS-1:0],
+	input wire [7:0] control_mode[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] Kp[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] Ki[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] Kd[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] PWMLimit[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] IntegralLimit[NUMBER_OF_MOTORS-1:0],
+	input wire signed [31:0] deadband[NUMBER_OF_MOTORS-1:0],
+	output reg [7:0] error_code[NUMBER_OF_MOTORS-1:0],
+	output rx_receive
 );
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,20 +99,21 @@ endfunction
 	wire tx_active ;
 	wire tx_done ;
 	reg tx_transmit ;
+	wire rx_data_ready;
 	
 	assign tx_data = data_out[byte_transmit_counter];
 
-	uart_tx #(CLK_FREQ_HZ,BAUDRATE) tx(CLK,tx_transmit,tx_data,tx_active,tx_o,tx_enable,tx_done);
+	uart_tx #(24_000_000,BAUDRATE) tx(clock24MHz,tx_transmit,tx_data,tx_active,tx_o,tx_enable,tx_done);
 
 	reg [15:0] tx_crc ;
 
 	reg [31:0]delay_counter;
 	reg tx_active_prev;
-	always @(posedge CLK, posedge reset) begin: UART_TRANSMITTER
+	reg [7:0] motor;
+	always @(posedge clock48MHz, posedge reset) begin: UART_TRANSMITTER
 		localparam IDLE=8'h0, PREPARE_CONTROL_MODE = 8'h1, SEND_CONTROL_MODE = 8'h2, PREPARE_SETPOINT  = 8'h3, SEND_SETPOINT = 8'h4,
-				PREPARE_STATUS_REQUEST = 8'h5, SEND_STATUS_REQUEST = 8'h6;
+				PREPARE_STATUS_REQUEST = 8'h5, SEND_STATUS_REQUEST = 8'h6, WAIT_UNTIL_BUS_FREE = 8'h7;
 		reg [7:0] state;
-		reg [7:0] motor;
 		reg done;
 		reg [31:0] status_update_delay_counter;
 		integer i;
@@ -144,6 +147,12 @@ endfunction
 			
 			if(status_update_delay_counter!=0)begin
 				status_update_delay_counter <= status_update_delay_counter - 1;
+			end
+			
+			if(rx_data_ready)begin
+				byte_transmit_counter = 0;
+				data_out[0] <= rx_data;
+				tx_transmit <= 1;
 			end
 			
 			case(state)
@@ -267,7 +276,7 @@ endfunction
 					data_out[STATUS_REQUEST_FRAME_LENGTH-2] = tx_crc[15:8];
 					data_out[STATUS_REQUEST_FRAME_LENGTH-1] = tx_crc[7:0];
 					byte_transmit_counter = 0;
-					delay_counter = CLK_FREQ_HZ/BAUDRATE*MAX_FRAME_LENGTH*8;
+					delay_counter = CLK_FREQ_HZ/BAUDRATE*(MAX_FRAME_LENGTH*8+MAX_FRAME_LENGTH*2);
 					state = SEND_STATUS_REQUEST;
 				end
 				SEND_STATUS_REQUEST: begin
@@ -278,46 +287,41 @@ endfunction
 						if(byte_transmit_counter<STATUS_REQUEST_FRAME_LENGTH)begin
 							tx_transmit <= 1;
 						end else begin
-							if(delay_counter==0) begin // we have to wait until the bus is free
-								byte_transmit_counter = 0;
-								state = IDLE;
-							end else begin
-							  delay_counter = delay_counter - 1;
-							end
+							state = WAIT_UNTIL_BUS_FREE;
 						end
+					end
+				end
+				WAIT_UNTIL_BUS_FREE: begin
+					if(delay_counter==0) begin // we have to wait until the bus is free
+						state = IDLE;
+					end else begin
+						delay_counter = delay_counter - 1;
 					end
 				end
 			endcase
 		end
 	end
 
-	wire rx_data_ready;
+	assign rx_receive = rx_data_ready;
+	
 	wire [7:0] rx_data ;
 
-	uart_rx #(CLK_FREQ_HZ,BAUDRATE) rx(CLK,rx_i,rx_data_ready,rx_data);
+	uart_rx #(24_000_000,BAUDRATE) rx(clock24MHz,rx_i,rx_data_ready,rx_data);
 
-	reg [7:0] data_in[MAX_FRAME_LENGTH-1:0];
+	reg [7:0] data_in[MAGIC_NUMBER_LENGTH-1:0];
 	reg [7:0] data_in_frame[MAX_FRAME_LENGTH-1:0];
 
 	reg [15:0] rx_crc;
-	
-	genvar j;
-	wire [MAX_FRAME_LENGTH*8-1:0] data_in_field;
-	generate
-		for(j=1;j<MAX_FRAME_LENGTH;j=j+1) begin: DATA_IN_FIELD
-		  assign data_in_field[(8*j)-1:(8*(j-1))] = data_in_frame[j];
-		end
-	endgenerate
 
-	always @(posedge CLK, posedge reset) begin: FRAME_MATCHER
+	always @(posedge clock48MHz, posedge reset) begin: FRAME_MATCHER
 		localparam IDLE = 8'h0, RECEIVE_STATUS = 8'h1, CHECK_CRC_STATUS = 8'h2;
 		integer state;
 		integer next_state;
 		reg rx_data_ready_prev;
-		integer i, j;
+		integer i, j, k;
 		if(reset) begin
 			state <= IDLE;
-			i <= 0;
+			i = 0;
 		end else begin
 			rx_data_ready_prev <= rx_data_ready;
 			if(rx_data_ready)begin
@@ -338,46 +342,47 @@ endfunction
 						data_in_frame[i] = rx_data;
 						i <= i+1;
 					end
-					if(i>STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-1) begin
+					if(i>STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2) begin
 						state <= CHECK_CRC_STATUS;
 					end
 				end
 				CHECK_CRC_STATUS: begin
 					rx_crc = 16'hFFFF;
-					for(i=0;i<STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2;i=i+1) begin
-						rx_crc = nextCRC16_D8(data_in_frame[i],rx_crc);
+					for(k=0;k<STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2;k=k+1) begin
+						rx_crc = nextCRC16_D8(data_in_frame[k],rx_crc);
 					end
 					if(rx_crc[15:8]==data_in_frame[STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2]
 						  && rx_crc[7:0]==data_in_frame[STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-1]) begin // MATCH!
-						if(data_in_field[1]!=control_mode[data_in_field[0]]) begin
-							error_code[data_in_field[0]] <= 8'h1; // control mode error
+						if(data_in_frame[1]!=control_mode[data_in_frame[0]]) begin
+							error_code[data_in_frame[0]] <= 8'h1; // control mode error
 						end else begin
-							error_code[data_in_field[0]] <= 8'h0;
+							error_code[data_in_frame[0]] <= 8'h0;
 						end
-						encoder0_position[data_in_field[0]][31:24] <= data_in_field[2];
-						encoder0_position[data_in_field[0]][23:16] <= data_in_field[3];
-						encoder0_position[data_in_field[0]][15:8] <= data_in_field[4];
-						encoder0_position[data_in_field[0]][7:0] <= data_in_field[5];
-						encoder1_position[data_in_field[0]][31:24] <= data_in_field[6];
-						encoder1_position[data_in_field[0]][23:16] <= data_in_field[7];
-						encoder1_position[data_in_field[0]][15:8] <= data_in_field[8];
-						encoder1_position[data_in_field[0]][7:0] <= data_in_field[9];
-						encoder0_velocity[data_in_field[0]][31:24] <= data_in_field[10];
-						encoder0_velocity[data_in_field[0]][23:16] <= data_in_field[11];
-						encoder0_velocity[data_in_field[0]][15:8] <= data_in_field[12];
-						encoder0_velocity[data_in_field[0]][7:0] <= data_in_field[13];
-						encoder1_velocity[data_in_field[0]][31:24] <= data_in_field[14];
-						encoder1_velocity[data_in_field[0]][23:16] <= data_in_field[15];
-						encoder1_velocity[data_in_field[0]][15:8] <= data_in_field[16];
-						encoder1_velocity[data_in_field[0]][7:0] <= data_in_field[17];
-						current_phase1[data_in_field[0]][15:8] <= data_in_field[18];
-						current_phase1[data_in_field[0]][7:0] <= data_in_field[19];
-						current_phase2[data_in_field[0]][15:8] <= data_in_field[20];
-						current_phase2[data_in_field[0]][7:0] <= data_in_field[21];
-						current_phase3[data_in_field[0]][15:8] <= data_in_field[22];
-						current_phase3[data_in_field[0]][7:0] <= data_in_field[23];
+						encoder0_position[data_in_frame[0]][31:24] <= data_in_frame[2];
+						encoder0_position[data_in_frame[0]][23:16] <= data_in_frame[3];
+						encoder0_position[data_in_frame[0]][15:8] <= data_in_frame[4];
+						encoder0_position[data_in_frame[0]][7:0] <= data_in_frame[5];
+						encoder1_position[data_in_frame[0]][31:24] <= data_in_frame[6];
+						encoder1_position[data_in_frame[0]][23:16] <= data_in_frame[7];
+						encoder1_position[data_in_frame[0]][15:8] <= data_in_frame[8];
+						encoder1_position[data_in_frame[0]][7:0] <= data_in_frame[9];
+						encoder0_velocity[data_in_frame[0]][31:24] <= data_in_frame[10];
+						encoder0_velocity[data_in_frame[0]][23:16] <= data_in_frame[11];
+						encoder0_velocity[data_in_frame[0]][15:8] <= data_in_frame[12];
+						encoder0_velocity[data_in_frame[0]][7:0] <= data_in_frame[13];
+						encoder1_velocity[data_in_frame[0]][31:24] <= data_in_frame[14];
+						encoder1_velocity[data_in_frame[0]][23:16] <= data_in_frame[15];
+						encoder1_velocity[data_in_frame[0]][15:8] <= data_in_frame[16];
+						encoder1_velocity[data_in_frame[0]][7:0] <= data_in_frame[17];
+						current_phase1[data_in_frame[0]][15:8] <= data_in_frame[18];
+						current_phase1[data_in_frame[0]][7:0] <= data_in_frame[19];
+						current_phase2[data_in_frame[0]][15:8] <= data_in_frame[20];
+						current_phase2[data_in_frame[0]][7:0] <= data_in_frame[21];
+						current_phase3[data_in_frame[0]][15:8] <= data_in_frame[22];
+						current_phase3[data_in_frame[0]][7:0] <= data_in_frame[23];
+						state <= IDLE;
 					end else begin
-						error_code[data_in_field[0]] <= 8'h2; // crc error
+						error_code[motor] <= 8'h2; // crc error
 						state <= IDLE;
 					end
 				end

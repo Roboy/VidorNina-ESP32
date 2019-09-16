@@ -3,6 +3,8 @@
 			clk_clk                                                    : in    std_logic := 'X'; -- clk
 			iceboardcontrol_0_conduit_end_rx                           : in    std_logic := 'X'; -- rx
 			iceboardcontrol_0_conduit_end_tx                           : out   std_logic;        -- tx
+			iceboardcontrol_0_conduit_end_rx_receive                   : inout std_logic := 'X'; -- rx_receive
+			iceboardcontrol_0_conduit_end_clock24mhz                   : in    std_logic := 'X'; -- clock24mhz
 			reset_reset_n                                              : in    std_logic := 'X'; -- reset_n
 			spi_bridge_mosi_to_the_spislave_inst_for_spichain          : in    std_logic := 'X'; -- mosi_to_the_spislave_inst_for_spichain
 			spi_bridge_nss_to_the_spislave_inst_for_spichain           : in    std_logic := 'X'; -- nss_to_the_spislave_inst_for_spichain

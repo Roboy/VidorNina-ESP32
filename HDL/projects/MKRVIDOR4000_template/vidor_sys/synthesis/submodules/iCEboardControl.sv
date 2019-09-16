@@ -1,5 +1,6 @@
 module ICEboardControl (
-		input clock,
+		input clock48MHz,
+		input clock24MHz,
 		input reset,
 		// this is for the avalon interface
 		input [15:0] address,
@@ -9,11 +10,12 @@ module ICEboardControl (
 		output signed [31:0] readdata,
 		output waitrequest,
 		input rx,
-		output tx
+		output tx,
+		inout rx_receive
 );
 	
 	parameter NUMBER_OF_MOTORS = 6;
-	parameter CLOCK_FREQ_HZ = 50_000_000;
+	parameter CLOCK_FREQ_HZ = 48_000_000;
 	parameter BAUDRATE = 115200;
 		
 	reg signed [31:0] Kp[NUMBER_OF_MOTORS-1:0];
@@ -49,7 +51,7 @@ module ICEboardControl (
 	
 	reg [7:0] motor;
 
-	always @(posedge clock, posedge reset) begin: AVALON_READ_INTERFACE
+	always @(posedge clock48MHz, posedge reset) begin: AVALON_READ_INTERFACE
 		if (reset == 1) begin
 			waitFlag <= 1;
 		end else begin
@@ -83,7 +85,7 @@ module ICEboardControl (
 		end
 	end
 		
-	always @(posedge clock, posedge reset) begin: MYO_CONTROL_LOGIC
+	always @(posedge clock48MHz, posedge reset) begin: MYO_CONTROL_LOGIC
 		integer i;
 		if (reset == 1) begin
 			for(i=0;i<NUMBER_OF_MOTORS;i=i+1) begin
@@ -122,7 +124,8 @@ module ICEboardControl (
 	end
 	
 	coms #(NUMBER_OF_MOTORS,CLOCK_FREQ_HZ,BAUDRATE)com(
-		.CLK(clock),
+		.clock48MHz(clock48MHz),
+		.clock24MHz(clock24MHz),
 		.reset(reset),
 		.tx_o(tx),
 		.rx_i(rx),
@@ -145,7 +148,8 @@ module ICEboardControl (
 		.PWMLimit(PWMLimit),
 		.IntegralLimit(IntegralLimit),
 		.deadband(deadband),
-		.error_code(error_code)
+		.error_code(error_code),
+		.rx_receive(rx_receive)
 	);
 	
 endmodule

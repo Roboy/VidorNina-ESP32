@@ -91,9 +91,9 @@ set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
 set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name IP_SEARCH_PATHS "/home/sausy/Projects/VidorNina-ESP32/HDL/ip/PTP"
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 13
-set_global_assignment -name SYSTEMVERILOG_FILE coms.sv
 set_global_assignment -name VERILOG_FILE uart_tx.v
 set_global_assignment -name VERILOG_FILE uart_rx.v
+set_global_assignment -name SYSTEMVERILOG_FILE coms.sv
 set_global_assignment -name QIP_FILE ../../ip/SYSTEM_PLL/SYSTEM_PLL.qip
 set_global_assignment -name QIP_FILE vidor_sys/synthesis/vidor_sys.qip
 set_global_assignment -name QSYS_FILE vidor_sys.qsys

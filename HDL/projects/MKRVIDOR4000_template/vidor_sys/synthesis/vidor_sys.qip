@@ -2,7 +2,7 @@ set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_TOOL_NAM
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_TOOL_VERSION "18.1"
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "vidor_sys" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../vidor_sys.sopcinfo"]
-set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name SLD_INFO "QSYS_NAME vidor_sys HAS_SOPCINFO 1 GENERATION_ID 1568653591"
+set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name SLD_INFO "QSYS_NAME vidor_sys HAS_SOPCINFO 1 GENERATION_ID 1568672846"
 set_global_assignment -library "vidor_sys" -name MISC_FILE [file join $::quartus(qip_path) "../vidor_sys.cmp"]
 set_global_assignment -library "vidor_sys" -name SLD_FILE [file join $::quartus(qip_path) "vidor_sys.debuginfo"]
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_TARGETED_DEVICE_FAMILY "Cyclone 10 LP"
@@ -15,7 +15,7 @@ set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONEN
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU2ODY1MzU5MQ==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU2ODY3Mjg0Ng==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSAxMCBMUA==::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::MTBDTDAxNllVMjU2QzhH::QXV0byBERVZJQ0U="
 set_global_assignment -entity "vidor_sys" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::OA==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -197,7 +197,7 @@ set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_CO
 set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_AUTHOR "U2ltb24gVHJlbmRlbA=="
 set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_VERSION "MS4w"
 set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "TlVNQkVSX09GX01PVE9SUw==::Ng==::TlVNQkVSX09GX01PVE9SUw=="
-set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "Q0xPQ0tfRlJFUV9IWg==::NTAwMDAwMDA=::Q0xPQ0tfRlJFUV9IWg=="
+set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "Q0xPQ0tfRlJFUV9IWg==::NDgwMDAwMDA=::Q0xPQ0tfRlJFUV9IWg=="
 set_global_assignment -entity "ICEboardControl" -library "vidor_sys" -name IP_COMPONENT_PARAMETER "QkFVRFJBVEU=::MTE1MjAw::QkFVRFJBVEU="
 
 set_global_assignment -library "vidor_sys" -name VERILOG_FILE [file join $::quartus(qip_path) "vidor_sys.v"]
@@ -221,6 +221,8 @@ set_global_assignment -library "vidor_sys" -name VERILOG_FILE [file join $::quar
 set_global_assignment -library "vidor_sys" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/spiphyslave.v"]
 set_global_assignment -library "vidor_sys" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/iCEboardControl.sv"]
 set_global_assignment -library "vidor_sys" -name SYSTEMVERILOG_FILE [file join $::quartus(qip_path) "submodules/coms.sv"]
+set_global_assignment -library "vidor_sys" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/uart_rx.v"]
+set_global_assignment -library "vidor_sys" -name VERILOG_FILE [file join $::quartus(qip_path) "submodules/uart_tx.v"]
 
 set_global_assignment -entity "altera_reset_controller" -library "vidor_sys" -name IP_TOOL_NAME "altera_reset_controller"
 set_global_assignment -entity "altera_reset_controller" -library "vidor_sys" -name IP_TOOL_VERSION "18.1"

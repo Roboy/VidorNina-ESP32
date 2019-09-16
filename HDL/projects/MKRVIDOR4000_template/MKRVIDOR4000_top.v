@@ -26,7 +26,7 @@ module MKRVIDOR4000_top
   input         iSAM_INT,
   output        oSAM_INT,
   
-  // SDRAM
+  // SDRAM 
   output        oSDRAM_CLK,
   output [11:0] oSDRAM_ADDR,
   output [1:0]  oSDRAM_BA,
@@ -141,12 +141,18 @@ assign {iSpiMOSI,iSpiClk,iSpiCS} = {bMKR_D[8],bMKR_D[9],bMKR_D[7]};
 assign bMKR_D[10] = oSpiMISO;
 
 //=================================================
+  
+//uart_tx #(24_000_000,115200) tx(wCLK24,1'b1,8'h0,1'b0,bMKR_D[1],1'b1);
+//uart_rx #(24_000_000,115200) rx(wCLK24,bMKR_D[2],bMKR_D[3]); 
+//assign bMKR_D[4] = iCLK;
  
  vidor_sys u0 (
 	.clk_clk                                                    (iCLK),
 	.reset_reset_n                                              (rRESETCNT[5]),    
-    .iceboardcontrol_0_conduit_end_rx									(bMKR_D[0]),                           
+    .iceboardcontrol_0_conduit_end_rx									(bMKR_D[2]),                           
 	.iceboardcontrol_0_conduit_end_tx									(bMKR_D[1]),
+	.iceboardcontrol_0_conduit_end_rx_receive	(bMKR_D[3]),
+	.iceboardcontrol_0_conduit_end_clock24mhz   (wCLK24),
 	.spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI),
 	.spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),
 	.spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO),
@@ -193,8 +199,7 @@ reg [5:0] rRESETCNT;
 
 always @(posedge wMEM_CLK)
 begin
-  if (!rRESETCNT[5])
-  begin
+  if (!rRESETCNT[5]) begin
 	rRESETCNT<=rRESETCNT+1;
   end
 end

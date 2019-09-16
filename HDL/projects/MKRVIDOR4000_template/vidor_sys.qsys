@@ -57,6 +57,38 @@
          type = "String";
       }
    }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
+      }
+   }
+   element vidor_sys
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone 10 LP";
+         type = "String";
+      }
+   }
 }
 ]]></parameter>
  <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
@@ -96,7 +128,7 @@
    version="1.0"
    enabled="1">
   <parameter name="BAUDRATE" value="115200" />
-  <parameter name="CLOCK_FREQ_HZ" value="50000000" />
+  <parameter name="CLOCK_FREQ_HZ" value="48000000" />
   <parameter name="NUMBER_OF_MOTORS" value="6" />
  </module>
  <module name="clk_0" kind="clock_source" version="18.1" enabled="1">

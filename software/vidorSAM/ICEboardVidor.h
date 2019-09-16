@@ -43,7 +43,7 @@ public:
     }
   };
   int32_t readRegister(uint32_t base, uint8_t reg){
-    uint8_t val[4];
+    uint8_t val[4];             
     for(int i=0;i<4;i++){
       val[i] = AvalonMM.read(base,(reg*4)+i);
     }
