@@ -128,11 +128,11 @@
    version="1.0"
    enabled="1">
   <parameter name="BAUDRATE" value="115200" />
-  <parameter name="CLOCK_FREQ_HZ" value="48000000" />
+  <parameter name="CLOCK_FREQ_HZ" value="20000000" />
   <parameter name="NUMBER_OF_MOTORS" value="6" />
  </module>
  <module name="clk_0" kind="clock_source" version="18.1" enabled="1">
-  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequency" value="20000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
@@ -142,7 +142,7 @@
    kind="spi_slave_to_avalon_mm_master_bridge"
    version="18.1"
    enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="20000000" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone 10 LP" />
   <parameter name="SYNC_DEPTH" value="5" />
  </module>
@@ -164,7 +164,7 @@
    kind="clock"
    version="18.1"
    start="clk_0.clk"
-   end="ICEboardControl_0.clock_sink" />
+   end="ICEboardControl_0.clock" />
  <connection
    kind="reset"
    version="18.1"

@@ -1,15 +1,15 @@
 # # File gsaved with Nlview version 6.3.8  2013-12-19 bk=1.2992 VDI=34 GEI=35
 # 
-preplace inst vidor_sys.spi_avalon_bridge -pg 1 -lvl 2 -y 70
+preplace inst vidor_sys.spi_avalon_bridge -pg 1 -lvl 2 -y 30
 preplace inst vidor_sys.ICEboardControl_0 -pg 1 -lvl 3 -y 130
 preplace inst vidor_sys.clk_0 -pg 1 -lvl 1 -y 50
 preplace inst vidor_sys -pg 1 -lvl 1 -y 40 -regy -20
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)ICEboardControl_0.reset,(MASTER)clk_0.clk_reset,(SLAVE)spi_avalon_bridge.clk_reset) 1 1 2 440 140 670
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)clk_0.clk_in,(SLAVE)vidor_sys.clk) 1 0 1 NJ
-preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)spi_avalon_bridge.clk,(MASTER)clk_0.clk,(SLAVE)ICEboardControl_0.clock_sink) 1 1 2 420 160 NJ
-preplace netloc POINT_TO_POINT<net_container>vidor_sys</net_container>(MASTER)spi_avalon_bridge.avalon_master,(SLAVE)ICEboardControl_0.avalon_slave_0) 1 2 1 670
-preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)spi_avalon_bridge.export_0,(SLAVE)vidor_sys.spi_bridge) 1 0 2 NJ 40 NJ
+preplace netloc POINT_TO_POINT<net_container>vidor_sys</net_container>(MASTER)spi_avalon_bridge.avalon_master,(SLAVE)ICEboardControl_0.avalon_slave_0) 1 2 1 710
+preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(SLAVE)spi_avalon_bridge.clk,(SLAVE)ICEboardControl_0.clock_sink,(MASTER)clk_0.clk) 1 1 2 420 120 690
+preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.spi_bridge,(SLAVE)spi_avalon_bridge.export_0) 1 0 2 NJ 40 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)clk_0.clk_in_reset,(SLAVE)vidor_sys.reset) 1 0 1 NJ
 preplace netloc EXPORT<net_container>vidor_sys</net_container>(SLAVE)vidor_sys.iceboardcontrol_0_conduit_end,(SLAVE)ICEboardControl_0.conduit_end) 1 0 3 NJ 180 NJ 180 NJ
-preplace netloc FAN_OUT<net_container>vidor_sys</net_container>(MASTER)clk_0.clk_reset,(SLAVE)spi_avalon_bridge.clk_reset,(SLAVE)ICEboardControl_0.reset) 1 1 2 400 200 NJ
 levelinfo -pg 1 0 190 980
 levelinfo -hier vidor_sys 200 230 490 830 970

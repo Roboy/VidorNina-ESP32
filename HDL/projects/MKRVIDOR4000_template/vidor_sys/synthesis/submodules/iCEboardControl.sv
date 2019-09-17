@@ -1,6 +1,5 @@
 module ICEboardControl (
-		input clock48MHz,
-		input clock24MHz,
+		input clk,
 		input reset,
 		// this is for the avalon interface
 		input [15:0] address,
@@ -38,7 +37,7 @@ module ICEboardControl (
 	reg signed [31:0] current_phase2[NUMBER_OF_MOTORS-1:0];
 	reg signed [31:0] current_phase3[NUMBER_OF_MOTORS-1:0];
 	
-	reg [7:0] error_code[NUMBER_OF_MOTORS-1:0];
+	reg [31:0] error_code[NUMBER_OF_MOTORS-1:0];
 	reg [31:0] status_update_frequency_Hz;
 	reg [7:0] motor_to_update;
 	reg trigger_control_mode_update;
@@ -51,7 +50,7 @@ module ICEboardControl (
 	
 	reg [7:0] motor;
 
-	always @(posedge clock48MHz, posedge reset) begin: AVALON_READ_INTERFACE
+	always @(posedge clk, posedge reset) begin: AVALON_READ_INTERFACE
 		if (reset == 1) begin
 			waitFlag <= 1;
 		end else begin
@@ -85,7 +84,7 @@ module ICEboardControl (
 		end
 	end
 		
-	always @(posedge clock48MHz, posedge reset) begin: MYO_CONTROL_LOGIC
+	always @(posedge clk, posedge reset) begin: MYO_CONTROL_LOGIC
 		integer i;
 		if (reset == 1) begin
 			for(i=0;i<NUMBER_OF_MOTORS;i=i+1) begin
@@ -124,8 +123,7 @@ module ICEboardControl (
 	end
 	
 	coms #(NUMBER_OF_MOTORS,CLOCK_FREQ_HZ,BAUDRATE)com(
-		.clock48MHz(clock48MHz),
-		.clock24MHz(clock24MHz),
+		.clk(clk),
 		.reset(reset),
 		.tx_o(tx),
 		.rx_i(rx),

@@ -1,6 +1,5 @@
 module coms #(parameter NUMBER_OF_MOTORS = 6, parameter CLK_FREQ_HZ = 48_000_000, parameter BAUDRATE = 115200)(
-	input clock48MHz,
-	input clock24MHz,
+	input clk,
 	input reset,
 	output tx_o,
 	output tx_enable,
@@ -24,7 +23,7 @@ module coms #(parameter NUMBER_OF_MOTORS = 6, parameter CLK_FREQ_HZ = 48_000_000
 	input wire signed [31:0] PWMLimit[NUMBER_OF_MOTORS-1:0],
 	input wire signed [31:0] IntegralLimit[NUMBER_OF_MOTORS-1:0],
 	input wire signed [31:0] deadband[NUMBER_OF_MOTORS-1:0],
-	output reg [7:0] error_code[NUMBER_OF_MOTORS-1:0],
+	output reg [31:0] error_code[NUMBER_OF_MOTORS-1:0],
 	output rx_receive
 );
 
@@ -103,14 +102,14 @@ endfunction
 	
 	assign tx_data = data_out[byte_transmit_counter];
 
-	uart_tx #(24_000_000,BAUDRATE) tx(clock24MHz,tx_transmit,tx_data,tx_active,tx_o,tx_enable,tx_done);
+	uart_tx #(CLK_FREQ_HZ,BAUDRATE) tx(clk,tx_transmit,tx_data,tx_active,tx_o,tx_enable,tx_done);
 
 	reg [15:0] tx_crc ;
-
+	integer receive_byte_counter;
 	reg [31:0]delay_counter;
 	reg tx_active_prev;
 	reg [7:0] motor;
-	always @(posedge clock48MHz, posedge reset) begin: UART_TRANSMITTER
+	always @(posedge clk, posedge reset) begin: UART_TRANSMITTER
 		localparam IDLE=8'h0, PREPARE_CONTROL_MODE = 8'h1, SEND_CONTROL_MODE = 8'h2, PREPARE_SETPOINT  = 8'h3, SEND_SETPOINT = 8'h4,
 				PREPARE_STATUS_REQUEST = 8'h5, SEND_STATUS_REQUEST = 8'h6, WAIT_UNTIL_BUS_FREE = 8'h7;
 		reg [7:0] state;
@@ -149,9 +148,9 @@ endfunction
 				status_update_delay_counter <= status_update_delay_counter - 1;
 			end
 			
-			if(rx_data_ready)begin
-				byte_transmit_counter = 0;
-				data_out[0] <= rx_data;
+			if(rx_receive)begin
+				byte_transmit_counter = receive_byte_counter;
+				data_out[receive_byte_counter] <= data_in_frame[receive_byte_counter];
 				tx_transmit <= 1;
 			end
 			
@@ -306,44 +305,49 @@ endfunction
 	
 	wire [7:0] rx_data ;
 
-	uart_rx #(24_000_000,BAUDRATE) rx(clock24MHz,rx_i,rx_data_ready,rx_data);
+	uart_rx #(CLK_FREQ_HZ,BAUDRATE) rx(clk,rx_i,rx_data_ready,rx_data);
 
 	reg [7:0] data_in[MAGIC_NUMBER_LENGTH-1:0];
 	reg [7:0] data_in_frame[MAX_FRAME_LENGTH-1:0];
 
 	reg [15:0] rx_crc;
-
-	always @(posedge clock48MHz, posedge reset) begin: FRAME_MATCHER
+	
+	always @(posedge clk, posedge reset) begin: FRAME_MATCHER
 		localparam IDLE = 8'h0, RECEIVE_STATUS = 8'h1, CHECK_CRC_STATUS = 8'h2;
-		integer state;
-		integer next_state;
+		reg [7:0] state;
 		reg rx_data_ready_prev;
-		integer i, j, k;
+		integer j, k;
+		integer motor_id;
 		if(reset) begin
 			state <= IDLE;
-			i = 0;
+			receive_byte_counter = 0;
 		end else begin
 			rx_data_ready_prev <= rx_data_ready;
 			if(rx_data_ready)begin
-				data_in[MAGIC_NUMBER_LENGTH-1] <= rx_data;
+				error_code[motor] <= 32'hDEADDEAD;
+				data_in[MAGIC_NUMBER_LENGTH-1] = rx_data;
 				for(j=MAGIC_NUMBER_LENGTH-2;j>=0;j=j-1)begin
-					data_in[j] <= data_in[j+1];
+					data_in[j] = data_in[j+1];
 				end
-			end
-			if({data_in[0],data_in[1],data_in[2],data_in[3]}==STATUS_FRAME_MAGICNUMBER)begin
-			 	state <= RECEIVE_STATUS;
 			end
 			case(state)
 				IDLE: begin
-					i <= 0;
+					if({data_in[0],data_in[1],data_in[2],data_in[3]}==STATUS_FRAME_MAGICNUMBER)begin
+						receive_byte_counter = 0;
+						error_code[motor] <= 32'hDEADBEEF;
+						state <= RECEIVE_STATUS;
+					end
 				end
 				RECEIVE_STATUS: begin
-					if(rx_data_ready==1 && rx_data_ready_prev==0)begin
-						data_in_frame[i] = rx_data;
-						i <= i+1;
+					if(rx_data_ready)begin
+						data_in_frame[receive_byte_counter] <= rx_data;
+						receive_byte_counter = receive_byte_counter + 1;
 					end
-					if(i>STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2) begin
+					if(receive_byte_counter>STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2) begin
+						receive_byte_counter = 0;
 						state <= CHECK_CRC_STATUS;
+						motor_id <= data_in_frame[0];
+						error_code[motor] <= 32'h1CE1CEBB;
 					end
 				end
 				CHECK_CRC_STATUS: begin
@@ -352,37 +356,39 @@ endfunction
 						rx_crc = nextCRC16_D8(data_in_frame[k],rx_crc);
 					end
 					if(rx_crc[15:8]==data_in_frame[STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-2]
-						  && rx_crc[7:0]==data_in_frame[STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-1]) begin // MATCH!
-						if(data_in_frame[1]!=control_mode[data_in_frame[0]]) begin
-							error_code[data_in_frame[0]] <= 8'h1; // control mode error
-						end else begin
-							error_code[data_in_frame[0]] <= 8'h0;
-						end
-						encoder0_position[data_in_frame[0]][31:24] <= data_in_frame[2];
-						encoder0_position[data_in_frame[0]][23:16] <= data_in_frame[3];
-						encoder0_position[data_in_frame[0]][15:8] <= data_in_frame[4];
-						encoder0_position[data_in_frame[0]][7:0] <= data_in_frame[5];
-						encoder1_position[data_in_frame[0]][31:24] <= data_in_frame[6];
-						encoder1_position[data_in_frame[0]][23:16] <= data_in_frame[7];
-						encoder1_position[data_in_frame[0]][15:8] <= data_in_frame[8];
-						encoder1_position[data_in_frame[0]][7:0] <= data_in_frame[9];
-						encoder0_velocity[data_in_frame[0]][31:24] <= data_in_frame[10];
-						encoder0_velocity[data_in_frame[0]][23:16] <= data_in_frame[11];
-						encoder0_velocity[data_in_frame[0]][15:8] <= data_in_frame[12];
-						encoder0_velocity[data_in_frame[0]][7:0] <= data_in_frame[13];
-						encoder1_velocity[data_in_frame[0]][31:24] <= data_in_frame[14];
-						encoder1_velocity[data_in_frame[0]][23:16] <= data_in_frame[15];
-						encoder1_velocity[data_in_frame[0]][15:8] <= data_in_frame[16];
-						encoder1_velocity[data_in_frame[0]][7:0] <= data_in_frame[17];
-						current_phase1[data_in_frame[0]][15:8] <= data_in_frame[18];
-						current_phase1[data_in_frame[0]][7:0] <= data_in_frame[19];
-						current_phase2[data_in_frame[0]][15:8] <= data_in_frame[20];
-						current_phase2[data_in_frame[0]][7:0] <= data_in_frame[21];
-						current_phase3[data_in_frame[0]][15:8] <= data_in_frame[22];
-						current_phase3[data_in_frame[0]][7:0] <= data_in_frame[23];
+						  && rx_crc[7:0]==data_in_frame[STATUS_FRAME_LENGTH-MAGIC_NUMBER_LENGTH-1]
+						  && (motor_id==motor)) begin // MATCH! and from the motor we requested
+//						if(data_in_frame[1]!=control_mode[data_in_frame[0]]) begin
+//							error_code[data_in_frame[0]] <= 8'h1; // control mode error
+//						end else begin
+//							error_code[data_in_frame[0]] <= 8'h0;
+//						end
+						encoder0_position[motor_id][31:24] <= data_in_frame[2];
+						encoder0_position[motor_id][23:16] <= data_in_frame[3];
+						encoder0_position[motor_id][15:8] <= data_in_frame[4];
+						encoder0_position[motor_id][7:0] <= data_in_frame[5];
+						encoder1_position[motor_id][31:24] <= data_in_frame[6];
+						encoder1_position[motor_id][23:16] <= data_in_frame[7];
+						encoder1_position[motor_id][15:8] <= data_in_frame[8];
+						encoder1_position[motor_id][7:0] <= data_in_frame[9];
+						encoder0_velocity[motor_id][31:24] <= data_in_frame[10];
+						encoder0_velocity[motor_id][23:16] <= data_in_frame[11];
+						encoder0_velocity[motor_id][15:8] <= data_in_frame[12];
+						encoder0_velocity[motor_id][7:0] <= data_in_frame[13];
+						encoder1_velocity[motor_id][31:24] <= data_in_frame[14];
+						encoder1_velocity[motor_id][23:16] <= data_in_frame[15];
+						encoder1_velocity[motor_id][15:8] <= data_in_frame[16];
+						encoder1_velocity[motor_id][7:0] <= data_in_frame[17];
+						current_phase1[motor_id][15:8] <= data_in_frame[18];
+						current_phase1[motor_id][7:0] <= data_in_frame[19];
+						current_phase2[motor_id][15:8] <= data_in_frame[20];
+						current_phase2[motor_id][7:0] <= data_in_frame[21];
+						current_phase3[motor_id][15:8] <= data_in_frame[22];
+						current_phase3[motor_id][7:0] <= data_in_frame[23];
+						error_code[motor_id] <= {receive_byte_counter,rx_crc}; // crc error
 						state <= IDLE;
 					end else begin
-						error_code[motor] <= 8'h2; // crc error
+						error_code[motor] <= {16'hFFFF,data_in_frame[2],data_in_frame[3]}; // crc error
 						state <= IDLE;
 					end
 				end

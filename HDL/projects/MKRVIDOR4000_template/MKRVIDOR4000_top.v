@@ -19,7 +19,7 @@
 */
 
 module MKRVIDOR4000_top
-(
+( 
   // system signals
   input         iCLK,
   input         iRESETn,
@@ -146,13 +146,22 @@ assign bMKR_D[10] = oSpiMISO;
 //uart_rx #(24_000_000,115200) rx(wCLK24,bMKR_D[2],bMKR_D[3]); 
 //assign bMKR_D[4] = iCLK;
  
+ wire clk20MHz;
+ 
+ pll20MHz pll(
+	.areset(1'b0),
+	.inclk0(iCLK),
+	.c0(clk20MHz)
+ );
+ 
+ 
+ 
  vidor_sys u0 (
-	.clk_clk                                                    (iCLK),
-	.reset_reset_n                                              (rRESETCNT[5]),    
-    .iceboardcontrol_0_conduit_end_rx									(bMKR_D[2]),                           
-	.iceboardcontrol_0_conduit_end_tx									(bMKR_D[1]),
-	.iceboardcontrol_0_conduit_end_rx_receive	(bMKR_D[3]),
-	.iceboardcontrol_0_conduit_end_clock24mhz   (wCLK24),
+	.clk_clk                                                    	(clk20MHz),
+	.reset_reset_n                                              	(rRESETCNT[5]),    
+    .iceboardcontrol_0_conduit_end_rx								(bMKR_D[2]),                           
+	.iceboardcontrol_0_conduit_end_tx								(bMKR_D[1]),
+	.iceboardcontrol_0_conduit_end_rx_receive						(bMKR_D[3]),
 	.spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI),
 	.spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),
 	.spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO),
@@ -161,7 +170,7 @@ assign bMKR_D[10] = oSpiMISO;
 
 // signal declaration
 wire        wOSC_CLK;
-wire        wCLK8,wCLK24, wCLK64, wCLK120;
+wire        wCLK48,wCLK24, wCLK64, wCLK120;
 
 wire [31:0] wJTAG_ADDRESS, wJTAG_READ_DATA, wJTAG_WRITE_DATA, wDPRAM_READ_DATA;
 wire        wJTAG_READ, wJTAG_WRITE, wJTAG_WAIT_REQUEST, wJTAG_READ_DATAVALID;
@@ -176,7 +185,7 @@ wire        wMEM_CLK;
 
 assign wVID_CLK   = wCLK24;
 assign wVID_CLKx5 = wCLK120;
-assign wCLK8      = iCLK;
+assign wCLK48      = iCLK;
 
 // internal oscillator
 cyclone10lp_oscillator   osc
@@ -187,7 +196,7 @@ cyclone10lp_oscillator   osc
 // system PLL
 SYSTEM_PLL PLL_inst(
   .areset(1'b0),
-  .inclk0(wCLK8),
+  .inclk0(wCLK48),
   .c0(wCLK24),
   .c1(wCLK120),
   .c2(wMEM_CLK),

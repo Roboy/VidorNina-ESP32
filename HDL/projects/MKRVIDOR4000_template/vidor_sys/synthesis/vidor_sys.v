@@ -8,7 +8,6 @@ module vidor_sys (
 		input  wire  iceboardcontrol_0_conduit_end_rx,                           // iceboardcontrol_0_conduit_end.rx
 		output wire  iceboardcontrol_0_conduit_end_tx,                           //                              .tx
 		inout  wire  iceboardcontrol_0_conduit_end_rx_receive,                   //                              .rx_receive
-		input  wire  iceboardcontrol_0_conduit_end_clock24mhz,                   //                              .clock24mhz
 		input  wire  reset_reset_n,                                              //                         reset.reset_n
 		input  wire  spi_bridge_mosi_to_the_spislave_inst_for_spichain,          //                    spi_bridge.mosi_to_the_spislave_inst_for_spichain
 		input  wire  spi_bridge_nss_to_the_spislave_inst_for_spichain,           //                              .nss_to_the_spislave_inst_for_spichain
@@ -34,7 +33,7 @@ module vidor_sys (
 
 	ICEboardControl #(
 		.NUMBER_OF_MOTORS (6),
-		.CLOCK_FREQ_HZ    (48000000),
+		.CLOCK_FREQ_HZ    (20000000),
 		.BAUDRATE         (115200)
 	) iceboardcontrol_0 (
 		.reset       (rst_controller_reset_out_reset),                                 //          reset.reset
@@ -47,8 +46,7 @@ module vidor_sys (
 		.rx          (iceboardcontrol_0_conduit_end_rx),                               //    conduit_end.rx
 		.tx          (iceboardcontrol_0_conduit_end_tx),                               //               .tx
 		.rx_receive  (iceboardcontrol_0_conduit_end_rx_receive),                       //               .rx_receive
-		.clock24MHz  (iceboardcontrol_0_conduit_end_clock24mhz),                       //               .clock24mhz
-		.clock48MHz  (clk_clk)                                                         //     clock_sink.clk
+		.clk         (clk_clk)                                                         //          clock.clk
 	);
 
 	SPISlaveToAvalonMasterBridge #(

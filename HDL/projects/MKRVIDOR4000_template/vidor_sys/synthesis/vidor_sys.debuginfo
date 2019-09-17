@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="vidor_sys" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.09.17.00:27:26 -->
+ <!-- 2019.09.17.22:17:03 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1568672846</value>
+  <value>1568751421</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -164,7 +164,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="CLOCK_FREQ_HZ">
    <type>int</type>
-   <value>48000000</value>
+   <value>20000000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -200,7 +200,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>clock</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -301,7 +301,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>clock</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -616,7 +616,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink</value>
+    <value>clock</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -666,14 +666,8 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>rx_receive</role>
    </port>
-   <port>
-    <name>clock24MHz</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>clock24mhz</role>
-   </port>
   </interface>
-  <interface name="clock_sink" kind="clock_sink" version="18.1">
+  <interface name="clock" kind="clock_sink" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -712,7 +706,7 @@ parameters are a RESULT of the module parameters. -->
    <type>clock</type>
    <isStart>false</isStart>
    <port>
-    <name>clock48MHz</name>
+    <name>clk</name>
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
@@ -724,7 +718,7 @@ parameters are a RESULT of the module parameters. -->
 the requested settings for a module instance. -->
   <parameter name="clockFrequency">
    <type>long</type>
-   <value>50000000</value>
+   <value>20000000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -822,7 +816,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="clockRate">
     <type>java.lang.Long</type>
-    <value>50000000</value>
+    <value>20000000</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -900,7 +894,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="clockRate">
     <type>long</type>
-    <value>50000000</value>
+    <value>20000000</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -963,8 +957,8 @@ parameters are a RESULT of the module parameters. -->
    <clockDomainMember>
     <isBridge>false</isBridge>
     <moduleName>ICEboardControl_0</moduleName>
-    <slaveName>clock_sink</slaveName>
-    <name>ICEboardControl_0.clock_sink</name>
+    <slaveName>clock</slaveName>
+    <name>ICEboardControl_0.clock</name>
    </clockDomainMember>
    <clockDomainMember>
     <isBridge>false</isBridge>
@@ -1067,7 +1061,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="AUTO_CLK_CLOCK_RATE">
    <type>java.lang.Long</type>
-   <value>50000000</value>
+   <value>20000000</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -1138,7 +1132,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="clockRate">
     <type>java.lang.Long</type>
-    <value>50000000</value>
+    <value>20000000</value>
     <derived>true</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -1598,7 +1592,7 @@ the requested settings for a module instance. -->
   </assignment>
   <parameter name="COMPOSE_CONTENTS">
    <type>java.lang.String</type>
-   <value>add_instance {spi_avalon_bridge_avalon_master_translator} {altera_merlin_master_translator};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READLATENCY} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READ} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BYTEENABLE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_ADDRESS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CLKEN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATAVALID} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_LOCK} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_SYMBOLS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {64};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {SYNC_RESET} {0};add_instance {ICEboardControl_0_avalon_slave_0_translator} {altera_merlin_slave_translator};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESS_W} {16};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_DATA_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_DATA_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_BYTEENABLE_W} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_READLATENCY} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_TIMING_UNITS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READDATA} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READ} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITE} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BYTEENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_ADDRESS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READDATAVALID} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITEBYTEENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_LOCK} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_AV_CLKEN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_UAV_CLKEN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_OUTPUTENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESS_SYMBOLS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REQUIRE_UNALIGNED_ADDRESSES} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_MAX_PENDING_WRITE_TRANSACTIONS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {CHIPSELECT_THROUGH_READLATENCY} {0};add_instance {spi_avalon_bridge_clk_reset_reset_bridge} {altera_reset_bridge};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {ACTIVE_LOW_RESET} {0};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {SYNCHRONOUS_EDGES} {deassert};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {NUM_RESET_OUTPUTS} {1};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {USE_RESET_REQUEST} {0};add_instance {clk_0_clk_clock_bridge} {altera_clock_bridge};set_instance_parameter_value {clk_0_clk_clock_bridge} {EXPLICIT_CLOCK_RATE} {50000000};set_instance_parameter_value {clk_0_clk_clock_bridge} {NUM_CLOCK_OUTPUTS} {1};add_connection {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0} {ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {avalon};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {arbitrationPriority} {1};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {baseAddress} {0x0000};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {defaultConnection} {false};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {spi_avalon_bridge_avalon_master_translator.reset} {reset};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {ICEboardControl_0_avalon_slave_0_translator.reset} {reset};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_avalon_master_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {ICEboardControl_0_avalon_slave_0_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_clk_reset_reset_bridge.clk} {clock};add_interface {clk_0_clk} {clock} {slave};set_interface_property {clk_0_clk} {EXPORT_OF} {clk_0_clk_clock_bridge.in_clk};add_interface {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {reset} {slave};set_interface_property {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {EXPORT_OF} {spi_avalon_bridge_clk_reset_reset_bridge.in_reset};add_interface {spi_avalon_bridge_avalon_master} {avalon} {slave};set_interface_property {spi_avalon_bridge_avalon_master} {EXPORT_OF} {spi_avalon_bridge_avalon_master_translator.avalon_anti_master_0};add_interface {ICEboardControl_0_avalon_slave_0} {avalon} {master};set_interface_property {ICEboardControl_0_avalon_slave_0} {EXPORT_OF} {ICEboardControl_0_avalon_slave_0_translator.avalon_anti_slave_0};set_module_assignment {interconnect_id.ICEboardControl_0.avalon_slave_0} {0};set_module_assignment {interconnect_id.spi_avalon_bridge.avalon_master} {0};</value>
+   <value>add_instance {spi_avalon_bridge_avalon_master_translator} {altera_merlin_master_translator};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READLATENCY} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READ} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BYTEENABLE} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_ADDRESS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_CLKEN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READDATAVALID} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_LOCK} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESS_SYMBOLS} {1};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {64};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {spi_avalon_bridge_avalon_master_translator} {SYNC_RESET} {0};add_instance {ICEboardControl_0_avalon_slave_0_translator} {altera_merlin_slave_translator};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESS_W} {16};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_DATA_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_DATA_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTCOUNT_W} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BYTEENABLE_W} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_BYTEENABLE_W} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_ADDRESS_W} {32};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_BURSTCOUNT_W} {3};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_READLATENCY} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_SETUP_WAIT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_WRITE_WAIT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_READ_WAIT} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_DATA_HOLD} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_TIMING_UNITS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READDATA} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITEDATA} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READ} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITE} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BEGINBURSTTRANSFER} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BEGINTRANSFER} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BYTEENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_CHIPSELECT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_ADDRESS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_BURSTCOUNT} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READDATAVALID} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WAITREQUEST} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITEBYTEENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_LOCK} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_AV_CLKEN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_UAV_CLKEN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_OUTPUTENABLE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_DEBUGACCESS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_READRESPONSE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {USE_WRITERESPONSE} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_SYMBOLS_PER_WORD} {4};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESS_SYMBOLS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTCOUNT_SYMBOLS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_CONSTANT_BURST_BEHAVIOR} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REQUIRE_UNALIGNED_ADDRESSES} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_LINEWRAPBURSTS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_MAX_PENDING_READ_TRANSACTIONS} {1};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_MAX_PENDING_WRITE_TRANSACTIONS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BURSTBOUNDARIES} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_INTERLEAVEBURSTS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_BITS_PER_SYMBOL} {8};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ISBIGENDIAN} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ADDRESSGROUP} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {UAV_ADDRESSGROUP} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REGISTEROUTGOINGSIGNALS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_REGISTERINCOMINGSIGNALS} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {AV_ALWAYSBURSTMAXBURST} {0};set_instance_parameter_value {ICEboardControl_0_avalon_slave_0_translator} {CHIPSELECT_THROUGH_READLATENCY} {0};add_instance {spi_avalon_bridge_clk_reset_reset_bridge} {altera_reset_bridge};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {ACTIVE_LOW_RESET} {0};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {SYNCHRONOUS_EDGES} {deassert};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {NUM_RESET_OUTPUTS} {1};set_instance_parameter_value {spi_avalon_bridge_clk_reset_reset_bridge} {USE_RESET_REQUEST} {0};add_instance {clk_0_clk_clock_bridge} {altera_clock_bridge};set_instance_parameter_value {clk_0_clk_clock_bridge} {EXPLICIT_CLOCK_RATE} {20000000};set_instance_parameter_value {clk_0_clk_clock_bridge} {NUM_CLOCK_OUTPUTS} {1};add_connection {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0} {ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {avalon};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {arbitrationPriority} {1};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {baseAddress} {0x0000};set_connection_parameter_value {spi_avalon_bridge_avalon_master_translator.avalon_universal_master_0/ICEboardControl_0_avalon_slave_0_translator.avalon_universal_slave_0} {defaultConnection} {false};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {spi_avalon_bridge_avalon_master_translator.reset} {reset};add_connection {spi_avalon_bridge_clk_reset_reset_bridge.out_reset} {ICEboardControl_0_avalon_slave_0_translator.reset} {reset};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_avalon_master_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {ICEboardControl_0_avalon_slave_0_translator.clk} {clock};add_connection {clk_0_clk_clock_bridge.out_clk} {spi_avalon_bridge_clk_reset_reset_bridge.clk} {clock};add_interface {clk_0_clk} {clock} {slave};set_interface_property {clk_0_clk} {EXPORT_OF} {clk_0_clk_clock_bridge.in_clk};add_interface {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {reset} {slave};set_interface_property {spi_avalon_bridge_clk_reset_reset_bridge_in_reset} {EXPORT_OF} {spi_avalon_bridge_clk_reset_reset_bridge.in_reset};add_interface {spi_avalon_bridge_avalon_master} {avalon} {slave};set_interface_property {spi_avalon_bridge_avalon_master} {EXPORT_OF} {spi_avalon_bridge_avalon_master_translator.avalon_anti_master_0};add_interface {ICEboardControl_0_avalon_slave_0} {avalon} {master};set_interface_property {ICEboardControl_0_avalon_slave_0} {EXPORT_OF} {ICEboardControl_0_avalon_slave_0_translator.avalon_anti_slave_0};set_module_assignment {interconnect_id.ICEboardControl_0.avalon_slave_0} {0};set_module_assignment {interconnect_id.spi_avalon_bridge.avalon_master} {0};</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -2845,11 +2839,11 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>clk</endConnectionPoint>
  </connection>
  <connection
-   name="clk_0.clk/ICEboardControl_0.clock_sink"
+   name="clk_0.clk/ICEboardControl_0.clock"
    kind="clock"
    version="18.1"
    start="clk_0.clk"
-   end="ICEboardControl_0.clock_sink">
+   end="ICEboardControl_0.clock">
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -2869,7 +2863,7 @@ parameters are a RESULT of the module parameters. -->
   <startModule>clk_0</startModule>
   <startConnectionPoint>clk</startConnectionPoint>
   <endModule>ICEboardControl_0</endModule>
-  <endConnectionPoint>clock_sink</endConnectionPoint>
+  <endConnectionPoint>clock</endConnectionPoint>
  </connection>
  <connection
    name="spi_avalon_bridge.avalon_master/mm_interconnect_0.spi_avalon_bridge_avalon_master"
@@ -3288,5 +3282,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
- <uniqueIdentifier>60F6770088180000016D3C3013D7</uniqueIdentifier>
+ <uniqueIdentifier>60F6770088180000016D40DF08B0</uniqueIdentifier>
 </EnsembleReport>
