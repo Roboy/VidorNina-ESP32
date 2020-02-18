@@ -26,6 +26,7 @@ export PATH=$PATH:$HOME/esp/xtensa-esp32-elf/bin
 ```
 
 ## HOW TO COMPILE 
+!!! UPDATE ... when compiling the project quartus already generates and copies the *.tff file to software/vidorSAM ... (java programm still has to be executed to get app.h)
 ### Gen FPGA *.ttf File
 Open the Quartus Project  
 ![Open the Quartus project ](doc/open_project.png)
