@@ -89,10 +89,10 @@ void setup() {
   // Configure other share pins as input too
   pinMode(FPGA_INT, INPUT);
 
-    pinMode(7, INPUT); // SS   P12[5]
-    pinMode(8, INPUT); // MOSI P12[2]
-    pinMode(9, INPUT); // SCK  P12[4]
-    pinMode(10, INPUT); // MISO P12[3]
+    //pinMode(7, INPUT); // SS   P12[5]
+    //pinMode(8, INPUT); // MOSI P12[2]
+    //pinMode(9, INPUT); // SCK  P12[4]
+    //pinMode(10, INPUT); // MISO P12[3]
 
 }
 

@@ -26,8 +26,8 @@ export PATH=$PATH:$HOME/esp/xtensa-esp32-elf/bin
 ```
 
 ## HOW TO COMPILE 
-!!! UPDATE ... when compiling the project quartus already generates and copies the *.tff file to software/vidorSAM ... (java programm still has to be executed to get app.h)
-### Gen FPGA *.ttf File
+!!! UPDATE ... when compiling the project quartus already generates and copies the *.tff + app.h file to software/vidorSAM
+### Gen FPGA *.ttf File (obsolet)
 Open the Quartus Project  
 ![Open the Quartus project ](doc/open_project.png)
 
@@ -40,7 +40,7 @@ open the "output_file.cof" file
 
 ! AND DON't FORGET TO PRESS GENERATE 
 
-### Gen app.h Arduino lib
+### Gen app.h Arduino lib (obsolet)
 Open a Terminal change in to the project folder and 
 ```bash
 cd software/vidorSAM

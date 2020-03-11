@@ -5,7 +5,7 @@
 * Authors: Dario Pennisi
 *
 * This software is released under:
-* The GNU General Public License, which covers the main part of 
+* The GNU General Public License, which covers the main part of
 * Vidor IP
 * The terms of this license can be found at:
 * https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -25,7 +25,7 @@ module MKRVIDOR4000_top
   input         iRESETn,
   input         iSAM_INT,
   output        oSAM_INT,
-  
+
   // SDRAM
   output        oSDRAM_CLK,
   output [11:0] oSDRAM_ADDR,
@@ -42,7 +42,7 @@ module MKRVIDOR4000_top
   inout         bMKR_AREF,
   inout  [6:0]  bMKR_A,
   inout  [14:0] bMKR_D,
-  
+
   // Mini PCIe
   inout         bPEX_RST,
   inout         bPEX_PIN6,
@@ -99,9 +99,9 @@ module MKRVIDOR4000_top
 
   inout         bHDMI_SDA,
   inout         bHDMI_SCL,
-  
+
   input         iHDMI_HPD,
-  
+
   // MIPI input
   input  [1:0]  iMIPI_D,
   input         iMIPI_CLK,
@@ -119,6 +119,9 @@ module MKRVIDOR4000_top
 
 );
 
+//create a hightriger reset
+wire wReset;
+assign wReset = !iRESETn;
 // signal declaration
 
 //=====nina esp32 programm interface===============
@@ -169,37 +172,65 @@ assign bMKR_D[10] = oSpiMISO;
 
 //=====ID SWITCH interface =======
 //DEF
-wire	[3:0]	sw; 
+//wire	[3:0]	sw;
 //PIN - MAP
-assign sw = bMKR_A[5:2];
+//assign sw = bMKR_A[5:2];
 //=================================================
 
  vidor_sys u0 (
 	  .clk_clk       	(iCLK),       //      clk.clk
 	  .reset_reset_n 	(iRESETn), //    reset.reset_n
-	  
+
 	  .spi_bridge_mosi_to_the_spislave_inst_for_spichain 				(iSpiMOSI), // spislave.mosi
 	  .spi_bridge_nss_to_the_spislave_inst_for_spichain  				(iSpiCS),  //         .nss
 	  .spi_bridge_miso_to_and_from_the_spislave_inst_for_spichain 	(oSpiMISO), //         .miso
 	  .spi_bridge_sclk_to_the_spislave_inst_for_spichain 	(iSpiClk),  //         .sclk
-	  
-	  
+
+
 	  //.spi_MISO      (oSpiMISO),      //       spi.MISO
 	  //.spi_MOSI      (iSpiMOSI),      //          .MOSI
 	  //.spi_SCLK      (iSpiClk),      //          .SCLK
 	  //.spi_SS_n      (iSpiCS)       //          .SS_n
 
-	  .id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch_sw	(sw[3:0]),
 	  //.id_switch_debug_out1 (bMKR_D[6]),
-	  .id_switch1_sw	(sw[3:0])
-	  
+	  //.id_switch_sw	(sw[3:0]),
+	  //.id_switch_debug_out1 (bMKR_D[6]),
+	  //.id_switch1_sw	(sw[3:0])
+
  );
- 
+
+
+ wire D_io;
+ wire E_io;
+ wire [20:0] data_stream[0:1];
+ wire flag_init_done;
+
+ assign bMKR_D[6] = D_io;
+ wire D_io_inputbuffer;
+ assign bMKR_D[6]         = (D_io != 1'bz)?D_io:1'bz;
+ assign D_io_inputbuffer  = (D_io == 1'bz)?bMKR_D[6]:
+ assign D_io              = ()
+ assign bMKR_D[7] = E_io;
+ assign bMKR_A[2] = flag_init_done;
+
+ assign bMKR_A[4] = 0;
+ assign bMKR_A[5] = 1 & iRESETn;
+
+ ts4231 uinterf(
+     .clock             (   iCLK      ),  // clock
+     .reset             (   wReset    ),  // reset
+     .D_io              (   D_io      ),
+     .E_io              (   E_io      ),
+     .flag_init_done    (   flag_init_done   ),
+     .data_stream       (   data_stream   ), //two emittors
+     .debug_out1        (   bMKR_A[3]     )
+   );
+
+
  //=====debug test ============DELETE WHEN DONE====
- 
+
  //=================================================
- 
+
 
 
 wire        wOSC_CLK;
@@ -223,7 +254,7 @@ assign wCLK8      = iCLK;
 
 // internal oscillator
 cyclone10lp_oscillator   osc
-  ( 
+  (
   .clkout(wOSC_CLK),
   .oscena(1'b1));
 
@@ -236,7 +267,7 @@ SYSTEM_PLL PLL_inst(
   .c2(wMEM_CLK),
    .c3(oSDRAM_CLK),
   .c4(wFLASH_CLK),
-   
+
   .locked());
 
 
